@@ -1,0 +1,16 @@
+.DS_Store
+.agent-browser-sap-profile/
+reisekosten/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+dist/
+
+alpen_radtour/alpen_etappen_karte.html
+alpen_radtour/alpen_etappen_varianten.geojson
+alpen_radtour/alpen_etappen_gpx.zip
+alpen_radtour/gpx/
+alpen_radtour/dist/
+alpen_radtour/assets/exxeta_logo_crop.jpg
+alpen_radtour/assets/exxeta_logo_mask_test.png
