@@ -16,6 +16,16 @@ GPX_ZIP_OUT = OUT_DIR / "alpen_etappen_gpx.zip"
 GEOJSON_OUT = OUT_DIR / "alpen_etappen_varianten.geojson"
 HTML_OUT = OUT_DIR / "alpen_etappen_karte.html"
 
+ROAD_BIKE_SVG = """<svg viewBox="0 0 120 80" focusable="false">
+  <circle cx="28" cy="58" r="20"></circle>
+  <circle cx="92" cy="58" r="20"></circle>
+  <path d="M28 58 L48 28 L58 58 L28 58 M48 28 H76 L92 58 M76 28 L58 58 M58 58 H92"></path>
+  <path d="M48 28 L43 16 H30"></path>
+  <path d="M76 28 L82 16 H91 C99 16 104 23 100 30 C97 36 90 35 88 29"></path>
+  <circle cx="58" cy="58" r="6"></circle>
+  <path d="M58 58 L66 69 M66 69 L72 65"></path>
+</svg>"""
+
 
 POINTS = {
     "Cordon": (45.9221674, 6.6105436),
@@ -1084,10 +1094,10 @@ def make_html(geojson: dict) -> str:
     }}
     .ride-art {{
       position: absolute;
-      right: 14px;
-      bottom: 10px;
-      width: 118px;
-      height: 58px;
+      right: 12px;
+      bottom: 8px;
+      width: 132px;
+      height: 88px;
       color: var(--white);
       opacity: 0.22;
       pointer-events: none;
@@ -1099,9 +1109,9 @@ def make_html(geojson: dict) -> str:
       height: 100%;
       fill: none;
       stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: square;
-      stroke-linejoin: miter;
+      stroke-width: 5.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }}
     .toolbar {{
       display: grid;
@@ -1321,9 +1331,12 @@ def make_html(geojson: dict) -> str:
       text-transform: uppercase;
     }}
     .bike-icon {{
-      width: 22px;
-      height: 16px;
+      width: 28px;
+      height: 19px;
       flex: 0 0 auto;
+    }}
+    .bike-icon svg {{
+      stroke-width: 6.2;
     }}
     .filter-grid {{
       display: grid;
@@ -1809,15 +1822,7 @@ def make_html(geojson: dict) -> str:
           <span class="brand-tag">Route Desk</span>
         </div>
         <h1>Rennrad-Etappen Französische Alpen</h1>
-        <div class="ride-art" aria-hidden="true">
-          <svg viewBox="0 0 120 60">
-            <circle cx="25" cy="42" r="14"></circle>
-            <circle cx="91" cy="42" r="14"></circle>
-            <path d="M25 42 L43 20 L58 42 L37 42 L50 42 L71 18 L91 42 L58 42 L43 20"></path>
-            <path d="M42 20 L38 12 L31 12 M71 18 L81 10 L93 13 L88 18"></path>
-            <path d="M50 42 L45 28 M43 28 L56 28"></path>
-          </svg>
-        </div>
+        <div class="ride-art" aria-hidden="true">{ROAD_BIKE_SVG}</div>
       </section>
       <div class="toolbar">
         <button id="fit">Auf Route zoomen</button>
@@ -1842,14 +1847,7 @@ def make_html(geojson: dict) -> str:
       </details>
       <section class="filters" aria-label="Routenfilter">
         <div class="filters-title">
-          <span class="bike-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 20">
-              <circle cx="6.5" cy="14" r="4.8"></circle>
-              <circle cx="25.5" cy="14" r="4.8"></circle>
-              <path d="M6.5 14 L12.5 6 L17 14 L10.5 14 L15.5 14 L21.5 5 L25.5 14 L17 14 L12.5 6"></path>
-              <path d="M12.5 6 L11.5 2.5 L8.5 2.5 M21.5 5 L24 2.5 L28 3.8 L26.5 5.5"></path>
-            </svg>
-          </span>
+          <span class="bike-icon" aria-hidden="true">{ROAD_BIKE_SVG}</span>
           Variantenfilter
         </div>
         <div class="filter-grid">
