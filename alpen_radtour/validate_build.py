@@ -112,7 +112,19 @@ def main() -> None:
     for text in FORBIDDEN_HTML_TEXT:
         if text in html:
             errors.append(f"forbidden HTML text still present: {text}")
-    for required in ["mini-profile", "Alle GPX", "Details", "Etappe 5 - St-Michel nach Briançon"]:
+    for required in [
+        "mini-profile",
+        "Alle GPX",
+        "Details",
+        "Etappe 5 - St-Michel nach Briançon",
+        "Tagesdashboard",
+        "Verpflegung & Wasser",
+        "Packliste",
+        "Anreise",
+        "Abreise",
+        "Open-Meteo",
+        "Forecast ab ca. 16 Tage vorher verfügbar",
+    ]:
         if required not in html:
             errors.append(f"required HTML text missing: {required}")
 

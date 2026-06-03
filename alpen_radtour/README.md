@@ -42,3 +42,11 @@ Das Deployment-Artefakt enthält:
 Routen, Texte und Highlights werden in `build_alpen_map.py` gepflegt. Die erzeugten Dateien sind bewusst nicht für Git gedacht und werden im CI frisch gebaut.
 
 Wenn BRouter nicht erreichbar ist oder eine Route keine echten km/hm liefert, schlägt der Build fehl. Dadurch geht keine Fallback- oder Wegpunktlinie live.
+
+Tagesdashboard, Hotel-/Gepäckhinweise, Verpflegungspunkte und Packliste werden ebenfalls in `build_alpen_map.py` gepflegt:
+
+- `TRIP_DAYS`: Datum, Start-/Ziel-Hotel-Platzhalter, Gepäck, Support, Wetterpunkt
+- `SUPPLY_POINTS`: Verpflegung/Wasserpunkte und Kartenmarker
+- `PACKING_LIST`: allgemeine Packliste
+
+Das Wetter-Widget nutzt clientseitig die Open-Meteo Forecast API. Für die Reiseetappen erscheinen echte Prognosen, sobald die jeweiligen Tage im Forecast-Fenster liegen; vorher zeigt die App einen entsprechenden Hinweis.

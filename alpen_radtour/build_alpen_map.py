@@ -115,6 +115,139 @@ DAY_ENDPOINTS = {
 DIFFICULTY_ORDER = {"LIGHT": 1, "MEDIUM": 2, "STRONG": 3}
 
 
+TRAVEL_DAYS = {
+    "ARRIVAL": {
+        "label": "Anreise",
+        "tab": "Anreise",
+        "date": "2026-06-27",
+        "start": "Anreise",
+        "finish": "Cordon",
+        "start_hotel": "Individuelle Anreise nach Cordon",
+        "finish_hotel": "Start-Hotel Cordon (Name folgt)",
+        "luggage": "Gepäcklabel vorbereiten; Bike und Tagesrucksack für Etappe 1 sortieren.",
+        "checkin": "Check-in, Bike-Aufbau, Akkus laden, GPX auf Geräte übertragen.",
+        "support": "Reiseanbieter kennenlernen, Gepäckprozess und Startzeit für Etappe 1 bestätigen.",
+        "weather_point": "Cordon",
+        "briefing": "Ankommen, Räder checken und die Gruppe einmal sauber briefen. Kein Etappendruck, aber Logistik für den ersten Radtag festziehen.",
+    },
+    "DEPARTURE": {
+        "label": "Abreise",
+        "tab": "Abreise",
+        "date": "2026-07-03",
+        "start": "Briançon",
+        "finish": "Abreise",
+        "start_hotel": "Finales Hotel Briançon (Name folgt)",
+        "finish_hotel": "Individuelle Abreise",
+        "luggage": "Gepäck vollständig, Wertsachen und Ladegeräte prüfen.",
+        "checkin": "Bikes verpacken/verladen, Zimmercheck, Rückreisezeiten und Transfers prüfen.",
+        "support": "Reiseanbieter: finale Gepäck-/Transferabstimmung und Fundsachencheck.",
+        "weather_point": "Briançon",
+        "briefing": "Abreisetag ohne Radetappe. Fokus auf Bikes, Gepäck, Rückreise und einen sauberen Abschluss der Woche.",
+    },
+}
+
+
+TRIP_DAYS = {
+    "J1": {
+        "date": "2026-06-28",
+        "start_hotel": "Start-Hotel Cordon (Name folgt)",
+        "finish_hotel": "Ziel-Hotel Flumet (Name folgt)",
+        "luggage": "Gepäck bis 08:30 Uhr an den Reiseanbieter übergeben.",
+        "checkin": "Check-in/Schlüsselübergabe am Ziel über den Reiseanbieter klären.",
+        "support": "Support: Reiseanbieter vor Ort, Gepäcktransport und Tagesbriefing am Start.",
+        "weather_point": "Col des Aravis",
+        "briefing": "Auftakt im Aravis-Massiv. Früh genug losfahren, damit die Gruppe entspannt in Flumet ankommt.",
+    },
+    "J2": {
+        "date": "2026-06-29",
+        "start_hotel": "Start-Hotel Flumet (Name folgt)",
+        "finish_hotel": "Ziel-Hotel Beaufort (Name folgt)",
+        "luggage": "Gepäck bis 08:30 Uhr bereitstellen; Tagesrucksack nur mit Regen-/Wärmeschicht.",
+        "checkin": "Ankunft Beaufort: Zimmer und Gepäck über Reiseanbieter synchronisieren.",
+        "support": "Support: kurze Beaufortain-Etappe, gute Möglichkeit für gemeinsames Zielbier/Café.",
+        "weather_point": "Col des Saisies",
+        "briefing": "Panoramatag im Beaufortain. Joly ist eine Stichfahrt und kann bei Wetterumschwung gestrichen werden.",
+    },
+    "J3": {
+        "date": "2026-06-30",
+        "start_hotel": "Start-Hotel Beaufort (Name folgt)",
+        "finish_hotel": "Ziel-Hotel Brides-les-Bains (Name folgt)",
+        "luggage": "Gepäck früh abgeben; das ist der längste Logistik- und Etappentag.",
+        "checkin": "Brides-les-Bains als Basis für Regeneration und ggf. Loze-Schleife.",
+        "support": "Support: lange Tarentaise-Abschnitte, Versorgung in Bourg-Saint-Maurice und Moûtiers einplanen.",
+        "weather_point": "Cormet de Roselend",
+        "briefing": "Großer Roselend-Tag. Wetter, Müdigkeit und Uhrzeit entscheiden, ob die Loze-Schleife sinnvoll ist.",
+    },
+    "J4": {
+        "date": "2026-07-01",
+        "start_hotel": "Start-Hotel Brides-les-Bains (Name folgt)",
+        "finish_hotel": "Ziel-Hotel St-Michel (Name folgt)",
+        "luggage": "Gepäck bis 08:30 Uhr abgeben; nach der Madeleine nicht zu spät in die Zusatzschleifen.",
+        "checkin": "Saint-Michel-de-Maurienne ist Durchgangsort vor dem Galibier-Finale.",
+        "support": "Support: Maurienne-Tal, Lacets und Chaussy nur bei stabilem Wetter und genug Zeit.",
+        "weather_point": "Col de la Madeleine",
+        "briefing": "Madeleine als Pflichtprogramm. Chaussy/Lacets sind optionaler Charakter- und Social-Part.",
+    },
+    "J5": {
+        "date": "2026-07-02",
+        "start_hotel": "Start-Hotel St-Michel (Name folgt)",
+        "finish_hotel": "Ziel-Hotel Briançon (Name folgt)",
+        "luggage": "Gepäck bis 08:00 Uhr abgeben; warme Kleidung für Zielankunft separat zugänglich halten.",
+        "checkin": "Briançon: finales Hotel, Bikes sichern und Rückreiselogistik prüfen.",
+        "support": "Support: Galibier-Finale mit exponierter Hochalpenlage, früh starten.",
+        "weather_point": "Col du Galibier",
+        "briefing": "Königsetappe zum Abschluss. Galibier-Wetterfenster ernst nehmen; Izoard nur für sehr stabile Bedingungen.",
+    },
+}
+
+
+DASHBOARD_ORDER = ["ARRIVAL", "J1", "J2", "J3", "J4", "J5", "DEPARTURE"]
+
+
+SUPPLY_POINTS = [
+    {"day": "J1", "point": "Cluses", "name": "Cluses", "kind": "Shop/Café", "note": "größerer Ort vor Romme/Colombière; gute Stelle zum Auffüllen"},
+    {"day": "J1", "point": "Le Grand-Bornand", "name": "Le Grand-Bornand", "kind": "Café/Wasser", "note": "Pause nach Colombière, vor La Clusaz/Aravis"},
+    {"day": "J1", "point": "La Clusaz", "name": "La Clusaz", "kind": "Café/Wasser", "note": "letzte größere Versorgung vor dem Col des Aravis"},
+    {"day": "J2", "point": "Crest-Voland", "name": "Crest-Voland", "kind": "Café/Wasser", "note": "ruhiger Ort vor Saisies/Joly"},
+    {"day": "J2", "point": "Col des Saisies", "name": "Les Saisies", "kind": "Café/Wasser", "note": "Wintersportort mit mehreren Pausenoptionen"},
+    {"day": "J2", "point": "Hauteluce", "name": "Hauteluce", "kind": "Wasser/Café", "note": "Basis für die Joly-Stichfahrt"},
+    {"day": "J3", "point": "Arêches", "name": "Arêches", "kind": "Café/Wasser", "note": "vor Col du Pré, wenn MEDIUM/STRONG gefahren wird"},
+    {"day": "J3", "point": "Bourg-Saint-Maurice", "name": "Bourg-Saint-Maurice", "kind": "Shop/Café", "note": "größter Versorgungsort nach Roselend"},
+    {"day": "J3", "point": "Moûtiers", "name": "Moûtiers", "kind": "Shop/Wasser", "note": "letzter größerer Ort vor Brides-les-Bains"},
+    {"day": "J4", "point": "Aigueblanche", "name": "Aigueblanche", "kind": "Shop/Wasser", "note": "vor dem Madeleine-Anstieg"},
+    {"day": "J4", "point": "La Chambre", "name": "La Chambre", "kind": "Café/Wasser", "note": "nach Madeleine, vor Chaussy/Lacets-Entscheidung"},
+    {"day": "J4", "point": "Saint-Jean-de-Maurienne", "name": "Saint-Jean-de-Maurienne", "kind": "Shop/Café", "note": "sicherer Versorgungsort im Maurienne-Tal"},
+    {"day": "J5", "point": "Valloire", "name": "Valloire", "kind": "Café/Wasser", "note": "wichtiger Stopp vor Plan Lachat/Galibier"},
+    {"day": "J5", "point": "Col du Lautaret", "name": "Col du Lautaret", "kind": "Café/Wasser", "note": "Hochalpen-Versorgung nach dem Galibier"},
+    {"day": "J5", "point": "Le Monêtier-les-Bains", "name": "Le Monêtier-les-Bains", "kind": "Shop/Café", "note": "Auffüllen vor Briançon oder Zusatzanstieg"},
+]
+
+
+GENERAL_PACKING_LIST = [
+    "Reisepass/Personalausweis",
+    "Kreditkarte, etwas Bargeld, Krankenversicherungskarte",
+    "Ladegeräte für Handy, Radcomputer, Licht und Schaltung",
+    "Freizeitkleidung für Hotelwechsel und Abende",
+    "Waschbeutel, persönliche Medikamente, Ohrstöpsel",
+    "Ersatz-Trikots, Bibs, Socken, Handschuhe",
+    "Gepäcklabel und kleine Wäschetüte",
+    "Bike-Transporttasche oder Schutzmaterial, falls benötigt",
+]
+
+
+DAY_PACKING_LIST = [
+    "2 volle Bidons",
+    "Regenjacke und warme Schicht",
+    "Armlinge/Beinlinge oder Weste",
+    "Riegel/Gel für mindestens 3 Stunden",
+    "Ausweis, Kreditkarte, etwas Bargeld",
+    "Handy geladen, GPX geladen, Powerbank bei Bedarf",
+    "Ersatzschlauch, CO2/Pumpe, Reifenheber, Multitool",
+    "Sonnencreme und Brille",
+    "Gepäcklabel dran, nichts im Zimmer vergessen",
+]
+
+
 ROUTE_DETAILS = {
     "j1-alt": {
         "difficulty": "LIGHT",
@@ -789,11 +922,49 @@ def marker_payload(names: list[str], kind: str) -> list[dict]:
     ]
 
 
+def supply_payload() -> list[dict]:
+    payload = []
+    for item in SUPPLY_POINTS:
+        lat, lon = POINTS[item["point"]]
+        payload.append({**item, "lat": lat, "lon": lon})
+    return payload
+
+
+def day_info_payload() -> dict:
+    payload = {}
+    supplies_by_day: dict[str, list[dict]] = {}
+    for item in supply_payload():
+        supplies_by_day.setdefault(item["day"], []).append(item)
+    for day in DASHBOARD_ORDER:
+        info = TRIP_DAYS.get(day) or TRAVEL_DAYS[day]
+        weather_lat, weather_lon = POINTS[info["weather_point"]]
+        if day in DAY_ENDPOINTS:
+            start, finish = DAY_ENDPOINTS[day]
+        else:
+            start, finish = info["start"], info["finish"]
+        payload[day] = {
+            **info,
+            "label": info.get("label", DAY_LABELS.get(day, day)),
+            "tab": info.get("tab", f"E{day[1:]}"),
+            "start": start,
+            "finish": finish,
+            "kind": "ride" if day.startswith("J") else "travel",
+            "weather_lat": weather_lat,
+            "weather_lon": weather_lon,
+            "supplies": supplies_by_day.get(day, []),
+        }
+    return payload
+
+
 def make_html(geojson: dict) -> str:
     route_json = json.dumps(geojson, ensure_ascii=False)
     markers_json = json.dumps(
         marker_payload(MAJOR_STOPS, "stop") + marker_payload(COLS, "col"), ensure_ascii=False
     )
+    supply_json = json.dumps(supply_payload(), ensure_ascii=False)
+    day_info_json = json.dumps(day_info_payload(), ensure_ascii=False)
+    general_packing_json = json.dumps(GENERAL_PACKING_LIST, ensure_ascii=False)
+    day_packing_json = json.dumps(DAY_PACKING_LIST, ensure_ascii=False)
     return f"""<!doctype html>
 <html lang="de">
 <head>
@@ -974,6 +1145,167 @@ def make_html(geojson: dict) -> str:
       background: var(--black);
       color: var(--white);
     }}
+    .dashboard {{
+      border-bottom: 2px solid var(--black);
+      background: var(--white);
+    }}
+    .dashboard-head {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px 8px;
+      border-bottom: 1px solid var(--grey-300);
+    }}
+    .dashboard-head h2 {{
+      margin: 0;
+      font-family: "Bandeins Strange", Arial, sans-serif;
+      font-size: 23px;
+      line-height: 1;
+      letter-spacing: 0;
+    }}
+    .dashboard-date {{
+      border: 1px solid var(--black);
+      padding: 4px 6px 3px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }}
+    .dashboard-tabs {{
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      border-bottom: 1px solid var(--black);
+    }}
+    .dashboard-tabs button {{
+      min-height: 34px;
+      padding: 0 4px;
+      border-bottom: 0;
+      font-size: 9px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }}
+    .dashboard-tabs button.active {{
+      background: var(--black);
+      color: var(--white);
+    }}
+    .dashboard-body {{
+      padding: 12px 16px 14px;
+    }}
+    .dashboard-briefing {{
+      margin: 0 0 10px;
+      color: var(--grey-800);
+      font-size: 12px;
+      line-height: 1.4;
+    }}
+    .info-grid {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--black);
+      margin-bottom: 10px;
+    }}
+    .info-cell {{
+      padding: 8px;
+      border-right: 1px solid var(--black);
+      border-bottom: 1px solid var(--black);
+      min-width: 0;
+    }}
+    .info-cell:nth-child(2n) {{
+      border-right: 0;
+    }}
+    .info-cell:nth-last-child(-n + 2) {{
+      border-bottom: 0;
+    }}
+    .info-cell span,
+    .weather-card span {{
+      display: block;
+      color: var(--grey-600);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }}
+    .info-cell strong,
+    .weather-card strong {{
+      display: block;
+      font-size: 12px;
+      line-height: 1.25;
+    }}
+    .weather-card {{
+      border: 1px solid var(--black);
+      padding: 8px;
+      margin-bottom: 10px;
+    }}
+    .weather-values {{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 7px;
+    }}
+    .weather-values strong {{
+      font-size: 14px;
+    }}
+    .dashboard-list {{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--grey-300);
+    }}
+    .dashboard-list li {{
+      border-bottom: 1px solid var(--grey-300);
+      padding: 6px 0;
+      font-size: 12px;
+      line-height: 1.35;
+    }}
+    .dashboard-list strong {{
+      font-size: 12px;
+    }}
+    .pack-list {{
+      display: grid;
+      gap: 5px;
+      margin-top: 6px;
+    }}
+    .packing-panel {{
+      border-bottom: 2px solid var(--black);
+      background: var(--white);
+    }}
+    .packing-panel summary {{
+      cursor: pointer;
+      list-style: none;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--black);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }}
+    .packing-panel summary::-webkit-details-marker {{
+      display: none;
+    }}
+    .packing-panel summary::after {{
+      content: "+";
+      float: right;
+      font-size: 14px;
+      line-height: 1;
+    }}
+    .packing-panel[open] summary::after {{
+      content: "-";
+    }}
+    .packing-body {{
+      display: grid;
+      gap: 12px;
+      padding: 12px 16px 14px;
+    }}
+    .pack-item {{
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 6px;
+      align-items: start;
+      font-size: 12px;
+      line-height: 1.25;
+    }}
+    .pack-item input {{
+      margin: 1px 0 0;
+      accent-color: var(--black);
+    }}
     .filters {{
       border-bottom: 2px solid var(--black);
       padding: 12px 16px 14px;
@@ -1044,15 +1376,26 @@ def make_html(geojson: dict) -> str:
       padding: 0;
     }}
     .day-title {{
+      width: 100%;
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 8px;
       margin: 0;
       padding: 11px 16px;
       font-weight: 700;
       font-size: 14px;
+      min-height: 0;
+      border: 0;
       border-bottom: 1px solid var(--black);
       text-transform: uppercase;
+      text-align: left;
+      background: var(--white);
+      color: var(--black);
+    }}
+    .day-title:hover {{
+      background: var(--black);
+      color: var(--white);
     }}
     .swatch {{
       width: 12px;
@@ -1429,6 +1772,18 @@ def make_html(geojson: dict) -> str:
       background: var(--white);
       border-color: var(--black);
     }}
+    .map-marker.supply {{
+      background: var(--white);
+      border-color: var(--black);
+      transform: rotate(45deg);
+      position: relative;
+    }}
+    .map-marker.supply::after {{
+      content: "";
+      position: absolute;
+      inset: 3px;
+      background: var(--black);
+    }}
     .leaflet-div-icon {{
       background: transparent;
       border: 0;
@@ -1456,10 +1811,11 @@ def make_html(geojson: dict) -> str:
         <h1>Rennrad-Etappen Französische Alpen</h1>
         <div class="ride-art" aria-hidden="true">
           <svg viewBox="0 0 120 60">
-            <circle cx="28" cy="42" r="13"></circle>
-            <circle cx="91" cy="42" r="13"></circle>
-            <path d="M28 42 L48 24 L62 42 L38 42 L51 42 L73 20 L91 42 L62 42"></path>
-            <path d="M47 24 L43 15 M38 15 L49 15 M73 20 L80 13 M77 13 L88 13"></path>
+            <circle cx="25" cy="42" r="14"></circle>
+            <circle cx="91" cy="42" r="14"></circle>
+            <path d="M25 42 L43 20 L58 42 L37 42 L50 42 L71 18 L91 42 L58 42 L43 20"></path>
+            <path d="M42 20 L38 12 L31 12 M71 18 L81 10 L93 13 L88 18"></path>
+            <path d="M50 42 L45 28 M43 28 L56 28"></path>
           </svg>
         </div>
       </section>
@@ -1472,14 +1828,26 @@ def make_html(geojson: dict) -> str:
           Alle GPX
         </a>
       </div>
+      <section class="dashboard" aria-label="Tagesdashboard">
+        <div class="dashboard-head">
+          <h2>Tagesdashboard</h2>
+          <span class="dashboard-date" id="dashboard-date">-</span>
+        </div>
+        <div class="dashboard-tabs" id="dashboard-tabs"></div>
+        <div class="dashboard-body" id="dashboard-body"></div>
+      </section>
+      <details class="packing-panel">
+        <summary>Packlisten</summary>
+        <div class="packing-body" id="packing-body"></div>
+      </details>
       <section class="filters" aria-label="Routenfilter">
         <div class="filters-title">
           <span class="bike-icon" aria-hidden="true">
             <svg viewBox="0 0 32 20">
-              <circle cx="7" cy="14" r="5"></circle>
-              <circle cx="25" cy="14" r="5"></circle>
-              <path d="M7 14 L13 6 L17 14 L11 14 L16 14 L22 5 L25 14 L17 14"></path>
-              <path d="M13 6 L12 2 M10 2 L15 2"></path>
+              <circle cx="6.5" cy="14" r="4.8"></circle>
+              <circle cx="25.5" cy="14" r="4.8"></circle>
+              <path d="M6.5 14 L12.5 6 L17 14 L10.5 14 L15.5 14 L21.5 5 L25.5 14 L17 14 L12.5 6"></path>
+              <path d="M12.5 6 L11.5 2.5 L8.5 2.5 M21.5 5 L24 2.5 L28 3.8 L26.5 5.5"></path>
             </svg>
           </span>
           Variantenfilter
@@ -1508,7 +1876,13 @@ def make_html(geojson: dict) -> str:
   <script>
     const routeData = {route_json};
     const markerData = {markers_json};
+    const supplyData = {supply_json};
+    const dayInfo = {day_info_json};
+    const generalPackingList = {general_packing_json};
+    const dayPackingList = {day_packing_json};
     const dayColors = {json.dumps(DAY_COLORS)};
+    const weatherCache = new Map();
+    let activeDashboardDay = "ARRIVAL";
 
     const map = L.map("map", {{ preferCanvas: true }}).setView([45.55, 6.42], 9);
     L.tileLayer("https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png", {{
@@ -1556,6 +1930,18 @@ def make_html(geojson: dict) -> str:
       }});
       L.marker([marker.lat, marker.lon], {{ icon }})
         .bindTooltip(marker.name, {{ direction: "top", offset: [0, -4] }})
+        .addTo(markerLayer);
+    }}
+    for (const marker of supplyData) {{
+      const icon = L.divIcon({{
+        className: "",
+        html: `<span class="map-marker supply"></span>`,
+        iconSize: [13, 13],
+        iconAnchor: [6, 6]
+      }});
+      L.marker([marker.lat, marker.lon], {{ icon }})
+        .bindTooltip(`${{marker.name}} · ${{marker.kind}}`, {{ direction: "top", offset: [0, -4] }})
+        .bindPopup(`<div class="popup-title">${{htmlEscape(marker.name)}} · Versorgung</div><div class="popup-meta">${{htmlEscape(marker.kind)}}<br>${{htmlEscape(marker.note)}}</div>`)
         .addTo(markerLayer);
     }}
 
@@ -1783,6 +2169,182 @@ def make_html(geojson: dict) -> str:
         </div>`;
     }}
 
+    function formatTripDate(value) {{
+      return new Date(`${{value}}T12:00:00`).toLocaleDateString("de-DE", {{
+        weekday: "short",
+        day: "2-digit",
+        month: "2-digit"
+      }});
+    }}
+
+    function weatherCodeText(code) {{
+      const labels = {{
+        0: "klar",
+        1: "leicht bewölkt",
+        2: "bewölkt",
+        3: "bedeckt",
+        45: "Nebel",
+        48: "Nebel",
+        51: "Niesel",
+        53: "Niesel",
+        55: "Niesel",
+        61: "Regen",
+        63: "Regen",
+        65: "starker Regen",
+        71: "Schnee",
+        73: "Schnee",
+        75: "starker Schnee",
+        80: "Schauer",
+        81: "Schauer",
+        82: "starke Schauer",
+        95: "Gewitter",
+        96: "Gewitter",
+        99: "Gewitter"
+      }};
+      return labels[code] || "Wetter";
+    }}
+
+    function weatherUrl(info) {{
+      const params = new URLSearchParams();
+      params.set("latitude", info.weather_lat);
+      params.set("longitude", info.weather_lon);
+      params.set("daily", "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_gusts_10m_max");
+      params.set("timezone", "Europe/Paris");
+      params.set("forecast_days", "16");
+      return "https://api.open-meteo.com/v1/forecast?" + params.toString();
+    }}
+
+    async function weatherForDay(day) {{
+      if (weatherCache.has(day)) return weatherCache.get(day);
+      const info = dayInfo[day];
+      const promise = fetch(weatherUrl(info))
+        .then(response => {{
+          if (!response.ok) throw new Error("weather request failed");
+          return response.json();
+        }})
+        .then(data => {{
+          const index = data.daily?.time?.indexOf(info.date);
+          if (index === undefined || index < 0) {{
+            return {{ status: "outside", source: info.weather_point }};
+          }}
+          return {{
+            status: "ok",
+            source: info.weather_point,
+            code: data.daily.weather_code[index],
+            tempMax: data.daily.temperature_2m_max[index],
+            tempMin: data.daily.temperature_2m_min[index],
+            rainProbability: data.daily.precipitation_probability_max[index],
+            rain: data.daily.precipitation_sum[index],
+            gusts: data.daily.wind_gusts_10m_max[index]
+          }};
+        }})
+        .catch(() => ({{ status: "error", source: info.weather_point }}));
+      weatherCache.set(day, promise);
+      return promise;
+    }}
+
+    function weatherHtml(result, info) {{
+      if (!result) {{
+        return `<span>Wetter</span><strong>Wetter wird geladen...</strong>`;
+      }}
+      if (result.status === "outside") {{
+        return `<span>Wetter · ${{htmlEscape(info.weather_point)}}</span><strong>Forecast ab ca. 16 Tage vorher verfügbar</strong>`;
+      }}
+      if (result.status === "error") {{
+        return `<span>Wetter · ${{htmlEscape(info.weather_point)}}</span><strong>Wetter konnte nicht geladen werden</strong>`;
+      }}
+      return `<span>Wetter · ${{htmlEscape(info.weather_point)}} · Open-Meteo</span>
+        <strong>${{htmlEscape(weatherCodeText(result.code))}}</strong>
+        <div class="weather-values">
+          <div><span>Temperatur</span><strong>${{Math.round(result.tempMin)}}-${{Math.round(result.tempMax)}} °C</strong></div>
+          <div><span>Regen</span><strong>${{Math.round(result.rainProbability || 0)}}% · ${{Number(result.rain || 0).toFixed(1)}} mm</strong></div>
+          <div><span>Böen</span><strong>${{Math.round(result.gusts || 0)}} km/h</strong></div>
+        </div>`;
+    }}
+
+    function packingKey(scope, item) {{
+      return `xx-alps-pack-${{scope}}-${{item}}`;
+    }}
+
+    function checklistHtml(title, items, scope) {{
+      return `<section>
+        <div class="detail-block-title">${{htmlEscape(title)}}</div>
+        <div class="pack-list">
+          ${{items.map(item => {{
+            const checked = localStorage.getItem(packingKey(scope, item)) === "1" ? " checked" : "";
+            return `<label class="pack-item"><input type="checkbox" data-pack-scope="${{htmlEscape(scope)}}" data-pack-item="${{htmlEscape(item)}}"${{checked}}><span>${{htmlEscape(item)}}</span></label>`;
+          }}).join("")}}
+        </div>
+      </section>`;
+    }}
+
+    function renderPackingPanel() {{
+      const panel = document.getElementById("packing-body");
+      if (!panel) return;
+      panel.innerHTML = [
+        checklistHtml("Für den Trip", generalPackingList, "trip"),
+        checklistHtml("Tagesfahrt", dayPackingList, "day")
+      ].join("");
+      attachPackingHandlers(panel);
+    }}
+
+    function suppliesHtml(info) {{
+      if (!info.supplies?.length) return "";
+      return `<div class="detail-block-title">Verpflegung & Wasser</div>
+        <ul class="dashboard-list">
+          ${{info.supplies.map(item => `<li><strong>${{htmlEscape(item.name)}}</strong> · ${{htmlEscape(item.kind)}}<br>${{htmlEscape(item.note)}}</li>`).join("")}}
+        </ul>`;
+    }}
+
+    function attachPackingHandlers(container) {{
+      for (const checkbox of container.querySelectorAll("input[data-pack-item]")) {{
+        checkbox.addEventListener("change", () => {{
+          localStorage.setItem(packingKey(checkbox.dataset.packScope, checkbox.dataset.packItem), checkbox.checked ? "1" : "0");
+        }});
+      }}
+    }}
+
+    function renderDashboardTabs() {{
+      const tabs = document.getElementById("dashboard-tabs");
+      tabs.innerHTML = Object.entries(dayInfo).map(([day, info]) => (
+        `<button type="button" data-dashboard-day="${{day}}">${{htmlEscape(info.tab)}}</button>`
+      )).join("");
+      tabs.addEventListener("click", event => {{
+        const button = event.target.closest("button[data-dashboard-day]");
+        if (button) renderDashboard(button.dataset.dashboardDay);
+      }});
+    }}
+
+    async function renderDashboard(day) {{
+      activeDashboardDay = day;
+      const info = dayInfo[day];
+      const body = document.getElementById("dashboard-body");
+      const date = document.getElementById("dashboard-date");
+      if (!info || !body || !date) return;
+      for (const button of document.querySelectorAll("button[data-dashboard-day]")) {{
+        button.classList.toggle("active", button.dataset.dashboardDay === day);
+      }}
+      date.textContent = formatTripDate(info.date);
+      body.innerHTML = `<p class="dashboard-briefing">${{htmlEscape(info.briefing)}}</p>
+        <div class="info-grid">
+          <div class="info-cell"><span>Start</span><strong>${{htmlEscape(info.start_hotel)}}</strong></div>
+          <div class="info-cell"><span>Ziel</span><strong>${{htmlEscape(info.finish_hotel)}}</strong></div>
+          <div class="info-cell"><span>Gepäck</span><strong>${{htmlEscape(info.luggage)}}</strong></div>
+          <div class="info-cell"><span>Support</span><strong>${{htmlEscape(info.support)}}</strong></div>
+        </div>
+        <div class="weather-card" id="weather-card">${{weatherHtml(null, info)}}</div>
+        ${{suppliesHtml(info)}}
+        <div class="detail-block-title">Hotel & Check-in</div>
+        <ul class="dashboard-list">
+          <li>${{htmlEscape(info.checkin)}}</li>
+        </ul>`;
+      const weatherCard = document.getElementById("weather-card");
+      const result = await weatherForDay(day);
+      if (weatherCard && activeDashboardDay === day) {{
+        weatherCard.innerHTML = weatherHtml(result, info);
+      }}
+    }}
+
     function showRouteDetail(id) {{
       const feature = featureById(id);
       if (!feature) return;
@@ -1846,7 +2408,7 @@ def make_html(geojson: dict) -> str:
         const section = document.createElement("section");
         section.className = "day";
         const dayLabel = features[0]?.properties.day_label || day;
-        section.innerHTML = `<div class="day-title"><span class="swatch" style="background:${{dayColors[day]}}"></span>${{dayLabel}}</div>`;
+        section.innerHTML = `<button class="day-title" type="button" data-day="${{htmlEscape(day)}}"><span class="swatch" style="background:${{dayColors[day]}}"></span>${{dayLabel}}</button>`;
         for (const feature of features) {{
           const props = feature.properties;
           const meta = `${{props.brouter_km}} km / ${{props.brouter_hm}} hm`;
@@ -1880,6 +2442,10 @@ def make_html(geojson: dict) -> str:
           selectRoute(target.dataset.routeId);
         }}
       }});
+      container.addEventListener("click", event => {{
+        const target = event.target.closest("button[data-day]");
+        if (target) renderDashboard(target.dataset.day);
+      }});
     }}
 
     function htmlEscape(value) {{
@@ -1904,6 +2470,9 @@ def make_html(geojson: dict) -> str:
       if (event.key === "Escape") closeRouteDetail();
     }});
 
+    renderDashboardTabs();
+    renderDashboard("ARRIVAL");
+    renderPackingPanel();
     renderControls();
     updatePresetTotals();
     selectPreset("MEDIUM");
