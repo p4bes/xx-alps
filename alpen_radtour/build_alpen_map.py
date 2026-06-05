@@ -112,6 +112,14 @@ DAY_LABELS = {
     "J5": "Etappe 5",
 }
 
+DAY_LABELS_EN = {
+    "J1": "Stage 1",
+    "J2": "Stage 2",
+    "J3": "Stage 3",
+    "J4": "Stage 4",
+    "J5": "Stage 5",
+}
+
 
 DAY_ENDPOINTS = {
     "J1": ("Cordon", "Flumet"),
@@ -123,6 +131,141 @@ DAY_ENDPOINTS = {
 
 
 DIFFICULTY_ORDER = {"LIGHT": 1, "MEDIUM": 2, "STRONG": 3}
+
+
+def commons_file_url(file_name: str, width: int = 900) -> str:
+    encoded = urllib.parse.quote(file_name.replace(" ", "_"), safe="()@-'_.")
+    return f"https://commons.wikimedia.org/wiki/Special:FilePath/{encoded}?width={width}"
+
+
+def commons_file_page(file_name: str) -> str:
+    encoded = urllib.parse.quote(file_name.replace(" ", "_"), safe="()@-'_.")
+    return f"https://commons.wikimedia.org/wiki/File:{encoded}"
+
+
+def commons_image(file_name: str, credit: str, license_label: str) -> dict:
+    return {
+        "url": commons_file_url(file_name),
+        "source_url": commons_file_page(file_name),
+        "credit": credit,
+        "license": license_label,
+    }
+
+
+PLACE_INFO = {
+    "Megève": {
+        "summary": "Eleganter Alpenort im Mont-Blanc-Blickfeld; guter leichter Einstieg mit Cafés und Ortskulisse.",
+        "summary_en": "Elegant Alpine town with Mont Blanc views; a gentle opener with cafes and village scenery.",
+        "url": "https://www.megeve-tourisme.fr/",
+        "url_en": "https://www.megeve-tourisme.fr/en/",
+    },
+    "Le Grand-Bornand": {
+        "summary": "Traditioneller Aravis-Ort mit Chalets, Reblochon-Kultur und guter Pause nach der Colombière.",
+        "summary_en": "Traditional Aravis village with chalet scenery, Reblochon culture and a useful stop after Colombière.",
+        "url": "https://www.legrandbornand.com/",
+        "url_en": "https://en.legrandbornand.com/",
+        "image": commons_image("Le Grand-Bornand 74.JPG", "Anthospace / Wikimedia Commons", "CC BY-SA 3.0"),
+    },
+    "Col de la Colombière": {
+        "summary": "Früher Route-des-Grandes-Alpes-Test: kurz, steil genug und mit starkem Blick auf Aravis und Bargy.",
+        "summary_en": "An early Route des Grandes Alpes test: compact, steep enough and framed by the Aravis and Bargy ranges.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
+        "image": commons_image("Col de la Colombière @ Le Grand-Bornand (51026609812).jpg", "Guilhem Vellut / Wikimedia Commons", "CC BY 2.0"),
+    },
+    "Col des Aravis": {
+        "summary": "Fotogener Übergang zwischen La Clusaz und Val d'Arly; oben öffnet sich der Blick zum Mont Blanc.",
+        "summary_en": "Photogenic pass between La Clusaz and Val d'Arly; the summit opens up towards Mont Blanc.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/col-des-aravis",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-des-aravis",
+        "image": commons_image("Col des Aravis.jpg", "Helene / Wikimedia Commons", "CC BY 2.0"),
+    },
+    "Col des Saisies": {
+        "summary": "Übergang vom Val d'Arly ins Beaufortain; olympischer Stationsort, Beaufort-Käse und Mont-Blanc-Blicke.",
+        "summary_en": "Pass from Val d'Arly into Beaufortain; Olympic resort setting, Beaufort cheese and Mont Blanc views.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/col-des-saisies",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-des-saisies",
+    },
+    "Col du Joly": {
+        "summary": "Panorama-Stichfahrt über Hauteluce mit sehr starkem Blick Richtung Mont-Blanc-Massiv.",
+        "summary_en": "Panoramic out-and-back above Hauteluce with standout views towards the Mont Blanc massif.",
+        "url": "https://commons.wikimedia.org/wiki/Category:Col_du_Joly",
+        "url_en": "https://commons.wikimedia.org/wiki/Category:Col_du_Joly",
+        "image": commons_image("Col-du-Joly-1.jpg", "SchiDD / Wikimedia Commons", "freie Lizenz laut Commons"),
+    },
+    "Lac de Roselend": {
+        "summary": "Türkisfarbener Beaufortain-Stausee mit Staumauer, Kapelle und einer der stärksten Fotostellen der Reise.",
+        "summary_en": "Turquoise Beaufortain reservoir with dam, chapel and one of the strongest photo stops of the trip.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
+        "image": commons_image("Barrage de Roselend.jpg", "Nabla01 / Wikimedia Commons", "Public Domain"),
+    },
+    "Cormet de Roselend": {
+        "summary": "Großer Beaufortain-Übergang über Seen, Almen und Hochalpenlandschaft Richtung Tarentaise.",
+        "summary_en": "Major Beaufortain crossing over lakes, alpine pastures and high-mountain scenery towards Tarentaise.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
+        "image": commons_image("Barrage et Lac de Roselend.JPG", "Nono vlf / Wikimedia Commons", "CC BY-SA 3.0"),
+    },
+    "Bourg-Saint-Maurice": {
+        "summary": "Größter Versorgungs- und Talort nach Roselend; guter Schnittpunkt vor der Tarentaise-Rollstrecke.",
+        "summary_en": "Largest valley and resupply town after Roselend; a useful reset before the Tarentaise transfer.",
+        "url": "https://www.bourgsaintmaurice.fr/",
+        "url_en": "https://en.lesarcs.com/bourg-saint-maurice",
+    },
+    "Col de la Loze": {
+        "summary": "Moderner Tour-de-France-Mythos mit Radweg-Rampen, die deutlich brutaler sind als ein normaler Alpenpass.",
+        "summary_en": "Modern Tour de France myth with cycle-path ramps that feel far harsher than a conventional Alpine pass.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols//col-de-la-loze",
+        "url_en": "https://www.routedesgrandesalpes.com/grands-cols//col-de-la-loze",
+    },
+    "Col de la Madeleine": {
+        "summary": "Eines der großen Alpenmonumente: lang, offen, hoch und seit Jahrzehnten ein Tour-de-France-Schauplatz.",
+        "summary_en": "One of the great Alpine monuments: long, open, high and a Tour de France stage setting for decades.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/col-de-la-madeleine",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-de-la-madeleine",
+        "image": commons_image("Col de la Madeleine - 2014-08 - 28IMG 6056.jpg", "Poudou99 / Wikimedia Commons", "CC BY-SA 3.0"),
+    },
+    "Lacets de Montvernier": {
+        "summary": "Achtzehn enge Kehren an der Felswand; kurzer Anstieg, aber extrem starkes Social- und Fotomotiv.",
+        "summary_en": "Eighteen tight hairpins on the cliffside; a short climb but a huge social and photo highlight.",
+        "url": "https://www.maurienne-tourisme.com/visiter_bouger/boucle-des-lacets-de-montvernier-5588742/",
+        "url_en": "https://www.cycling-french-alps.com/explore/lacets-de-montvernier-and-col-du-chaussy/",
+        "image": commons_image("Lacets de Montvernier depuis A43 (1).JPG", "Florian Pepellin / Wikimedia Commons", "CC BY-SA 3.0"),
+    },
+    "Col du Chaussy": {
+        "summary": "Ruhiger Maurienne-Pass über den Lacets; ideal, wenn J4 mehr Charakter als Taltransfer haben soll.",
+        "summary_en": "Quiet Maurienne pass above the Lacets; ideal when stage 4 should feel more characterful than a valley transfer.",
+        "url": "https://www.velo-maurienne.com/explorer/lacets-de-montvernier-et-col-du-chaussy/",
+        "url_en": "https://www.cycling-french-alps.com/explore/lacets-de-montvernier-and-col-du-chaussy/",
+    },
+    "Col du Galibier": {
+        "summary": "Der Hochalpenklassiker schlechthin: Galibier steht seit 1911 für Tour-de-France-Mythos und Wetterrespekt.",
+        "summary_en": "The high-Alpine classic: Galibier has meant Tour de France myth and serious weather respect since 1911.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/col-du-galibier",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-du-galibier",
+        "image": commons_image("Col du galibier.jpg", "Benoit Kornmann / Wikimedia Commons", "CC BY-SA 3.0"),
+    },
+    "Briançon": {
+        "summary": "UNESCO-geprägte Festungsstadt und starker Abschlussort nach Galibier, Granon oder Izoard.",
+        "summary_en": "UNESCO-flavoured fortified town and a strong finish after Galibier, Granon or Izoard.",
+        "url": "https://www.serre-chevalier.com/en/briancon/",
+        "url_en": "https://www.serre-chevalier.com/en/briancon/",
+    },
+    "Col du Granon": {
+        "summary": "Steiler Stich über Briançon/Saint-Chaffrey; wenig Erholung, dafür ein sehr klares Finalsegment.",
+        "summary_en": "Steep out-and-back above Briançon/Saint-Chaffrey; little recovery, but a very clear finale segment.",
+        "url": "https://commons.wikimedia.org/wiki/Category:Col_du_Granon",
+        "url_en": "https://commons.wikimedia.org/wiki/Category:Col_du_Granon",
+    },
+    "Col d'Izoard": {
+        "summary": "Hochalpenmonument im Queyras; die Nordrampe ab Briançon/Cervières ist ein würdiger Finalbonus.",
+        "summary_en": "High-Alpine monument in the Queyras; the north side from Briançon/Cervières is a worthy final bonus.",
+        "url": "https://www.routedesgrandesalpes.com/grands-cols/col-izoard",
+        "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-izoard",
+        "image": commons_image("2014 Mountain pass cycling milestone - Col d'Izoard Briancon.jpg", "Cyclingralph / Wikimedia Commons", "CC BY-SA 4.0"),
+    },
+}
 
 
 TRAVEL_DAYS = {
@@ -139,6 +282,14 @@ TRAVEL_DAYS = {
         "support": "Reiseanbieter kennenlernen, Gepäckprozess und Startzeit für Etappe 1 bestätigen.",
         "weather_point": "Cordon",
         "briefing": "Ankommen, Räder checken und die Gruppe einmal sauber briefen. Kein Etappendruck, aber Logistik für den ersten Radtag festziehen.",
+        "label_en": "Arrival",
+        "tab_en": "Arrival",
+        "start_hotel_en": "Individual arrival in Cordon",
+        "finish_hotel_en": "Start hotel Cordon (name to follow)",
+        "luggage_en": "Prepare luggage labels; sort bike and day pack for stage 1.",
+        "checkin_en": "Check in, build bikes, charge batteries and load GPX files onto devices.",
+        "support_en": "Meet the travel operator; confirm luggage process and stage 1 start time.",
+        "briefing_en": "Arrive, check bikes and brief the group cleanly. No stage pressure yet, but lock in logistics for the first riding day.",
     },
     "DEPARTURE": {
         "label": "Abreise",
@@ -153,6 +304,14 @@ TRAVEL_DAYS = {
         "support": "Reiseanbieter: finale Gepäck-/Transferabstimmung und Fundsachencheck.",
         "weather_point": "Briançon",
         "briefing": "Abreisetag ohne Radetappe. Fokus auf Bikes, Gepäck, Rückreise und einen sauberen Abschluss der Woche.",
+        "label_en": "Departure",
+        "tab_en": "Departure",
+        "start_hotel_en": "Final hotel Briançon (name to follow)",
+        "finish_hotel_en": "Individual departure",
+        "luggage_en": "Check all luggage, valuables and chargers.",
+        "checkin_en": "Pack/load bikes, check rooms, confirm return travel and transfers.",
+        "support_en": "Travel operator: final luggage/transfer alignment and lost-property check.",
+        "briefing_en": "Departure day without a ride stage. Focus on bikes, luggage, return travel and a clean finish to the week.",
     },
 }
 
@@ -167,6 +326,12 @@ TRIP_DAYS = {
         "support": "Support: Reiseanbieter vor Ort, Gepäcktransport und Tagesbriefing am Start.",
         "weather_point": "Col des Aravis",
         "briefing": "Auftakt im Aravis-Massiv. Früh genug losfahren, damit die Gruppe entspannt in Flumet ankommt.",
+        "start_hotel_en": "Start hotel Cordon (name to follow)",
+        "finish_hotel_en": "Finish hotel Flumet (name to follow)",
+        "luggage_en": "Hand luggage to the travel operator by 08:30.",
+        "checkin_en": "Clarify check-in/key handover at the finish with the travel operator.",
+        "support_en": "Support: travel operator on site, luggage transfer and start briefing.",
+        "briefing_en": "Opening stage in the Aravis range. Start early enough so the group reaches Flumet relaxed.",
     },
     "J2": {
         "date": "2026-06-29",
@@ -177,6 +342,12 @@ TRIP_DAYS = {
         "support": "Support: kurze Beaufortain-Etappe, gute Möglichkeit für gemeinsames Zielbier/Café.",
         "weather_point": "Col des Saisies",
         "briefing": "Panoramatag im Beaufortain. Joly ist eine Stichfahrt und kann bei Wetterumschwung gestrichen werden.",
+        "start_hotel_en": "Start hotel Flumet (name to follow)",
+        "finish_hotel_en": "Finish hotel Beaufort (name to follow)",
+        "luggage_en": "Place luggage by 08:30; day pack only with rain/warm layer.",
+        "checkin_en": "Arrival Beaufort: coordinate rooms and luggage with the travel operator.",
+        "support_en": "Support: short Beaufortain stage, good option for a shared finish beer/cafe.",
+        "briefing_en": "Panorama day in Beaufortain. Joly is an out-and-back and can be skipped if weather turns.",
     },
     "J3": {
         "date": "2026-06-30",
@@ -187,6 +358,12 @@ TRIP_DAYS = {
         "support": "Support: lange Tarentaise-Abschnitte, Versorgung in Bourg-Saint-Maurice und Moûtiers einplanen.",
         "weather_point": "Cormet de Roselend",
         "briefing": "Großer Roselend-Tag. Wetter, Müdigkeit und Uhrzeit entscheiden, ob die Loze-Schleife sinnvoll ist.",
+        "start_hotel_en": "Start hotel Beaufort (name to follow)",
+        "finish_hotel_en": "Finish hotel Brides-les-Bains (name to follow)",
+        "luggage_en": "Hand luggage in early; this is the longest logistics and riding day.",
+        "checkin_en": "Brides-les-Bains as recovery base and optional Loze loop base.",
+        "support_en": "Support: long Tarentaise sections, plan resupply in Bourg-Saint-Maurice and Moûtiers.",
+        "briefing_en": "Big Roselend day. Weather, fatigue and time decide whether the Loze loop makes sense.",
     },
     "J4": {
         "date": "2026-07-01",
@@ -197,6 +374,12 @@ TRIP_DAYS = {
         "support": "Support: Maurienne-Tal, Lacets und Chaussy nur bei stabilem Wetter und genug Zeit.",
         "weather_point": "Col de la Madeleine",
         "briefing": "Madeleine als Pflichtprogramm. Chaussy/Lacets sind optionaler Charakter- und Social-Part.",
+        "start_hotel_en": "Start hotel Brides-les-Bains (name to follow)",
+        "finish_hotel_en": "Finish hotel St-Michel (name to follow)",
+        "luggage_en": "Hand luggage by 08:30; after Madeleine, do not leave optional loops too late.",
+        "checkin_en": "Saint-Michel-de-Maurienne is the transit town before the Galibier finale.",
+        "support_en": "Support: Maurienne valley; Lacets and Chaussy only with stable weather and enough time.",
+        "briefing_en": "Madeleine is the main commitment. Chaussy/Lacets are the optional character and social part.",
     },
     "J5": {
         "date": "2026-07-02",
@@ -207,6 +390,12 @@ TRIP_DAYS = {
         "support": "Support: Galibier-Finale mit exponierter Hochalpenlage, früh starten.",
         "weather_point": "Col du Galibier",
         "briefing": "Königsetappe zum Abschluss. Galibier-Wetterfenster ernst nehmen; Izoard nur für sehr stabile Bedingungen.",
+        "start_hotel_en": "Start hotel St-Michel (name to follow)",
+        "finish_hotel_en": "Finish hotel Briançon (name to follow)",
+        "luggage_en": "Hand luggage by 08:00; keep warm clothes accessible for the finish.",
+        "checkin_en": "Briançon: final hotel, secure bikes and check departure logistics.",
+        "support_en": "Support: Galibier finale in exposed high-Alpine terrain, start early.",
+        "briefing_en": "Queen stage to close the trip. Take the Galibier weather window seriously; Izoard only in very stable conditions.",
     },
 }
 
@@ -215,21 +404,21 @@ DASHBOARD_ORDER = ["ARRIVAL", "J1", "J2", "J3", "J4", "J5", "DEPARTURE"]
 
 
 SUPPLY_POINTS = [
-    {"day": "J1", "point": "Cluses", "name": "Cluses", "kind": "Shop/Café", "note": "größerer Ort vor Romme/Colombière; gute Stelle zum Auffüllen"},
-    {"day": "J1", "point": "Le Grand-Bornand", "name": "Le Grand-Bornand", "kind": "Café/Wasser", "note": "Pause nach Colombière, vor La Clusaz/Aravis"},
-    {"day": "J1", "point": "La Clusaz", "name": "La Clusaz", "kind": "Café/Wasser", "note": "letzte größere Versorgung vor dem Col des Aravis"},
-    {"day": "J2", "point": "Crest-Voland", "name": "Crest-Voland", "kind": "Café/Wasser", "note": "ruhiger Ort vor Saisies/Joly"},
-    {"day": "J2", "point": "Col des Saisies", "name": "Les Saisies", "kind": "Café/Wasser", "note": "Wintersportort mit mehreren Pausenoptionen"},
-    {"day": "J2", "point": "Hauteluce", "name": "Hauteluce", "kind": "Wasser/Café", "note": "Basis für die Joly-Stichfahrt"},
-    {"day": "J3", "point": "Arêches", "name": "Arêches", "kind": "Café/Wasser", "note": "vor Col du Pré, wenn MEDIUM/STRONG gefahren wird"},
-    {"day": "J3", "point": "Bourg-Saint-Maurice", "name": "Bourg-Saint-Maurice", "kind": "Shop/Café", "note": "größter Versorgungsort nach Roselend"},
-    {"day": "J3", "point": "Moûtiers", "name": "Moûtiers", "kind": "Shop/Wasser", "note": "letzter größerer Ort vor Brides-les-Bains"},
-    {"day": "J4", "point": "Aigueblanche", "name": "Aigueblanche", "kind": "Shop/Wasser", "note": "vor dem Madeleine-Anstieg"},
-    {"day": "J4", "point": "La Chambre", "name": "La Chambre", "kind": "Café/Wasser", "note": "nach Madeleine, vor Chaussy/Lacets-Entscheidung"},
-    {"day": "J4", "point": "Saint-Jean-de-Maurienne", "name": "Saint-Jean-de-Maurienne", "kind": "Shop/Café", "note": "sicherer Versorgungsort im Maurienne-Tal"},
-    {"day": "J5", "point": "Valloire", "name": "Valloire", "kind": "Café/Wasser", "note": "wichtiger Stopp vor Plan Lachat/Galibier"},
-    {"day": "J5", "point": "Col du Lautaret", "name": "Col du Lautaret", "kind": "Café/Wasser", "note": "Hochalpen-Versorgung nach dem Galibier"},
-    {"day": "J5", "point": "Le Monêtier-les-Bains", "name": "Le Monêtier-les-Bains", "kind": "Shop/Café", "note": "Auffüllen vor Briançon oder Zusatzanstieg"},
+    {"day": "J1", "point": "Cluses", "name": "Cluses", "kind": "Shop/Café", "kind_en": "Shop/cafe", "note": "größerer Ort vor Romme/Colombière; gute Stelle zum Auffüllen", "note_en": "larger town before Romme/Colombière; good place to refill"},
+    {"day": "J1", "point": "Le Grand-Bornand", "name": "Le Grand-Bornand", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "Pause nach Colombière, vor La Clusaz/Aravis", "note_en": "break after Colombière, before La Clusaz/Aravis"},
+    {"day": "J1", "point": "La Clusaz", "name": "La Clusaz", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "letzte größere Versorgung vor dem Col des Aravis", "note_en": "last larger resupply before Col des Aravis"},
+    {"day": "J2", "point": "Crest-Voland", "name": "Crest-Voland", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "ruhiger Ort vor Saisies/Joly", "note_en": "quiet village before Saisies/Joly"},
+    {"day": "J2", "point": "Col des Saisies", "name": "Les Saisies", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "Wintersportort mit mehreren Pausenoptionen", "note_en": "resort village with several break options"},
+    {"day": "J2", "point": "Hauteluce", "name": "Hauteluce", "kind": "Wasser/Café", "kind_en": "Water/cafe", "note": "Basis für die Joly-Stichfahrt", "note_en": "base for the Joly out-and-back"},
+    {"day": "J3", "point": "Arêches", "name": "Arêches", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "vor Col du Pré, wenn MEDIUM/STRONG gefahren wird", "note_en": "before Col du Pré if MEDIUM/STRONG is ridden"},
+    {"day": "J3", "point": "Bourg-Saint-Maurice", "name": "Bourg-Saint-Maurice", "kind": "Shop/Café", "kind_en": "Shop/cafe", "note": "größter Versorgungsort nach Roselend", "note_en": "largest resupply town after Roselend"},
+    {"day": "J3", "point": "Moûtiers", "name": "Moûtiers", "kind": "Shop/Wasser", "kind_en": "Shop/water", "note": "letzter größerer Ort vor Brides-les-Bains", "note_en": "last larger town before Brides-les-Bains"},
+    {"day": "J4", "point": "Aigueblanche", "name": "Aigueblanche", "kind": "Shop/Wasser", "kind_en": "Shop/water", "note": "vor dem Madeleine-Anstieg", "note_en": "before the Madeleine climb"},
+    {"day": "J4", "point": "La Chambre", "name": "La Chambre", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "nach Madeleine, vor Chaussy/Lacets-Entscheidung", "note_en": "after Madeleine, before the Chaussy/Lacets decision"},
+    {"day": "J4", "point": "Saint-Jean-de-Maurienne", "name": "Saint-Jean-de-Maurienne", "kind": "Shop/Café", "kind_en": "Shop/cafe", "note": "sicherer Versorgungsort im Maurienne-Tal", "note_en": "safe resupply town in the Maurienne valley"},
+    {"day": "J5", "point": "Valloire", "name": "Valloire", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "wichtiger Stopp vor Plan Lachat/Galibier", "note_en": "important stop before Plan Lachat/Galibier"},
+    {"day": "J5", "point": "Col du Lautaret", "name": "Col du Lautaret", "kind": "Café/Wasser", "kind_en": "Cafe/water", "note": "Hochalpen-Versorgung nach dem Galibier", "note_en": "high-Alpine resupply after Galibier"},
+    {"day": "J5", "point": "Le Monêtier-les-Bains", "name": "Le Monêtier-les-Bains", "kind": "Shop/Café", "kind_en": "Shop/cafe", "note": "Auffüllen vor Briançon oder Zusatzanstieg", "note_en": "refill before Briançon or the optional climb"},
 ]
 
 
@@ -242,6 +431,17 @@ GENERAL_PACKING_LIST = [
     "Ersatz-Trikots, Bibs, Socken, Handschuhe",
     "Gepäcklabel und kleine Wäschetüte",
     "Bike-Transporttasche oder Schutzmaterial, falls benötigt",
+]
+
+GENERAL_PACKING_LIST_EN = [
+    "Passport/ID card",
+    "Credit card, some cash, health insurance card",
+    "Chargers for phone, bike computer, lights and shifting",
+    "Casual clothes for hotel changes and evenings",
+    "Wash bag, personal medication, earplugs",
+    "Spare jerseys, bibs, socks, gloves",
+    "Luggage label and small laundry bag",
+    "Bike travel bag or protection material if needed",
 ]
 
 
@@ -257,12 +457,25 @@ DAY_PACKING_LIST = [
     "Gepäcklabel dran, nichts im Zimmer vergessen",
 ]
 
+DAY_PACKING_LIST_EN = [
+    "2 full bottles",
+    "Rain jacket and warm layer",
+    "Arm/leg warmers or vest",
+    "Bars/gels for at least 3 hours",
+    "ID, credit card, some cash",
+    "Phone charged, GPX loaded, power bank if needed",
+    "Spare tube, CO2/pump, tire levers, multitool",
+    "Sunscreen and glasses",
+    "Luggage label attached, nothing left in the room",
+]
+
 
 ROUTE_DETAILS = {
     "j1-alt": {
         "difficulty": "LIGHT",
         "title": "via Megève",
         "description": "Die ruhige Ankommenslinie durch das Arve-Tal und über Megève. Gute Wahl bei später Anreise, müden Beinen oder unsicherem Wetter.",
+        "description_en": "The calm arrival line through the Arve valley and via Megève. A good choice for a late start, tired legs or uncertain weather.",
         "highlights": ["Combloux", "Megève", "Praz-sur-Arly", "Blick Richtung Mont Blanc"],
         "photo_spots": ["Combloux", "Megève", "Praz-sur-Arly"],
     },
@@ -270,6 +483,7 @@ ROUTE_DETAILS = {
         "difficulty": "MEDIUM",
         "title": "via Colombière + Aravis",
         "description": "Der saubere Auftakt mit zwei echten Klassikern. Erst über die Colombière ins Aravis-Massiv, danach über La Clusaz und den Col des Aravis nach Flumet.",
+        "description_en": "A clean opener with two real classics: Colombière into the Aravis range, then La Clusaz and Col des Aravis towards Flumet.",
         "highlights": ["Col de la Colombière", "Le Grand-Bornand", "La Clusaz", "Col des Aravis"],
         "photo_spots": ["Col de la Colombière", "Le Grand-Bornand", "Col des Aravis"],
     },
@@ -277,6 +491,7 @@ ROUTE_DETAILS = {
         "difficulty": "STRONG",
         "title": "via Romme + Colombière + Aravis",
         "description": "Die sportliche Eröffnung: Col de Romme nimmt früh Körner, macht die Zufahrt zur Colombière aber deutlich ruhiger und charaktervoller.",
+        "description_en": "The sporty opener: Col de Romme costs energy early, but makes the approach to Colombière quieter and more characterful.",
         "highlights": ["Col de Romme", "Le Reposoir", "Col de la Colombière", "Col des Aravis"],
         "photo_spots": ["Col de Romme", "Le Reposoir", "Col des Aravis"],
     },
@@ -284,6 +499,7 @@ ROUTE_DETAILS = {
         "difficulty": "LIGHT",
         "title": "via Saisies direkt",
         "description": "Kurze Regenerationsvariante über den Col des Saisies ohne Joly-Stichfahrt. Ideal, wenn J3 und J4 voll gefahren werden sollen.",
+        "description_en": "Short recovery variant over Col des Saisies without the Joly out-and-back. Ideal if stages 3 and 4 should be ridden in full.",
         "highlights": ["Notre-Dame-de-Bellecombe", "Crest-Voland", "Col des Saisies", "Hauteluce"],
         "photo_spots": ["Crest-Voland", "Col des Saisies", "Hauteluce"],
     },
@@ -291,6 +507,7 @@ ROUTE_DETAILS = {
         "difficulty": "MEDIUM",
         "title": "via Saisies + Col du Joly",
         "description": "Kompakte Panoramatour mit starker Mont-Blanc-Perspektive. Der Col du Joly ist eine Stichfahrt, lohnt sich aber landschaftlich klar.",
+        "description_en": "Compact panorama route with strong Mont Blanc views. Col du Joly is an out-and-back, but clearly worth it for the scenery.",
         "highlights": ["Col des Saisies", "Hauteluce", "Col du Joly", "Beaufortain"],
         "photo_spots": ["Col des Saisies", "Col du Joly", "Beaufort"],
     },
@@ -298,6 +515,7 @@ ROUTE_DETAILS = {
         "difficulty": "STRONG",
         "title": "via Ugine + Saisies/Joly",
         "description": "Die lange Beaufortain-Variante mit Zusatzschleife über Ugine und Crest-Voland. Deutlich mehr Strecke, dafür eine rundere Tagesroute.",
+        "description_en": "The long Beaufortain variant with an additional loop via Ugine and Crest-Voland. More distance, but a more rounded day route.",
         "highlights": ["Ugine", "Crest-Voland", "Col des Saisies", "Col du Joly"],
         "photo_spots": ["Crest-Voland", "Col du Joly", "Beaufort"],
     },
@@ -305,6 +523,7 @@ ROUTE_DETAILS = {
         "difficulty": "LIGHT",
         "title": "via Roselend direkt",
         "description": "Die kontrollierteste Linie des Tages: Roselend bleibt als landschaftlicher Höhepunkt drin, Col du Pré und Col du Tra werden ausgelassen.",
+        "description_en": "The most controlled line of the day: Roselend stays in as the scenic highlight, while Col du Pré and Col du Tra are skipped.",
         "highlights": ["Lac de Roselend", "Cormet de Roselend", "Les Chapieux", "Bourg-Saint-Maurice"],
         "photo_spots": ["Lac de Roselend", "Cormet de Roselend", "Les Chapieux"],
     },
@@ -312,6 +531,7 @@ ROUTE_DETAILS = {
         "difficulty": "MEDIUM",
         "title": "via Pré + Roselend",
         "description": "Die landschaftliche Königslinie durch das Beaufortain mit Col du Pré, Lac de Roselend und Cormet de Roselend.",
+        "description_en": "The scenic queen line through Beaufortain with Col du Pré, Lac de Roselend and Cormet de Roselend.",
         "highlights": ["Col du Pré", "Lac de Roselend", "Cormet de Roselend", "Bourg-Saint-Maurice"],
         "photo_spots": ["Lac de Roselend", "Cormet de Roselend", "Bourg-Saint-Maurice"],
     },
@@ -319,6 +539,7 @@ ROUTE_DETAILS = {
         "difficulty": "STRONG",
         "title": "via Pré + Roselend + Loze",
         "description": "Die Eskalation: Pré, Roselend und danach die brutale Loze-Schleife ab Brides. Nur bei stabilem Wetter und sehr guter Tagesform sinnvoll.",
+        "description_en": "The escalation: Pré, Roselend and then the brutal Loze loop from Brides. Only sensible with stable weather and very strong legs.",
         "highlights": ["Col du Pré", "Cormet de Roselend", "Méribel", "Col de la Loze"],
         "photo_spots": ["Lac de Roselend", "Méribel", "Col de la Loze"],
     },
@@ -326,6 +547,7 @@ ROUTE_DETAILS = {
         "difficulty": "LIGHT",
         "title": "via Madeleine",
         "description": "Der belastbare Standard nach dem langen Vortag: ein großer Pass, danach direkter Transfer durch die Maurienne.",
+        "description_en": "The reliable standard after the long previous day: one major pass, then a direct transfer through the Maurienne valley.",
         "highlights": ["La Léchère", "Celliers", "Col de la Madeleine", "Maurienne"],
         "photo_spots": ["Celliers", "Col de la Madeleine", "Saint-Jean-de-Maurienne"],
     },
@@ -333,6 +555,7 @@ ROUTE_DETAILS = {
         "difficulty": "MEDIUM",
         "title": "via Madeleine + Chaussy",
         "description": "Die Anbieterlinie als mittlere J4-Option: Madeleine plus Chaussy, mit den Lacets eher in der Abfahrtsrichtung.",
+        "description_en": "The operator line as the medium stage 4 option: Madeleine plus Chaussy, with the Lacets mostly in the downhill direction.",
         "highlights": ["Col de la Madeleine", "Col du Chaussy", "Montvernier", "Lacets de Montvernier"],
         "photo_spots": ["Col de la Madeleine", "Col du Chaussy", "Lacets de Montvernier"],
     },
@@ -340,6 +563,7 @@ ROUTE_DETAILS = {
         "difficulty": "STRONG",
         "title": "via Madeleine + Lacets + Chaussy",
         "description": "Die schönere, aber harte Richtung: Lacets bergauf fahren, danach Chaussy und zurück ins Maurienne-Tal.",
+        "description_en": "The prettier but harder direction: climb the Lacets, continue over Chaussy and return into the Maurienne valley.",
         "highlights": ["Col de la Madeleine", "Lacets de Montvernier", "Col du Chaussy", "Saint-Michel-de-Maurienne"],
         "photo_spots": ["Lacets de Montvernier", "Col du Chaussy", "Maurienne"],
     },
@@ -347,6 +571,7 @@ ROUTE_DETAILS = {
         "difficulty": "LIGHT",
         "title": "via Télégraphe + Galibier",
         "description": "Der klassische Abschluss ab Saint-Michel mit Télégraphe und Galibier. In der neuen Staffelung ist das die leichteste vollständige Radetappe bis Briançon.",
+        "description_en": "The classic finale from Saint-Michel with Télégraphe and Galibier. In the new structure, this is the easiest complete ride to Briançon.",
         "highlights": ["Col du Télégraphe", "Valloire", "Col du Galibier", "Col du Lautaret"],
         "photo_spots": ["Col du Télégraphe", "Plan Lachat", "Col du Galibier"],
     },
@@ -354,6 +579,7 @@ ROUTE_DETAILS = {
         "difficulty": "MEDIUM",
         "title": "via Télégraphe + Galibier + Granon",
         "description": "Galibier plus der steile Granon als Stichfahrt vor Briançon. Das ist die mittlere J5-Option für Gruppen, die am Finaltag noch einen harten Zusatzanstieg wollen.",
+        "description_en": "Galibier plus the steep Granon out-and-back before Briançon. The medium stage 5 option for riders who still want a hard final climb.",
         "highlights": ["Col du Télégraphe", "Col du Galibier", "Col du Granon", "Briançon"],
         "photo_spots": ["Col du Galibier", "Col du Granon", "Briançon"],
     },
@@ -361,6 +587,7 @@ ROUTE_DETAILS = {
         "difficulty": "STRONG",
         "title": "via Télégraphe + Galibier + Izoard",
         "description": "Die neue Topvariante ohne Granon: erst Télégraphe und Galibier, dann ab Briançon/Cervières noch die ikonische Nordrampe zum Col d'Izoard als finales Monument.",
+        "description_en": "The new top variant without Granon: Télégraphe and Galibier first, then the iconic north ramp to Col d'Izoard from Briançon/Cervières.",
         "highlights": ["Col du Télégraphe", "Col du Galibier", "Cervières", "Col d'Izoard"],
         "photo_spots": ["Col du Galibier", "Cervières", "Col d'Izoard"],
     },
@@ -370,88 +597,154 @@ ROUTE_DETAILS = {
 PASS_INFO = {
     "Col de Romme": {
         "status": "steiler Auftaktklassiker",
+        "status_en": "steep opener",
         "palmares": "Tour-de-France-Bergwertung; oft in Kombination mit der Colombière gefahren.",
+        "palmares_en": "Tour de France mountain classification climb; often paired with Colombière.",
         "segment_query": "Col de Romme climb",
+        "info_url": "https://fr.wikipedia.org/wiki/Col_de_Romme",
+        "info_url_en": "https://en.wikipedia.org/wiki/Col_de_Romme",
     },
     "Col de la Colombière": {
         "status": "Tour-Klassiker",
+        "status_en": "Tour classic",
         "palmares": "Großer Aravis-Pass mit langer Profi-Historie und vielen Strava-Climb-Varianten.",
+        "palmares_en": "Major Aravis pass with deep pro-racing history and many Strava climb variants.",
         "segment_query": "Col de la Colombiere climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
     },
     "Col des Aravis": {
         "status": "Aravis-Klassiker",
+        "status_en": "Aravis classic",
         "palmares": "Bekannter Übergang zwischen La Clusaz und Flumet; starker Social-/Foto-Pass.",
+        "palmares_en": "Well-known crossing between La Clusaz and Flumet; strong social and photo pass.",
         "segment_query": "Col des Aravis climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-des-aravis",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-des-aravis",
     },
     "Col des Saisies": {
         "status": "Beaufortain-Pass",
+        "status_en": "Beaufortain pass",
         "palmares": "Regelmäßiger Rennrad- und Tour-de-France-Ort im Beaufortain.",
+        "palmares_en": "Regular road-cycling and Tour de France location in Beaufortain.",
         "segment_query": "Col des Saisies climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-des-saisies",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-des-saisies",
     },
     "Col du Joly": {
         "status": "Panorama-Stichfahrt",
+        "status_en": "panorama out-and-back",
         "palmares": "Weniger Profi-Palmarès, aber sehr stark für Aussicht und Segment-Jagd.",
+        "palmares_en": "Less pro-racing pedigree, but excellent for views and segment hunting.",
         "segment_query": "Col du Joly climb",
+        "info_url": "https://commons.wikimedia.org/wiki/Category:Col_du_Joly",
+        "info_url_en": "https://commons.wikimedia.org/wiki/Category:Col_du_Joly",
     },
     "Col du Pré": {
         "status": "Beaufortain-Juwel",
+        "status_en": "Beaufortain gem",
         "palmares": "Einer der schönsten Zufahrten zum Lac de Roselend; klare Kletter-Etappe.",
+        "palmares_en": "One of the most beautiful approaches to Lac de Roselend; a true climbing section.",
         "segment_query": "Col du Pre Beaufortain climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
     },
     "Cormet de Roselend": {
         "status": "Tour-Klassiker",
+        "status_en": "Tour classic",
         "palmares": "Großer Alpenpass über dem Lac de Roselend; sehr bekannter Rennrad- und Tour-Pass.",
+        "palmares_en": "Major Alpine pass above Lac de Roselend; a very well-known road-cycling and Tour pass.",
         "segment_query": "Cormet de Roselend climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/cormet-de-roselend",
     },
     "Col du Tra": {
         "status": "ruhige Nebenlinie",
+        "status_en": "quiet side line",
         "palmares": "Eher lokale Alternative zur Talroute; interessant für ruhige Gruppenlinien.",
+        "palmares_en": "More of a local alternative to the valley road; useful for quieter group routing.",
         "segment_query": "Col du Tra climb",
     },
     "Col de la Loze": {
         "status": "moderner Mythos",
+        "status_en": "modern myth",
         "palmares": "Extrem steiler, moderner Tour-de-France-Schlussanstieg mit brutalen Rampen.",
+        "palmares_en": "Extremely steep modern Tour de France summit climb with brutal ramps.",
         "segment_query": "Col de la Loze Meribel climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols//col-de-la-loze",
+        "info_url_en": "https://www.routedesgrandesalpes.com/grands-cols//col-de-la-loze",
     },
     "Col de la Madeleine": {
         "status": "Monument",
+        "status_en": "monument",
         "palmares": "Einer der großen Alpenklassiker der Tour de France und Dauphiné.",
+        "palmares_en": "One of the great Alpine classics of the Tour de France and Dauphiné.",
         "segment_query": "Col de la Madeleine climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-de-la-madeleine",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-de-la-madeleine",
     },
     "Lacets de Montvernier": {
         "status": "Social-Highlight",
+        "status_en": "social highlight",
         "palmares": "Ikonische Serpentinen, eher kurz, aber extrem fotogen und sehr segmenttauglich.",
+        "palmares_en": "Iconic hairpins; short, but extremely photogenic and very segment-friendly.",
         "segment_query": "Lacets de Montvernier climb",
+        "info_url": "https://www.maurienne-tourisme.com/visiter_bouger/boucle-des-lacets-de-montvernier-5588742/",
+        "info_url_en": "https://www.cycling-french-alps.com/explore/lacets-de-montvernier-and-col-du-chaussy/",
     },
     "Col du Chaussy": {
         "status": "Maurienne-Klassiker",
+        "status_en": "Maurienne classic",
         "palmares": "Ruhiger, harter Maurienne-Pass; oft mit den Lacets kombiniert.",
+        "palmares_en": "Quiet, hard Maurienne pass; often combined with the Lacets.",
         "segment_query": "Col du Chaussy climb",
+        "info_url": "https://www.velo-maurienne.com/explorer/lacets-de-montvernier-et-col-du-chaussy/",
+        "info_url_en": "https://www.cycling-french-alps.com/explore/lacets-de-montvernier-and-col-du-chaussy/",
     },
     "Col du Télégraphe": {
         "status": "Galibier-Zubringer",
+        "status_en": "Galibier gateway",
         "palmares": "Klassischer Auftakt zum Galibier; historischer Bestandteil vieler Tour-Etappen.",
+        "palmares_en": "Classic gateway to Galibier and a historic part of many Tour stages.",
         "segment_query": "Col du Telegraphe climb",
+        "info_url": "https://fr.wikipedia.org/wiki/Col_du_T%C3%A9l%C3%A9graphe",
+        "info_url_en": "https://en.wikipedia.org/wiki/Col_du_T%C3%A9l%C3%A9graphe",
     },
     "Col du Galibier": {
         "status": "Monument",
+        "status_en": "monument",
         "palmares": "Einer der berühmtesten Alpenpässe überhaupt; Tour-de-France-Mythos.",
+        "palmares_en": "One of the most famous Alpine passes; pure Tour de France mythology.",
         "segment_query": "Col du Galibier climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-du-galibier",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-du-galibier",
     },
     "Col du Lautaret": {
         "status": "Hochalpen-Übergang",
+        "status_en": "high-Alpine crossing",
         "palmares": "Wichtiger Übergang am Galibier-Fuß; oft Teil großer Alpenetappen.",
+        "palmares_en": "Important crossing at the foot of Galibier; often part of major Alpine stages.",
         "segment_query": "Col du Lautaret climb",
+        "info_url": "https://fr.wikipedia.org/wiki/Col_du_Lautaret",
+        "info_url_en": "https://en.wikipedia.org/wiki/Col_du_Lautaret",
     },
     "Col du Granon": {
         "status": "brutaler Stich",
+        "status_en": "brutal out-and-back",
         "palmares": "Steiler Abschlussanstieg über Briançon; starkes Finale für die Topgruppe.",
+        "palmares_en": "Steep final climb above Briançon; a strong finale for the top group.",
         "segment_query": "Col du Granon climb",
+        "info_url": "https://commons.wikimedia.org/wiki/Category:Col_du_Granon",
+        "info_url_en": "https://commons.wikimedia.org/wiki/Category:Col_du_Granon",
     },
     "Col d'Izoard": {
         "status": "Tour-Monument",
+        "status_en": "Tour monument",
         "palmares": "Ikonischer Tour-de-France-Pass im Queyras; von Briançon/Cervières als harte Nordrampe gefahren.",
+        "palmares_en": "Iconic Tour de France pass in the Queyras; from Briançon/Cervières it is a hard north-side climb.",
         "segment_query": "Col d'Izoard Briancon climb",
+        "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-izoard",
+        "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-izoard",
     },
 }
 
@@ -833,11 +1126,68 @@ def brouter_route_with_retries(route: dict, attempts: int = 3) -> dict:
     raise RuntimeError(f"Routing failed for {route['id']} after {attempts} attempts") from last_error
 
 
+def place_payload(name: str) -> dict | None:
+    info = PLACE_INFO.get(name)
+    if not info:
+        return None
+    payload = {
+        "name": name,
+        "summary": info["summary"],
+        "summary_en": info.get("summary_en", info["summary"]),
+        "url": info.get("url"),
+        "url_en": info.get("url_en", info.get("url")),
+    }
+    if "image" in info:
+        payload["image"] = info["image"]
+    return payload
+
+
+def route_tourism_items(route: dict, details: dict, limit: int = 5) -> list[dict]:
+    items = []
+    seen = set()
+    candidate_names = [
+        *details.get("photo_spots", []),
+        *details.get("highlights", []),
+        *route.get("waypoints", []),
+    ]
+    for name in candidate_names:
+        if name in seen:
+            continue
+        payload = place_payload(name)
+        if payload:
+            items.append(payload)
+            seen.add(name)
+        if len(items) >= limit:
+            break
+    return items
+
+
+def route_photo_items(route: dict, details: dict, limit: int = 3) -> list[dict]:
+    items = []
+    seen = set()
+    candidate_names = [
+        *details.get("photo_spots", []),
+        *details.get("highlights", []),
+        *route.get("waypoints", []),
+    ]
+    for name in candidate_names:
+        if name in seen:
+            continue
+        payload = place_payload(name)
+        if payload and payload.get("image"):
+            items.append(payload)
+            seen.add(name)
+        if len(items) >= limit:
+            break
+    return items
+
+
 def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | None) -> dict:
     details = ROUTE_DETAILS[route["id"]]
     difficulty = details["difficulty"]
     start, finish = DAY_ENDPOINTS[route["day"]]
     day_label = f"{DAY_LABELS[route['day']]} - {start} nach {finish}"
+    day_label_en = f"{DAY_LABELS_EN[route['day']]} - {start} to {finish}"
     passes = []
     seen_passes = set()
     for waypoint in route["waypoints"]:
@@ -848,7 +1198,9 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
         "id": route["id"],
         "day": route["day"],
         "day_label": day_label,
+        "day_label_en": day_label_en,
         "base_day_label": DAY_LABELS[route["day"]],
+        "base_day_label_en": DAY_LABELS_EN[route["day"]],
         "start": start,
         "finish": finish,
         "day_number": int(route["day"][1:]),
@@ -859,12 +1211,19 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
         "name": f"{day_label} {difficulty}: {details['title']}",
         "note": route["note"],
         "description": details["description"],
+        "description_en": details.get("description_en", details["description"]),
         "highlights": details["highlights"],
         "photo_spots": details["photo_spots"],
+        "photo_items": route_photo_items(route, details),
+        "tourism_items": route_tourism_items(route, details),
         "passes": passes,
         "default": difficulty == "MEDIUM",
         "color": DAY_COLORS[route["day"]],
         "waypoints": route["waypoints"],
+        "waypoint_coords": [
+            {"name": name, "lat": POINTS[name][0], "lon": POINTS[name][1]}
+            for name in route["waypoints"]
+        ],
         "brouter_km": brouter_km,
         "brouter_hm": brouter_hm,
     }
@@ -974,7 +1333,9 @@ def make_html(geojson: dict) -> str:
     supply_json = json.dumps(supply_payload(), ensure_ascii=False)
     day_info_json = json.dumps(day_info_payload(), ensure_ascii=False)
     general_packing_json = json.dumps(GENERAL_PACKING_LIST, ensure_ascii=False)
+    general_packing_en_json = json.dumps(GENERAL_PACKING_LIST_EN, ensure_ascii=False)
     day_packing_json = json.dumps(DAY_PACKING_LIST, ensure_ascii=False)
+    day_packing_en_json = json.dumps(DAY_PACKING_LIST_EN, ensure_ascii=False)
     return f"""<!doctype html>
 <html lang="de">
 <head>
@@ -1074,6 +1435,37 @@ def make_html(geojson: dict) -> str:
       line-height: 1;
       padding: 7px 8px;
       text-transform: uppercase;
+    }}
+    .brand-actions {{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }}
+    .language-toggle {{
+      display: inline-grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--white);
+      background: var(--black);
+    }}
+    .language-toggle button {{
+      min-height: 28px;
+      border: 0;
+      border-right: 1px solid var(--white);
+      color: var(--white);
+      background: var(--black);
+      padding: 0 7px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }}
+    .language-toggle button:last-child {{
+      border-right: 0;
+    }}
+    .language-toggle button.active {{
+      background: var(--white);
+      color: var(--black);
     }}
     h1 {{
       margin: 0 0 4px;
@@ -1563,7 +1955,7 @@ def make_html(geojson: dict) -> str:
     .profile-wrap {{
       border: 1px solid var(--black);
       margin-bottom: 12px;
-      padding: 8px;
+      padding: 8px 6px 6px;
     }}
     .profile-title {{
       display: flex;
@@ -1578,7 +1970,25 @@ def make_html(geojson: dict) -> str:
     .profile-svg {{
       display: block;
       width: 100%;
-      height: 118px;
+      height: 146px;
+      overflow: visible;
+      font-family: "Sen", Arial, sans-serif;
+    }}
+    .profile-axis {{
+      fill: var(--grey-600);
+      font-size: 8px;
+      font-weight: 700;
+    }}
+    .profile-label {{
+      fill: var(--black);
+      font-size: 7px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }}
+    .profile-label-muted {{
+      fill: var(--grey-600);
+      font-size: 6px;
+      font-weight: 700;
     }}
     .detail-block-title {{
       margin: 12px 0 6px;
@@ -1638,37 +2048,96 @@ def make_html(geojson: dict) -> str:
       font-weight: 700;
       text-decoration: none;
     }}
+    .pass-card-actions {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }}
     .segment-link:hover {{
       background: var(--black);
       color: var(--white);
     }}
     .photo-strip {{
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
       margin-top: 6px;
     }}
-    .photo-tile {{
-      min-height: 72px;
+    .photo-card {{
       border: 1px solid var(--black);
       background: var(--grey-150);
       color: var(--black);
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      padding: 7px;
       overflow: hidden;
+      text-decoration: none;
     }}
-    .photo-tile span {{
+    .photo-card img {{
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      background: var(--grey-150);
+      border-bottom: 1px solid var(--black);
+    }}
+    .photo-card-body {{
+      padding: 7px;
+    }}
+    .photo-card span {{
       font-size: 9px;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--grey-600);
     }}
-    .photo-tile strong {{
+    .photo-card strong {{
+      display: block;
       font-size: 11px;
       line-height: 1.1;
       margin-top: 2px;
+    }}
+    .photo-card small {{
+      display: block;
+      margin-top: 5px;
+      color: var(--grey-600);
+      font-size: 9px;
+      line-height: 1.25;
+    }}
+    .tourism-list {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }}
+    .tourism-card {{
+      border: 1px solid var(--black);
+      padding: 9px;
+      background: var(--white);
+    }}
+    .tourism-card strong {{
+      display: block;
+      font-size: 13px;
+      line-height: 1.15;
+    }}
+    .tourism-card p {{
+      margin: 6px 0 8px;
+      color: var(--grey-800);
+      font-size: 12px;
+      line-height: 1.35;
+    }}
+    .tourism-card a {{
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid var(--black);
+      color: var(--black);
+      padding: 0 7px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+    }}
+    .tourism-card a:hover {{
+      background: var(--black);
+      color: var(--white);
     }}
     .detail-actions {{
       display: grid;
@@ -1738,7 +2207,7 @@ def make_html(geojson: dict) -> str:
       padding: 16px 20px 20px;
     }}
     .route-modal .profile-svg {{
-      height: 152px;
+      height: 230px;
     }}
     .note {{
       color: var(--muted);
@@ -1819,43 +2288,49 @@ def make_html(geojson: dict) -> str:
       <section class="brand-panel" aria-label="Exxeta Route Desk">
         <div class="brand-row">
           <img class="brand-logo" src="assets/exxeta_logo_negativ_RGB.png" alt="Exxeta">
-          <span class="brand-tag">Route Desk</span>
+          <div class="brand-actions">
+            <span class="brand-tag" data-i18n="routeDesk">Route Desk</span>
+            <div class="language-toggle" role="group" aria-label="Sprache wählen">
+              <button type="button" data-lang="de" aria-pressed="true">DE</button>
+              <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
         </div>
-        <h1>Rennrad-Etappen Französische Alpen</h1>
+        <h1 data-i18n="mainTitle">Rennrad-Etappen Französische Alpen</h1>
         <div class="ride-art" aria-hidden="true">{ROAD_BIKE_SVG}</div>
       </section>
       <div class="toolbar">
-        <button id="fit">Auf Route zoomen</button>
+        <button id="fit" data-i18n="fitRoute">Auf Route zoomen</button>
         <a class="button-link" href="alpen_etappen_gpx.zip" download>
           <svg aria-hidden="true" viewBox="0 0 24 24">
             <path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17v3h14v-3"></path>
           </svg>
-          Alle GPX
+          <span data-i18n="allGpx">Alle GPX</span>
         </a>
       </div>
       <section class="dashboard" aria-label="Tagesdashboard">
         <div class="dashboard-head">
-          <h2>Tagesdashboard</h2>
+          <h2 data-i18n="dashboard">Tagesdashboard</h2>
           <span class="dashboard-date" id="dashboard-date">-</span>
         </div>
         <div class="dashboard-tabs" id="dashboard-tabs"></div>
         <div class="dashboard-body" id="dashboard-body"></div>
       </section>
       <details class="packing-panel">
-        <summary>Packlisten</summary>
+        <summary data-i18n="packing">Packlisten</summary>
         <div class="packing-body" id="packing-body"></div>
       </details>
       <section class="filters" aria-label="Routenfilter">
         <div class="filters-title">
           <span class="bike-icon" aria-hidden="true">{ROAD_BIKE_SVG}</span>
-          Variantenfilter
+          <span data-i18n="variantFilter">Variantenfilter</span>
         </div>
         <div class="filter-grid">
           <button id="preset-light" type="button" data-preset="LIGHT" aria-pressed="false"><span class="preset-name">LIGHT</span><span class="preset-total"></span></button>
           <button id="preset-medium" type="button" data-preset="MEDIUM" aria-pressed="true"><span class="preset-name">MEDIUM</span><span class="preset-total"></span></button>
           <button id="preset-strong" type="button" data-preset="STRONG" aria-pressed="false"><span class="preset-name">STRONG</span><span class="preset-total"></span></button>
         </div>
-        <div class="current-total"><span>Aktuelle Auswahl</span><strong id="current-total">-</strong></div>
+        <div class="current-total"><span data-i18n="currentSelection">Aktuelle Auswahl</span><strong id="current-total">-</strong></div>
       </section>
       <div id="layers"></div>
     </aside>
@@ -1865,7 +2340,7 @@ def make_html(geojson: dict) -> str:
     <article class="route-modal" role="dialog" aria-modal="true" aria-labelledby="route-modal-title">
       <header class="modal-head">
         <div class="modal-title" id="route-modal-title">Details</div>
-        <button class="modal-close" id="route-modal-close" type="button" aria-label="Details schließen">×</button>
+        <button class="modal-close" id="route-modal-close" type="button" aria-label="Details schließen" data-i18n-aria="closeDetails">×</button>
       </header>
       <section class="modal-body" id="route-modal-body"></section>
     </article>
@@ -1877,10 +2352,169 @@ def make_html(geojson: dict) -> str:
     const supplyData = {supply_json};
     const dayInfo = {day_info_json};
     const generalPackingList = {general_packing_json};
+    const generalPackingListEn = {general_packing_en_json};
     const dayPackingList = {day_packing_json};
+    const dayPackingListEn = {day_packing_en_json};
     const dayColors = {json.dumps(DAY_COLORS)};
     const weatherCache = new Map();
     let activeDashboardDay = "ARRIVAL";
+    let activeModalRouteId = null;
+    let currentLang = localStorage.getItem("xx-alps-lang") || "de";
+
+    const i18n = {{
+      de: {{
+        routeDesk: "Route Desk",
+        mainTitle: "Rennrad-Etappen Französische Alpen",
+        fitRoute: "Auf Route zoomen",
+        allGpx: "Alle GPX",
+        dashboard: "Tagesdashboard",
+        packing: "Packlisten",
+        variantFilter: "Variantenfilter",
+        currentSelection: "Aktuelle Auswahl",
+        closeDetails: "Details schließen",
+        noProfile: "Keine Profildaten",
+        routeProfile: "Streckenprofil",
+        distance: "Distanz",
+        elevation: "Höhenmeter",
+        highlights: "Highlights",
+        passes: "Pässe & Segmente",
+        strava: "Strava Segmente suchen",
+        info: "Info öffnen",
+        tourism: "Touristische Infos",
+        photoSpots: "Fotospots",
+        photoSpot: "Fotospot",
+        imageSource: "Bildquelle",
+        gpx: "GPX",
+        details: "Details",
+        unavailable: "offen",
+        start: "Start",
+        finish: "Ziel",
+        luggage: "Gepäck",
+        support: "Support",
+        hotelCheckin: "Hotel & Check-in",
+        supplies: "Verpflegung & Wasser",
+        weather: "Wetter",
+        weatherLoading: "Wetter wird geladen...",
+        weatherOutside: "Forecast ab ca. 16 Tage vorher verfügbar",
+        weatherError: "Wetter konnte nicht geladen werden",
+        temperature: "Temperatur",
+        rain: "Regen",
+        gusts: "Böen",
+        tripPacking: "Für den Trip",
+        dayPacking: "Tagesfahrt",
+        meters: "m",
+        km: "km",
+        hm: "hm",
+        weatherCodes: {{
+          0: "klar", 1: "leicht bewölkt", 2: "bewölkt", 3: "bedeckt",
+          45: "Nebel", 48: "Nebel", 51: "Niesel", 53: "Niesel", 55: "Niesel",
+          61: "Regen", 63: "Regen", 65: "starker Regen", 71: "Schnee",
+          73: "Schnee", 75: "starker Schnee", 80: "Schauer", 81: "Schauer",
+          82: "starke Schauer", 95: "Gewitter", 96: "Gewitter", 99: "Gewitter"
+        }}
+      }},
+      en: {{
+        routeDesk: "Route Desk",
+        mainTitle: "French Alps Road Stages",
+        fitRoute: "Zoom to route",
+        allGpx: "All GPX",
+        dashboard: "Day Dashboard",
+        packing: "Packing Lists",
+        variantFilter: "Variant Filter",
+        currentSelection: "Current selection",
+        closeDetails: "Close details",
+        noProfile: "No profile data",
+        routeProfile: "Elevation profile",
+        distance: "Distance",
+        elevation: "Elevation gain",
+        highlights: "Highlights",
+        passes: "Passes & Segments",
+        strava: "Search Strava segments",
+        info: "Open info",
+        tourism: "Tourist Info",
+        photoSpots: "Photo Spots",
+        photoSpot: "Photo spot",
+        imageSource: "Image source",
+        gpx: "GPX",
+        details: "Details",
+        unavailable: "open",
+        start: "Start",
+        finish: "Finish",
+        luggage: "Luggage",
+        support: "Support",
+        hotelCheckin: "Hotel & Check-in",
+        supplies: "Food & Water",
+        weather: "Weather",
+        weatherLoading: "Loading weather...",
+        weatherOutside: "Forecast available approx. 16 days before",
+        weatherError: "Weather could not be loaded",
+        temperature: "Temperature",
+        rain: "Rain",
+        gusts: "Gusts",
+        tripPacking: "Whole trip",
+        dayPacking: "Day ride",
+        meters: "m",
+        km: "km",
+        hm: "m",
+        weatherCodes: {{
+          0: "clear", 1: "mainly clear", 2: "cloudy", 3: "overcast",
+          45: "fog", 48: "fog", 51: "drizzle", 53: "drizzle", 55: "drizzle",
+          61: "rain", 63: "rain", 65: "heavy rain", 71: "snow",
+          73: "snow", 75: "heavy snow", 80: "showers", 81: "showers",
+          82: "heavy showers", 95: "thunderstorm", 96: "thunderstorm", 99: "thunderstorm"
+        }}
+      }}
+    }};
+
+    function t(key) {{
+      return i18n[currentLang]?.[key] ?? i18n.de[key] ?? key;
+    }}
+
+    function locale() {{
+      return currentLang === "en" ? "en-GB" : "de-DE";
+    }}
+
+    function localizedField(object, field) {{
+      if (currentLang === "en" && object?.[`${{field}}_en`]) return object[`${{field}}_en`];
+      return object?.[field];
+    }}
+
+    function localizedUrl(object) {{
+      if (currentLang === "en" && object?.url_en) return object.url_en;
+      return object?.url;
+    }}
+
+    function passInfoUrl(pass) {{
+      if (currentLang === "en" && pass?.info_url_en) return pass.info_url_en;
+      return pass?.info_url;
+    }}
+
+    function dayLabel(props) {{
+      return currentLang === "en" ? (props.day_label_en || props.day_label) : props.day_label;
+    }}
+
+    function routeDescription(props) {{
+      return currentLang === "en" ? (props.description_en || props.description) : props.description;
+    }}
+
+    function routeTitle(props) {{
+      return currentLang === "en" ? (props.title_en || props.title) : props.title;
+    }}
+
+    function translateStaticUi() {{
+      document.documentElement.lang = currentLang;
+      for (const element of document.querySelectorAll("[data-i18n]")) {{
+        element.textContent = t(element.dataset.i18n);
+      }}
+      for (const element of document.querySelectorAll("[data-i18n-aria]")) {{
+        element.setAttribute("aria-label", t(element.dataset.i18nAria));
+      }}
+      for (const button of document.querySelectorAll(".language-toggle button[data-lang]")) {{
+        const active = button.dataset.lang === currentLang;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      }}
+    }}
 
     const map = L.map("map", {{ preferCanvas: true }}).setView([45.55, 6.42], 9);
     L.tileLayer("https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png", {{
@@ -1891,11 +2525,6 @@ def make_html(geojson: dict) -> str:
     const layers = new Map();
     const allBounds = L.latLngBounds([]);
     const selectedByDay = new Map();
-
-    function popupHtml(props) {{
-      return `<div class="popup-title">${{props.day_label}} · ${{props.difficulty}}<br>${{props.title}}</div>
-        <div class="popup-meta">${{props.brouter_km}} km / ${{props.brouter_hm}} hm<br>${{props.description}}</div>`;
-    }}
 
     function styleFor(props) {{
       return {{
@@ -1912,7 +2541,10 @@ def make_html(geojson: dict) -> str:
       const props = feature.properties;
       const layer = L.geoJSON(feature, {{
         style: () => styleFor(props),
-        onEachFeature: (_, routeLayer) => routeLayer.bindPopup(popupHtml(props))
+        onEachFeature: (_, routeLayer) => routeLayer.on("click", event => {{
+          L.DomEvent.stopPropagation(event);
+          showRouteDetail(props.id);
+        }})
       }});
       layer.eachLayer(line => allBounds.extend(line.getBounds()));
       layers.set(props.id, layer);
@@ -1930,6 +2562,9 @@ def make_html(geojson: dict) -> str:
         .bindTooltip(marker.name, {{ direction: "top", offset: [0, -4] }})
         .addTo(markerLayer);
     }}
+    function supplyPopupHtml(marker) {{
+      return `<div class="popup-title">${{htmlEscape(marker.name)}} · ${{t("supplies")}}</div><div class="popup-meta">${{htmlEscape(localizedField(marker, "kind"))}}<br>${{htmlEscape(localizedField(marker, "note"))}}</div>`;
+    }}
     for (const marker of supplyData) {{
       const icon = L.divIcon({{
         className: "",
@@ -1938,8 +2573,8 @@ def make_html(geojson: dict) -> str:
         iconAnchor: [6, 6]
       }});
       L.marker([marker.lat, marker.lon], {{ icon }})
-        .bindTooltip(`${{marker.name}} · ${{marker.kind}}`, {{ direction: "top", offset: [0, -4] }})
-        .bindPopup(`<div class="popup-title">${{htmlEscape(marker.name)}} · Versorgung</div><div class="popup-meta">${{htmlEscape(marker.kind)}}<br>${{htmlEscape(marker.note)}}</div>`)
+        .bindTooltip(`${{marker.name}} · ${{localizedField(marker, "kind")}}`, {{ direction: "top", offset: [0, -4] }})
+        .bindPopup(() => supplyPopupHtml(marker))
         .addTo(markerLayer);
     }}
 
@@ -1976,7 +2611,7 @@ def make_html(geojson: dict) -> str:
     }}
 
     function formatTotal(km, hm) {{
-      return `${{km.toFixed(1)}} km / ${{Math.round(hm).toLocaleString("de-DE")}} hm`;
+      return `${{km.toLocaleString(locale(), {{ maximumFractionDigits: 1, minimumFractionDigits: 1 }})}} ${{t("km")}} / ${{Math.round(hm).toLocaleString(locale())}} ${{t("hm")}}`;
     }}
 
     function totalForFeatures(features) {{
@@ -2077,7 +2712,7 @@ def make_html(geojson: dict) -> str:
       let distance = 0;
       const points = coords.map((coord, index) => {{
         if (index > 0) distance += haversineKm(coords[index - 1], coord);
-        return {{ distance, elevation: coord[2] }};
+        return {{ distance, elevation: coord[2], lon: coord[0], lat: coord[1] }};
       }});
       const elevations = points.map(point => point.elevation);
       return {{
@@ -2088,32 +2723,110 @@ def make_html(geojson: dict) -> str:
       }};
     }}
 
+    const profileTownNames = new Set([
+      "Megève",
+      "Le Grand-Bornand",
+      "La Clusaz",
+      "Hauteluce",
+      "Beaufort",
+      "Bourg-Saint-Maurice",
+      "Moûtiers",
+      "Saint-Jean-de-Maurienne",
+      "Valloire",
+      "Briançon"
+    ]);
+
+    function nearestProfilePoint(stats, waypoint) {{
+      let best = null;
+      let bestDistance = Infinity;
+      for (const point of stats.points) {{
+        const d = haversineKm([point.lon, point.lat], [waypoint.lon, waypoint.lat]);
+        if (d < bestDistance) {{
+          best = point;
+          bestDistance = d;
+        }}
+      }}
+      return best;
+    }}
+
+    function profileLandmarks(feature, stats) {{
+      const props = feature.properties;
+      const passNames = new Set((props.passes || []).map(pass => pass.name));
+      const raw = [];
+      for (const waypoint of props.waypoint_coords || []) {{
+        let kind = null;
+        if (passNames.has(waypoint.name)) kind = "col";
+        else if (waypoint.name === props.start || waypoint.name === props.finish) kind = "town";
+        else if (profileTownNames.has(waypoint.name)) kind = "town";
+        if (!kind) continue;
+        const nearest = nearestProfilePoint(stats, waypoint);
+        if (nearest) raw.push({{ ...nearest, name: waypoint.name, kind }});
+      }}
+      raw.sort((a, b) => a.distance - b.distance);
+      const filtered = [];
+      const minGap = Math.max(1.4, stats.distance * 0.025);
+      for (const item of raw) {{
+        const tooClose = filtered.some(existing => Math.abs(existing.distance - item.distance) < minGap);
+        if (!tooClose || item.kind === "col") filtered.push(item);
+      }}
+      return filtered.slice(0, 8);
+    }}
+
     function profileSvg(feature) {{
       const stats = elevationStats(feature);
-      if (!stats) return `<div class="profile-wrap">Keine Profildaten</div>`;
-      const width = 360;
-      const height = 118;
-      const padX = 10;
-      const padY = 12;
+      if (!stats) return `<div class="profile-wrap">${{t("noProfile")}}</div>`;
+      const width = 720;
+      const height = 260;
+      const plotLeft = 42;
+      const plotRight = 8;
+      const plotTop = 26;
+      const plotBottom = 34;
       const range = Math.max(1, stats.max - stats.min);
-      const step = Math.max(1, Math.floor(stats.points.length / 110));
+      const step = Math.max(1, Math.floor(stats.points.length / 180));
       const sampled = stats.points.filter((_, index) => index % step === 0);
       if (sampled[sampled.length - 1] !== stats.points[stats.points.length - 1]) {{
         sampled.push(stats.points[stats.points.length - 1]);
       }}
+      const scaleX = distance => plotLeft + (distance / Math.max(1, stats.distance)) * (width - plotLeft - plotRight);
+      const scaleY = elevation => height - plotBottom - ((elevation - stats.min) / range) * (height - plotTop - plotBottom);
       const xy = point => {{
-        const x = padX + (point.distance / Math.max(1, stats.distance)) * (width - padX * 2);
-        const y = height - padY - ((point.elevation - stats.min) / range) * (height - padY * 2);
+        const x = scaleX(point.distance);
+        const y = scaleY(point.elevation);
         return `${{x.toFixed(1)}},${{y.toFixed(1)}}`;
       }};
       const line = sampled.map(xy).join(" ");
-      const area = `${{padX}},${{height - padY}} ${{line}} ${{width - padX}},${{height - padY}}`;
+      const baseY = height - plotBottom;
+      const area = `${{plotLeft}},${{baseY}} ${{line}} ${{width - plotRight}},${{baseY}}`;
+      const ticks = [stats.min, Math.round((stats.min + stats.max) / 2), stats.max];
+      const grid = ticks.map(value => {{
+        const y = scaleY(value);
+        return `<line x1="${{plotLeft}}" y1="${{y.toFixed(1)}}" x2="${{width - plotRight}}" y2="${{y.toFixed(1)}}" stroke="#d6d6d6" stroke-width="1"></line>
+          <text class="profile-axis" x="${{plotLeft - 6}}" y="${{(y + 3).toFixed(1)}}" text-anchor="end">${{Math.round(value)}} ${{t("meters")}}</text>`;
+      }}).join("");
+      const landmarks = profileLandmarks(feature, stats).map((landmark, index) => {{
+        const x = scaleX(landmark.distance);
+        const y = scaleY(landmark.elevation);
+        const isCol = landmark.kind === "col";
+        const label = isCol ? `${{landmark.name}} · ${{Math.round(landmark.elevation)}} ${{t("meters")}}` : landmark.name;
+        const labelY = isCol ? 11 + (index % 2) * 12 : height - 10 - (index % 2) * 10;
+        const anchor = x > width - 120 ? "end" : x < plotLeft + 60 ? "start" : "middle";
+        const textX = anchor === "end" ? x - 3 : anchor === "start" ? x + 3 : x;
+        return `<g>
+          <line x1="${{x.toFixed(1)}}" y1="${{plotTop}}" x2="${{x.toFixed(1)}}" y2="${{baseY}}" stroke="${{isCol ? "#000000" : "#999999"}}" stroke-width="${{isCol ? 1.2 : 0.8}}" stroke-dasharray="${{isCol ? "0" : "3 3"}}"></line>
+          <circle cx="${{x.toFixed(1)}}" cy="${{y.toFixed(1)}}" r="${{isCol ? 4 : 2.8}}" fill="#ffffff" stroke="#000000" stroke-width="${{isCol ? 2 : 1.2}}"></circle>
+          <text class="${{isCol ? "profile-label" : "profile-label-muted"}}" x="${{textX.toFixed(1)}}" y="${{labelY}}" text-anchor="${{anchor}}">${{htmlEscape(label)}}</text>
+        </g>`;
+      }}).join("");
       return `<div class="profile-wrap">
-        <div class="profile-title"><span>Streckenprofil</span><span>${{stats.min}}-${{stats.max}} m</span></div>
-        <svg class="profile-svg" viewBox="0 0 ${{width}} ${{height}}" role="img" aria-label="Höhenprofil">
+        <div class="profile-title"><span>${{t("routeProfile")}}</span><span>${{stats.min}}-${{stats.max}} ${{t("meters")}}</span></div>
+        <svg class="profile-svg" viewBox="0 0 ${{width}} ${{height}}" role="img" aria-label="${{t("routeProfile")}}">
+          ${{grid}}
           <polygon points="${{area}}" fill="#eeeeee"></polygon>
-          <polyline points="${{line}}" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></polyline>
-          <line x1="${{padX}}" y1="${{height - padY}}" x2="${{width - padX}}" y2="${{height - padY}}" stroke="#000000" stroke-width="1"></line>
+          <polyline points="${{line}}" fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></polyline>
+          <line x1="${{plotLeft}}" y1="${{baseY}}" x2="${{width - plotRight}}" y2="${{baseY}}" stroke="#000000" stroke-width="1.2"></line>
+          <text class="profile-axis" x="${{plotLeft}}" y="${{height - 8}}" text-anchor="start">0 ${{t("km")}}</text>
+          <text class="profile-axis" x="${{width - plotRight}}" y="${{height - 8}}" text-anchor="end">${{stats.distance.toFixed(0)}} ${{t("km")}}</text>
+          ${{landmarks}}
         </svg>
       </div>`;
     }}
@@ -2121,12 +2834,12 @@ def make_html(geojson: dict) -> str:
     function miniProfileSvg(feature) {{
       const stats = elevationStats(feature);
       if (!stats) return "";
-      const width = 260;
-      const height = 38;
-      const padX = 5;
-      const padY = 5;
+      const width = 300;
+      const height = 44;
+      const padX = 1;
+      const padY = 3;
       const range = Math.max(1, stats.max - stats.min);
-      const step = Math.max(1, Math.floor(stats.points.length / 64));
+      const step = Math.max(1, Math.floor(stats.points.length / 82));
       const sampled = stats.points.filter((_, index) => index % step === 0);
       if (sampled[sampled.length - 1] !== stats.points[stats.points.length - 1]) {{
         sampled.push(stats.points[stats.points.length - 1]);
@@ -2147,7 +2860,12 @@ def make_html(geojson: dict) -> str:
     }}
 
     function metricValue(value, suffix) {{
-      return value === null || value === undefined ? "offen" : `${{value}} ${{suffix}}`;
+      if (value === null || value === undefined) return t("unavailable");
+      const number = Number(value);
+      const formatted = Number.isInteger(number)
+        ? number.toLocaleString(locale())
+        : number.toLocaleString(locale(), {{ maximumFractionDigits: 1 }});
+      return `${{formatted}} ${{suffix}}`;
     }}
 
     function stravaSegmentUrl(query) {{
@@ -2156,19 +2874,52 @@ def make_html(geojson: dict) -> str:
 
     function passCardsHtml(passes) {{
       if (!passes || !passes.length) return "";
-      return `<div class="detail-block-title">Pässe & Segmente</div>
+      return `<div class="detail-block-title">${{t("passes")}}</div>
         <div class="pass-list">
           ${{passes.map(pass => `<article class="pass-card">
             <strong>${{htmlEscape(pass.name)}}</strong>
-            <span>${{htmlEscape(pass.status)}}</span>
-            <p>${{htmlEscape(pass.palmares)}}</p>
-            <a class="segment-link" href="${{htmlEscape(stravaSegmentUrl(pass.segment_query))}}" target="_blank" rel="noopener">Strava Segmente suchen</a>
+            <span>${{htmlEscape(localizedField(pass, "status"))}}</span>
+            <p>${{htmlEscape(localizedField(pass, "palmares"))}}</p>
+            <div class="pass-card-actions">
+              <a class="segment-link" href="${{htmlEscape(stravaSegmentUrl(pass.segment_query))}}" target="_blank" rel="noopener">${{t("strava")}}</a>
+              ${{passInfoUrl(pass) ? `<a class="segment-link" href="${{htmlEscape(passInfoUrl(pass))}}" target="_blank" rel="noopener">${{t("info")}}</a>` : ""}}
+            </div>
+          </article>`).join("")}}
+        </div>`;
+    }}
+
+    function photoCardsHtml(items) {{
+      if (!items || !items.length) return "";
+      return `<div class="detail-block-title">${{t("photoSpots")}}</div>
+        <div class="photo-strip">
+          ${{items.map(item => {{
+            const image = item.image || {{}};
+            return `<a class="photo-card" href="${{htmlEscape(image.source_url || localizedUrl(item) || "#")}}" target="_blank" rel="noopener">
+              <img src="${{htmlEscape(image.url || "")}}" alt="${{htmlEscape(item.name)}}" loading="lazy">
+              <div class="photo-card-body">
+                <span>${{t("photoSpot")}}</span>
+                <strong>${{htmlEscape(item.name)}}</strong>
+                <small>${{t("imageSource")}}: ${{htmlEscape(image.credit || "Wikimedia Commons")}} · ${{htmlEscape(image.license || "")}}</small>
+              </div>
+            </a>`;
+          }}).join("")}}
+        </div>`;
+    }}
+
+    function tourismCardsHtml(items) {{
+      if (!items || !items.length) return "";
+      return `<div class="detail-block-title">${{t("tourism")}}</div>
+        <div class="tourism-list">
+          ${{items.map(item => `<article class="tourism-card">
+            <strong>${{htmlEscape(item.name)}}</strong>
+            <p>${{htmlEscape(localizedField(item, "summary"))}}</p>
+            ${{localizedUrl(item) ? `<a href="${{htmlEscape(localizedUrl(item))}}" target="_blank" rel="noopener">${{t("info")}}</a>` : ""}}
           </article>`).join("")}}
         </div>`;
     }}
 
     function formatTripDate(value) {{
-      return new Date(`${{value}}T12:00:00`).toLocaleDateString("de-DE", {{
+      return new Date(`${{value}}T12:00:00`).toLocaleDateString(locale(), {{
         weekday: "short",
         day: "2-digit",
         month: "2-digit"
@@ -2176,30 +2927,7 @@ def make_html(geojson: dict) -> str:
     }}
 
     function weatherCodeText(code) {{
-      const labels = {{
-        0: "klar",
-        1: "leicht bewölkt",
-        2: "bewölkt",
-        3: "bedeckt",
-        45: "Nebel",
-        48: "Nebel",
-        51: "Niesel",
-        53: "Niesel",
-        55: "Niesel",
-        61: "Regen",
-        63: "Regen",
-        65: "starker Regen",
-        71: "Schnee",
-        73: "Schnee",
-        75: "starker Schnee",
-        80: "Schauer",
-        81: "Schauer",
-        82: "starke Schauer",
-        95: "Gewitter",
-        96: "Gewitter",
-        99: "Gewitter"
-      }};
-      return labels[code] || "Wetter";
+      return i18n[currentLang]?.weatherCodes?.[code] || t("weather");
     }}
 
     function weatherUrl(info) {{
@@ -2243,34 +2971,34 @@ def make_html(geojson: dict) -> str:
 
     function weatherHtml(result, info) {{
       if (!result) {{
-        return `<span>Wetter</span><strong>Wetter wird geladen...</strong>`;
+        return `<span>${{t("weather")}}</span><strong>${{t("weatherLoading")}}</strong>`;
       }}
       if (result.status === "outside") {{
-        return `<span>Wetter · ${{htmlEscape(info.weather_point)}}</span><strong>Forecast ab ca. 16 Tage vorher verfügbar</strong>`;
+        return `<span>${{t("weather")}} · ${{htmlEscape(info.weather_point)}}</span><strong>${{t("weatherOutside")}}</strong>`;
       }}
       if (result.status === "error") {{
-        return `<span>Wetter · ${{htmlEscape(info.weather_point)}}</span><strong>Wetter konnte nicht geladen werden</strong>`;
+        return `<span>${{t("weather")}} · ${{htmlEscape(info.weather_point)}}</span><strong>${{t("weatherError")}}</strong>`;
       }}
-      return `<span>Wetter · ${{htmlEscape(info.weather_point)}} · Open-Meteo</span>
+      return `<span>${{t("weather")}} · ${{htmlEscape(info.weather_point)}} · Open-Meteo</span>
         <strong>${{htmlEscape(weatherCodeText(result.code))}}</strong>
         <div class="weather-values">
-          <div><span>Temperatur</span><strong>${{Math.round(result.tempMin)}}-${{Math.round(result.tempMax)}} °C</strong></div>
-          <div><span>Regen</span><strong>${{Math.round(result.rainProbability || 0)}}% · ${{Number(result.rain || 0).toFixed(1)}} mm</strong></div>
-          <div><span>Böen</span><strong>${{Math.round(result.gusts || 0)}} km/h</strong></div>
+          <div><span>${{t("temperature")}}</span><strong>${{Math.round(result.tempMin)}}-${{Math.round(result.tempMax)}} °C</strong></div>
+          <div><span>${{t("rain")}}</span><strong>${{Math.round(result.rainProbability || 0)}}% · ${{Number(result.rain || 0).toFixed(1)}} mm</strong></div>
+          <div><span>${{t("gusts")}}</span><strong>${{Math.round(result.gusts || 0)}} km/h</strong></div>
         </div>`;
     }}
 
-    function packingKey(scope, item) {{
-      return `xx-alps-pack-${{scope}}-${{item}}`;
+    function packingKey(scope, index) {{
+      return `xx-alps-pack-${{scope}}-${{index}}`;
     }}
 
     function checklistHtml(title, items, scope) {{
       return `<section>
         <div class="detail-block-title">${{htmlEscape(title)}}</div>
         <div class="pack-list">
-          ${{items.map(item => {{
-            const checked = localStorage.getItem(packingKey(scope, item)) === "1" ? " checked" : "";
-            return `<label class="pack-item"><input type="checkbox" data-pack-scope="${{htmlEscape(scope)}}" data-pack-item="${{htmlEscape(item)}}"${{checked}}><span>${{htmlEscape(item)}}</span></label>`;
+          ${{items.map((item, index) => {{
+            const checked = localStorage.getItem(packingKey(scope, index)) === "1" ? " checked" : "";
+            return `<label class="pack-item"><input type="checkbox" data-pack-scope="${{htmlEscape(scope)}}" data-pack-index="${{index}}"${{checked}}><span>${{htmlEscape(item)}}</span></label>`;
           }}).join("")}}
         </div>
       </section>`;
@@ -2279,25 +3007,27 @@ def make_html(geojson: dict) -> str:
     function renderPackingPanel() {{
       const panel = document.getElementById("packing-body");
       if (!panel) return;
+      const tripItems = currentLang === "en" ? generalPackingListEn : generalPackingList;
+      const rideItems = currentLang === "en" ? dayPackingListEn : dayPackingList;
       panel.innerHTML = [
-        checklistHtml("Für den Trip", generalPackingList, "trip"),
-        checklistHtml("Tagesfahrt", dayPackingList, "day")
+        checklistHtml(t("tripPacking"), tripItems, "trip"),
+        checklistHtml(t("dayPacking"), rideItems, "day")
       ].join("");
       attachPackingHandlers(panel);
     }}
 
     function suppliesHtml(info) {{
       if (!info.supplies?.length) return "";
-      return `<div class="detail-block-title">Verpflegung & Wasser</div>
+      return `<div class="detail-block-title">${{t("supplies")}}</div>
         <ul class="dashboard-list">
-          ${{info.supplies.map(item => `<li><strong>${{htmlEscape(item.name)}}</strong> · ${{htmlEscape(item.kind)}}<br>${{htmlEscape(item.note)}}</li>`).join("")}}
+          ${{info.supplies.map(item => `<li><strong>${{htmlEscape(item.name)}}</strong> · ${{htmlEscape(localizedField(item, "kind"))}}<br>${{htmlEscape(localizedField(item, "note"))}}</li>`).join("")}}
         </ul>`;
     }}
 
     function attachPackingHandlers(container) {{
-      for (const checkbox of container.querySelectorAll("input[data-pack-item]")) {{
+      for (const checkbox of container.querySelectorAll("input[data-pack-index]")) {{
         checkbox.addEventListener("change", () => {{
-          localStorage.setItem(packingKey(checkbox.dataset.packScope, checkbox.dataset.packItem), checkbox.checked ? "1" : "0");
+          localStorage.setItem(packingKey(checkbox.dataset.packScope, checkbox.dataset.packIndex), checkbox.checked ? "1" : "0");
         }});
       }}
     }}
@@ -2305,12 +3035,12 @@ def make_html(geojson: dict) -> str:
     function renderDashboardTabs() {{
       const tabs = document.getElementById("dashboard-tabs");
       tabs.innerHTML = Object.entries(dayInfo).map(([day, info]) => (
-        `<button type="button" data-dashboard-day="${{day}}">${{htmlEscape(info.tab)}}</button>`
+        `<button type="button" data-dashboard-day="${{day}}">${{htmlEscape(localizedField(info, "tab"))}}</button>`
       )).join("");
-      tabs.addEventListener("click", event => {{
+      tabs.onclick = event => {{
         const button = event.target.closest("button[data-dashboard-day]");
         if (button) renderDashboard(button.dataset.dashboardDay);
-      }});
+      }};
     }}
 
     async function renderDashboard(day) {{
@@ -2323,18 +3053,18 @@ def make_html(geojson: dict) -> str:
         button.classList.toggle("active", button.dataset.dashboardDay === day);
       }}
       date.textContent = formatTripDate(info.date);
-      body.innerHTML = `<p class="dashboard-briefing">${{htmlEscape(info.briefing)}}</p>
+      body.innerHTML = `<p class="dashboard-briefing">${{htmlEscape(localizedField(info, "briefing"))}}</p>
         <div class="info-grid">
-          <div class="info-cell"><span>Start</span><strong>${{htmlEscape(info.start_hotel)}}</strong></div>
-          <div class="info-cell"><span>Ziel</span><strong>${{htmlEscape(info.finish_hotel)}}</strong></div>
-          <div class="info-cell"><span>Gepäck</span><strong>${{htmlEscape(info.luggage)}}</strong></div>
-          <div class="info-cell"><span>Support</span><strong>${{htmlEscape(info.support)}}</strong></div>
+          <div class="info-cell"><span>${{t("start")}}</span><strong>${{htmlEscape(localizedField(info, "start_hotel"))}}</strong></div>
+          <div class="info-cell"><span>${{t("finish")}}</span><strong>${{htmlEscape(localizedField(info, "finish_hotel"))}}</strong></div>
+          <div class="info-cell"><span>${{t("luggage")}}</span><strong>${{htmlEscape(localizedField(info, "luggage"))}}</strong></div>
+          <div class="info-cell"><span>${{t("support")}}</span><strong>${{htmlEscape(localizedField(info, "support"))}}</strong></div>
         </div>
         <div class="weather-card" id="weather-card">${{weatherHtml(null, info)}}</div>
         ${{suppliesHtml(info)}}
-        <div class="detail-block-title">Hotel & Check-in</div>
+        <div class="detail-block-title">${{t("hotelCheckin")}}</div>
         <ul class="dashboard-list">
-          <li>${{htmlEscape(info.checkin)}}</li>
+          <li>${{htmlEscape(localizedField(info, "checkin"))}}</li>
         </ul>`;
       const weatherCard = document.getElementById("weather-card");
       const result = await weatherForDay(day);
@@ -2347,39 +3077,38 @@ def make_html(geojson: dict) -> str:
       const feature = featureById(id);
       if (!feature) return;
       const props = feature.properties;
+      activeModalRouteId = id;
       const modal = document.getElementById("route-modal");
       const panel = document.getElementById("route-modal-body");
       const modalTitle = document.getElementById("route-modal-title");
       const metrics = [
-        ["Distanz", metricValue(props.brouter_km, "km")],
-        ["Höhenmeter", metricValue(props.brouter_hm, "hm")]
+        [t("distance"), metricValue(props.brouter_km, t("km"))],
+        [t("elevation"), metricValue(props.brouter_hm, t("hm"))]
       ];
       modal.hidden = false;
-      if (modalTitle) modalTitle.textContent = `${{props.day_label}} · ${{props.difficulty}}`;
+      if (modalTitle) modalTitle.textContent = `${{dayLabel(props)}} · ${{props.difficulty}}`;
       panel.innerHTML = `<div class="detail-head">
           <div class="detail-kicker">
-            <span>${{htmlEscape(props.day_label)}}</span>
+            <span>${{htmlEscape(dayLabel(props))}}</span>
             <span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>
           </div>
-          <h2>${{htmlEscape(props.title)}}</h2>
+          <h2>${{htmlEscape(routeTitle(props))}}</h2>
         </div>
         <div class="detail-body">
-          <p class="detail-description">${{htmlEscape(props.description)}}</p>
+          <p class="detail-description">${{htmlEscape(routeDescription(props))}}</p>
           <div class="metrics">
             ${{metrics.map(([label, value]) => `<div class="metric"><span>${{htmlEscape(label)}}</span><strong>${{htmlEscape(value)}}</strong></div>`).join("")}}
           </div>
           ${{profileSvg(feature)}}
-          <div class="detail-block-title">Highlights</div>
+          <div class="detail-block-title">${{t("highlights")}}</div>
           <ul class="highlight-list">
             ${{props.highlights.map(item => `<li>${{htmlEscape(item)}}</li>`).join("")}}
           </ul>
           ${{passCardsHtml(props.passes)}}
-          <div class="detail-block-title">Fotospots</div>
-          <div class="photo-strip">
-            ${{props.photo_spots.map(item => `<div class="photo-tile"><span>Fotospot</span><strong>${{htmlEscape(item)}}</strong></div>`).join("")}}
-          </div>
+          ${{tourismCardsHtml(props.tourism_items)}}
+          ${{photoCardsHtml(props.photo_items)}}
           <div class="detail-actions">
-            <a class="button-link" href="${{htmlEscape(props.gpx_file || '#')}}" download>GPX</a>
+            <a class="button-link" href="${{htmlEscape(props.gpx_file || '#')}}" download>${{t("gpx")}}</a>
           </div>
         </div>`;
       const closeButton = document.getElementById("route-modal-close");
@@ -2390,6 +3119,7 @@ def make_html(geojson: dict) -> str:
       const modal = document.getElementById("route-modal");
       if (!modal) return;
       modal.hidden = true;
+      activeModalRouteId = null;
     }}
 
     function renderControls() {{
@@ -2405,21 +3135,21 @@ def make_html(geojson: dict) -> str:
         features.sort((a, b) => a.properties.difficulty_order - b.properties.difficulty_order);
         const section = document.createElement("section");
         section.className = "day";
-        const dayLabel = features[0]?.properties.day_label || day;
-        section.innerHTML = `<button class="day-title" type="button" data-day="${{htmlEscape(day)}}"><span class="swatch" style="background:${{dayColors[day]}}"></span>${{dayLabel}}</button>`;
+        const sectionDayLabel = features[0] ? dayLabel(features[0].properties) : day;
+        section.innerHTML = `<button class="day-title" type="button" data-day="${{htmlEscape(day)}}"><span class="swatch" style="background:${{dayColors[day]}}"></span>${{htmlEscape(sectionDayLabel)}}</button>`;
         for (const feature of features) {{
           const props = feature.properties;
-          const meta = `${{props.brouter_km}} km / ${{props.brouter_hm}} hm`;
+          const meta = `${{props.brouter_km}} ${{t("km")}} / ${{props.brouter_hm}} ${{t("hm")}}`;
           const label = document.createElement("label");
           label.className = "route";
           label.innerHTML = `<input type="radio" name="route-${{htmlEscape(props.day)}}" data-route-id="${{props.id}}">
             <span>
-              <strong><span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>${{htmlEscape(props.title)}}</strong>
+              <strong><span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>${{htmlEscape(routeTitle(props))}}</strong>
               <span class="meta">${{htmlEscape(meta)}}</span>
               ${{miniProfileSvg(feature)}}
               <span class="route-actions" onclick="event.stopPropagation()">
-                <a href="${{htmlEscape(props.gpx_file || '#')}}" download>GPX</a>
-                <button type="button" class="route-detail-button" data-route-id="${{htmlEscape(props.id)}}">Details</button>
+                <a href="${{htmlEscape(props.gpx_file || '#')}}" download>${{t("gpx")}}</a>
+                <button type="button" class="route-detail-button" data-route-id="${{htmlEscape(props.id)}}">${{t("details")}}</button>
               </span>
             </span>`;
           const detailButton = label.querySelector(".route-detail-button");
@@ -2434,16 +3164,16 @@ def make_html(geojson: dict) -> str:
         }}
         container.appendChild(section);
       }}
-      container.addEventListener("change", event => {{
+      container.onchange = event => {{
         const target = event.target;
         if (target.matches("input[data-route-id]")) {{
           selectRoute(target.dataset.routeId);
         }}
-      }});
-      container.addEventListener("click", event => {{
+      }};
+      container.onclick = event => {{
         const target = event.target.closest("button[data-day]");
         if (target) renderDashboard(target.dataset.day);
-      }});
+      }};
     }}
 
     function htmlEscape(value) {{
@@ -2456,8 +3186,32 @@ def make_html(geojson: dict) -> str:
       }}[char]));
     }}
 
+    function refreshLocalizedView() {{
+      translateStaticUi();
+      renderDashboardTabs();
+      renderDashboard(activeDashboardDay);
+      renderPackingPanel();
+      renderControls();
+      for (const id of selectedByDay.values()) {{
+        setRouteVisibility(id, true);
+      }}
+      updatePresetTotals();
+      updateCurrentTotal();
+      updateActivePresetFromSelection();
+      if (activeModalRouteId) showRouteDetail(activeModalRouteId);
+    }}
+
+    function setLanguage(lang) {{
+      currentLang = lang === "en" ? "en" : "de";
+      localStorage.setItem("xx-alps-lang", currentLang);
+      refreshLocalizedView();
+    }}
+
     for (const button of document.querySelectorAll(".filter-grid button[data-preset]")) {{
       button.addEventListener("click", () => selectPreset(button.dataset.preset));
+    }}
+    for (const button of document.querySelectorAll(".language-toggle button[data-lang]")) {{
+      button.addEventListener("click", () => setLanguage(button.dataset.lang));
     }}
     document.getElementById("fit").addEventListener("click", fitRoutes);
     document.getElementById("route-modal-close").addEventListener("click", closeRouteDetail);
@@ -2468,6 +3222,7 @@ def make_html(geojson: dict) -> str:
       if (event.key === "Escape") closeRouteDetail();
     }});
 
+    translateStaticUi();
     renderDashboardTabs();
     renderDashboard("ARRIVAL");
     renderPackingPanel();
