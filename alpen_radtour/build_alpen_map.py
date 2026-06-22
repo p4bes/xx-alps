@@ -276,20 +276,29 @@ TRAVEL_DAYS = {
         "start": "Anreise",
         "finish": "Cordon",
         "start_hotel": "Individuelle Anreise nach Cordon",
-        "finish_hotel": "Start-Hotel Cordon (Name folgt)",
-        "luggage": "Gepäcklabel vorbereiten; Bike und Tagesrucksack für Etappe 1 sortieren.",
-        "checkin": "Check-in, Bike-Aufbau, Akkus laden, GPX auf Geräte übertragen.",
-        "support": "Reiseanbieter kennenlernen, Gepäckprozess und Startzeit für Etappe 1 bestätigen.",
+        "finish_hotel": "Hotel Le Chamois d'Or****, Cordon",
+        "luggage": "Vélorizons-Gepäckanhänger vorbereiten; Hauptgepäck max. 20 kg und Tagesrucksack für Begleitfahrzeug sortieren.",
+        "checkin": "Anreise/Check-in im Hotel Le Chamois d'Or ab 16:00 Uhr; Bike-Aufbau, Akkus laden, GPX prüfen.",
+        "support": "Tourbegleiter und Guide treffen die Gruppe am 28.06. um 08:30 Uhr vor dem Hotel Le Chamois d'Or.",
         "weather_point": "Cordon",
-        "briefing": "Ankommen, Räder checken und die Gruppe einmal sauber briefen. Kein Etappendruck, aber Logistik für den ersten Radtag festziehen.",
+        "briefing": "Zusatznacht in Cordon. Kein Etappendruck, aber Gepäcklabel, Tagesrucksack, Radcheck und Treffpunkt für den ersten Radtag festziehen.",
+        "accommodation": {
+            "name": "Hotel Le Chamois d'Or****",
+            "address": "4080 Route de Cordon, 74700 Cordon",
+            "phone": "+33 4 50 58 05 16",
+            "service": "Übernachtung mit Frühstück",
+            "note": "Anreise am Samstag, 27.06.2026 ab 16:00 Uhr.",
+            "service_en": "Overnight stay with breakfast",
+            "note_en": "Arrival on Saturday, 27 June 2026 from 16:00.",
+        },
         "label_en": "Arrival",
         "tab_en": "Arrival",
         "start_hotel_en": "Individual arrival in Cordon",
-        "finish_hotel_en": "Start hotel Cordon (name to follow)",
-        "luggage_en": "Prepare luggage labels; sort bike and day pack for stage 1.",
-        "checkin_en": "Check in, build bikes, charge batteries and load GPX files onto devices.",
-        "support_en": "Meet the travel operator; confirm luggage process and stage 1 start time.",
-        "briefing_en": "Arrive, check bikes and brief the group cleanly. No stage pressure yet, but lock in logistics for the first riding day.",
+        "finish_hotel_en": "Hotel Le Chamois d'Or****, Cordon",
+        "luggage_en": "Prepare Vélorizons luggage tag; sort main luggage max. 20 kg and day pack for the support vehicle.",
+        "checkin_en": "Arrival/check-in at Hotel Le Chamois d'Or from 16:00; build bikes, charge batteries and check GPX files.",
+        "support_en": "Tour leader and guide meet the group on 28 June at 08:30 in front of Hotel Le Chamois d'Or.",
+        "briefing_en": "Extra night in Cordon. No stage pressure yet, but lock in luggage tag, day pack, bike check and stage 1 meeting point.",
     },
     "DEPARTURE": {
         "label": "Abreise",
@@ -297,21 +306,28 @@ TRAVEL_DAYS = {
         "date": "2026-07-03",
         "start": "Briançon",
         "finish": "Abreise",
-        "start_hotel": "Finales Hotel Briançon (Name folgt)",
+        "start_hotel": "Hotel Vauban, Briançon",
         "finish_hotel": "Individuelle Abreise",
-        "luggage": "Gepäck vollständig, Wertsachen und Ladegeräte prüfen.",
-        "checkin": "Bikes verpacken/verladen, Zimmercheck, Rückreisezeiten und Transfers prüfen.",
-        "support": "Reiseanbieter: finale Gepäck-/Transferabstimmung und Fundsachencheck.",
+        "luggage": "Gepäck vollständig, Räder und Wertsachen für Rücktransfer nach Cordon bereitstellen.",
+        "checkin": "Treffpunkt am 03.07. um 08:30 Uhr vor dem Hotel Vauban; Rücktransfer nach Cordon mit Rädern und Gepäck.",
+        "support": "Autocars Résalp übernimmt den Rücktransfer; Ankunft in Cordon laut Einladung gegen Mittag.",
         "weather_point": "Briançon",
-        "briefing": "Abreisetag ohne Radetappe. Fokus auf Bikes, Gepäck, Rückreise und einen sauberen Abschluss der Woche.",
+        "briefing": "Abreisetag ohne Radetappe. Fokus auf pünktlichen Transfer, vollständiges Gepäck und sauberen Abschluss der Woche.",
+        "transfer": {
+            "name": "Autocars Résalp",
+            "phone": "+33 4 92 20 47 50",
+            "emergency": "+33 6 02 13 68 00",
+            "note": "Rücktransfer Briançon - Cordon am 03.07. um 08:30 Uhr vor dem Hotel Vauban mit Rädern und Gepäck.",
+            "note_en": "Return transfer Briançon - Cordon on 3 July at 08:30 in front of Hotel Vauban with bikes and luggage.",
+        },
         "label_en": "Departure",
         "tab_en": "Departure",
-        "start_hotel_en": "Final hotel Briançon (name to follow)",
+        "start_hotel_en": "Hotel Vauban, Briançon",
         "finish_hotel_en": "Individual departure",
-        "luggage_en": "Check all luggage, valuables and chargers.",
-        "checkin_en": "Pack/load bikes, check rooms, confirm return travel and transfers.",
-        "support_en": "Travel operator: final luggage/transfer alignment and lost-property check.",
-        "briefing_en": "Departure day without a ride stage. Focus on bikes, luggage, return travel and a clean finish to the week.",
+        "luggage_en": "Check all luggage, bikes and valuables for the return transfer to Cordon.",
+        "checkin_en": "Meeting point on 3 July at 08:30 in front of Hotel Vauban; return transfer to Cordon with bikes and luggage.",
+        "support_en": "Autocars Résalp handles the return transfer; invitation states arrival in Cordon around noon.",
+        "briefing_en": "Departure day without a ride stage. Focus on punctual transfer, complete luggage and a clean finish to the week.",
     },
 }
 
@@ -319,84 +335,224 @@ TRAVEL_DAYS = {
 TRIP_DAYS = {
     "J1": {
         "date": "2026-06-28",
-        "start_hotel": "Start-Hotel Cordon (Name folgt)",
-        "finish_hotel": "Ziel-Hotel Flumet (Name folgt)",
-        "luggage": "Gepäck bis 08:30 Uhr an den Reiseanbieter übergeben.",
-        "checkin": "Check-in/Schlüsselübergabe am Ziel über den Reiseanbieter klären.",
-        "support": "Support: Reiseanbieter vor Ort, Gepäcktransport und Tagesbriefing am Start.",
+        "start_hotel": "Hotel Le Chamois d'Or****, Cordon",
+        "finish_hotel": "Hôtel Le Mont-Blanc, Flumet",
+        "luggage": "08:30 Uhr vor Hotel Le Chamois d'Or: Gepäckübergabe an Tourbegleiter; Tagesrucksack ins Begleitfahrzeug.",
+        "checkin": "Übernachtung und Abendessen im Hôtel Le Mont-Blanc, Flumet.",
+        "support": "08:30 Uhr Treffen mit Tourbegleiter Emmanuel Cron und Guide Luc Millithaler vor dem Hotel Le Chamois d'Or.",
         "weather_point": "Col des Aravis",
-        "briefing": "Auftakt im Aravis-Massiv. Früh genug losfahren, damit die Gruppe entspannt in Flumet ankommt.",
-        "start_hotel_en": "Start hotel Cordon (name to follow)",
-        "finish_hotel_en": "Finish hotel Flumet (name to follow)",
-        "luggage_en": "Hand luggage to the travel operator by 08:30.",
-        "checkin_en": "Clarify check-in/key handover at the finish with the travel operator.",
-        "support_en": "Support: travel operator on site, luggage transfer and start briefing.",
-        "briefing_en": "Opening stage in the Aravis range. Start early enough so the group reaches Flumet relaxed.",
+        "briefing": "Auftakt im Aravis-Massiv. Startbriefing und Gepäckübergabe sind Teil des 08:30-Treffens.",
+        "accommodation": {
+            "name": "Hôtel Le Mont-Blanc",
+            "address": "97 Rue du Mont Blanc, 73590 Flumet",
+            "phone": "+33 9 70 70 40 90",
+            "service": "Übernachtung mit Frühstück",
+            "note": "Auch Abendessen im selben Hotel.",
+            "service_en": "Overnight stay with breakfast",
+            "note_en": "Dinner is also booked at the same hotel.",
+        },
+        "dinner": {
+            "name": "Hôtel Le Mont-Blanc",
+            "address": "97 Rue du Mont Blanc, 73590 Flumet",
+            "phone": "+33 9 70 70 40 90",
+            "note": "Abendessen im Hotel.",
+            "note_en": "Dinner at the hotel.",
+        },
+        "start_hotel_en": "Hotel Le Chamois d'Or****, Cordon",
+        "finish_hotel_en": "Hôtel Le Mont-Blanc, Flumet",
+        "luggage_en": "08:30 in front of Hotel Le Chamois d'Or: hand luggage to the tour leader; day pack into the support vehicle.",
+        "checkin_en": "Overnight stay and dinner at Hôtel Le Mont-Blanc, Flumet.",
+        "support_en": "08:30 meeting with tour leader Emmanuel Cron and guide Luc Millithaler in front of Hotel Le Chamois d'Or.",
+        "briefing_en": "Opening stage in the Aravis range. Start briefing and luggage handover are part of the 08:30 meeting.",
     },
     "J2": {
         "date": "2026-06-29",
-        "start_hotel": "Start-Hotel Flumet (Name folgt)",
-        "finish_hotel": "Ziel-Hotel Beaufort (Name folgt)",
-        "luggage": "Gepäck bis 08:30 Uhr bereitstellen; Tagesrucksack nur mit Regen-/Wärmeschicht.",
-        "checkin": "Ankunft Beaufort: Zimmer und Gepäck über Reiseanbieter synchronisieren.",
-        "support": "Support: kurze Beaufortain-Etappe, gute Möglichkeit für gemeinsames Zielbier/Café.",
+        "start_hotel": "Hôtel Le Mont-Blanc, Flumet",
+        "finish_hotel": "Hotel La Roche****, Beaufort",
+        "luggage": "Gepäck morgens für den Transport bereitstellen; Hauptgepäck max. 20 kg, Tagesrucksack im Begleitfahrzeug.",
+        "checkin": "Hotel La Roche: Check-in ab 15:00 Uhr, Check-out vor 11:00 Uhr; Abendessen im Hotel.",
+        "support": "Support über Vélorizons/Bike Frankreich; Beaufort ist guter Versorgungs- und Regenerationsort.",
         "weather_point": "Col des Saisies",
-        "briefing": "Panoramatag im Beaufortain. Joly ist eine Stichfahrt und kann bei Wetterumschwung gestrichen werden.",
-        "start_hotel_en": "Start hotel Flumet (name to follow)",
-        "finish_hotel_en": "Finish hotel Beaufort (name to follow)",
-        "luggage_en": "Place luggage by 08:30; day pack only with rain/warm layer.",
-        "checkin_en": "Arrival Beaufort: coordinate rooms and luggage with the travel operator.",
-        "support_en": "Support: short Beaufortain stage, good option for a shared finish beer/cafe.",
+        "briefing": "Panoramatag im Beaufortain. Hotel-Check-in ist ab 15:00 Uhr möglich.",
+        "accommodation": {
+            "name": "Hotel La Roche****",
+            "address": "34 avenue du Capitaine Bulle, 73270 Beaufort",
+            "phone": "+33 4 58 23 02 22",
+            "service": "Übernachtung mit Frühstück",
+            "note": "Check-in ab 15:00 Uhr, Check-out vor 11:00 Uhr.",
+            "service_en": "Overnight stay with breakfast",
+            "note_en": "Check-in from 15:00, check-out before 11:00.",
+        },
+        "dinner": {
+            "name": "Hotel La Roche****",
+            "address": "34 avenue du Capitaine Bulle, 73270 Beaufort",
+            "phone": "+33 4 58 23 02 22",
+            "note": "Abendessen im Hotel.",
+            "note_en": "Dinner at the hotel.",
+        },
+        "start_hotel_en": "Hôtel Le Mont-Blanc, Flumet",
+        "finish_hotel_en": "Hotel La Roche****, Beaufort",
+        "luggage_en": "Place luggage for transport in the morning; main luggage max. 20 kg, day pack in the support vehicle.",
+        "checkin_en": "Hotel La Roche: check-in from 15:00, check-out before 11:00; dinner at the hotel.",
+        "support_en": "Support via Vélorizons/Bike Frankreich; Beaufort is a useful resupply and recovery town.",
         "briefing_en": "Panorama day in Beaufortain. Joly is an out-and-back and can be skipped if weather turns.",
     },
     "J3": {
         "date": "2026-06-30",
-        "start_hotel": "Start-Hotel Beaufort (Name folgt)",
-        "finish_hotel": "Ziel-Hotel Brides-les-Bains (Name folgt)",
-        "luggage": "Gepäck früh abgeben; das ist der längste Logistik- und Etappentag.",
-        "checkin": "Brides-les-Bains als Basis für Regeneration und ggf. Loze-Schleife.",
-        "support": "Support: lange Tarentaise-Abschnitte, Versorgung in Bourg-Saint-Maurice und Moûtiers einplanen.",
+        "start_hotel": "Hotel La Roche****, Beaufort",
+        "finish_hotel": "B&B Home Brides les Bains****",
+        "luggage": "Gepäck früh für den Transfer bereitstellen; lange Etappe und Hotelwechsel nach Brides-les-Bains.",
+        "checkin": "Übernachtung und Abendessen im B&B Home Brides les Bains****.",
+        "support": "Support über Vélorizons/Bike Frankreich; Versorgung in Bourg-Saint-Maurice und Moûtiers einplanen.",
         "weather_point": "Cormet de Roselend",
         "briefing": "Großer Roselend-Tag. Wetter, Müdigkeit und Uhrzeit entscheiden, ob die Loze-Schleife sinnvoll ist.",
-        "start_hotel_en": "Start hotel Beaufort (name to follow)",
-        "finish_hotel_en": "Finish hotel Brides-les-Bains (name to follow)",
-        "luggage_en": "Hand luggage in early; this is the longest logistics and riding day.",
-        "checkin_en": "Brides-les-Bains as recovery base and optional Loze loop base.",
-        "support_en": "Support: long Tarentaise sections, plan resupply in Bourg-Saint-Maurice and Moûtiers.",
+        "accommodation": {
+            "name": "B&B Home Brides les Bains****",
+            "address": "1 Allée du Parc, 73570 Brides-les-Bains",
+            "phone": "+33 8 92 23 33 57",
+            "service": "Übernachtung mit Frühstück",
+            "note": "Auch Abendessen im selben Hotel.",
+            "service_en": "Overnight stay with breakfast",
+            "note_en": "Dinner is also booked at the same hotel.",
+        },
+        "dinner": {
+            "name": "B&B Home Brides les Bains****",
+            "address": "1 Allée du Parc, 73570 Brides-les-Bains",
+            "phone": "+33 8 92 23 33 57",
+            "note": "Abendessen im Hotel.",
+            "note_en": "Dinner at the hotel.",
+        },
+        "start_hotel_en": "Hotel La Roche****, Beaufort",
+        "finish_hotel_en": "B&B Home Brides les Bains****",
+        "luggage_en": "Place luggage early for transfer; long ride and hotel change to Brides-les-Bains.",
+        "checkin_en": "Overnight stay and dinner at B&B Home Brides les Bains****.",
+        "support_en": "Support via Vélorizons/Bike Frankreich; plan resupply in Bourg-Saint-Maurice and Moûtiers.",
         "briefing_en": "Big Roselend day. Weather, fatigue and time decide whether the Loze loop makes sense.",
     },
     "J4": {
         "date": "2026-07-01",
-        "start_hotel": "Start-Hotel Brides-les-Bains (Name folgt)",
-        "finish_hotel": "Ziel-Hotel St-Michel (Name folgt)",
-        "luggage": "Gepäck bis 08:30 Uhr abgeben; nach der Madeleine nicht zu spät in die Zusatzschleifen.",
-        "checkin": "Saint-Michel-de-Maurienne ist Durchgangsort vor dem Galibier-Finale.",
-        "support": "Support: Maurienne-Tal, Lacets und Chaussy nur bei stabilem Wetter und genug Zeit.",
+        "start_hotel": "B&B Home Brides les Bains****",
+        "finish_hotel": "Hôtel Le Marintan***, Saint-Michel-de-Maurienne",
+        "luggage": "Gepäck morgens für den Transfer bereitstellen; nach Madeleine die Zeit für Chaussy/Lacets realistisch prüfen.",
+        "checkin": "Hôtel Le Marintan: Check-in ab 15:00 Uhr, Check-out vor 11:00 Uhr.",
+        "support": "Abendessen um 19:30 Uhr im Grill du Savoy in Saint-Michel-de-Maurienne.",
         "weather_point": "Col de la Madeleine",
-        "briefing": "Madeleine als Pflichtprogramm. Chaussy/Lacets sind optionaler Charakter- und Social-Part.",
-        "start_hotel_en": "Start hotel Brides-les-Bains (name to follow)",
-        "finish_hotel_en": "Finish hotel St-Michel (name to follow)",
-        "luggage_en": "Hand luggage by 08:30; after Madeleine, do not leave optional loops too late.",
-        "checkin_en": "Saint-Michel-de-Maurienne is the transit town before the Galibier finale.",
-        "support_en": "Support: Maurienne valley; Lacets and Chaussy only with stable weather and enough time.",
+        "briefing": "Madeleine als Pflichtprogramm. Für Abendessen um 19:30 Uhr genug Puffer nach Saint-Michel lassen.",
+        "accommodation": {
+            "name": "Hôtel Le Marintan***",
+            "address": "1 rue de la Provalière, 73140 Saint-Michel-de-Maurienne",
+            "phone": "+33 4 79 59 16 91",
+            "service": "Übernachtung mit Frühstück",
+            "note": "Check-in ab 15:00 Uhr, Check-out vor 11:00 Uhr.",
+            "service_en": "Overnight stay with breakfast",
+            "note_en": "Check-in from 15:00, check-out before 11:00.",
+        },
+        "dinner": {
+            "name": "Grill du Savoy",
+            "address": "25 Rue Général Ferrié, 73140 Saint-Michel-de-Maurienne",
+            "phone": "+33 4 79 56 55 12",
+            "time": "19:30",
+            "note": "Abendessen um 19:30 Uhr.",
+            "note_en": "Dinner at 19:30.",
+        },
+        "start_hotel_en": "B&B Home Brides les Bains****",
+        "finish_hotel_en": "Hôtel Le Marintan***, Saint-Michel-de-Maurienne",
+        "luggage_en": "Place luggage for transfer in the morning; after Madeleine, check time realistically for Chaussy/Lacets.",
+        "checkin_en": "Hôtel Le Marintan: check-in from 15:00, check-out before 11:00.",
+        "support_en": "Dinner at 19:30 at Grill du Savoy in Saint-Michel-de-Maurienne.",
         "briefing_en": "Madeleine is the main commitment. Chaussy/Lacets are the optional character and social part.",
     },
     "J5": {
         "date": "2026-07-02",
-        "start_hotel": "Start-Hotel St-Michel (Name folgt)",
-        "finish_hotel": "Ziel-Hotel Briançon (Name folgt)",
-        "luggage": "Gepäck bis 08:00 Uhr abgeben; warme Kleidung für Zielankunft separat zugänglich halten.",
-        "checkin": "Briançon: finales Hotel, Bikes sichern und Rückreiselogistik prüfen.",
-        "support": "Support: Galibier-Finale mit exponierter Hochalpenlage, früh starten.",
+        "start_hotel": "Hôtel Le Marintan***, Saint-Michel-de-Maurienne",
+        "finish_hotel": "Hotel Vauban, Briançon",
+        "luggage": "Gepäck morgens für den finalen Hoteltransfer bereitstellen; warme Kleidung für Briançon erreichbar halten.",
+        "checkin": "Übernachtung mit Frühstück im Hotel Vauban, Briançon; am Folgetag Rücktransfer um 08:30 Uhr.",
+        "support": "Galibier-Finale mit exponierter Hochalpenlage; Rücktransfer am 03.07. ab Hotel Vauban.",
         "weather_point": "Col du Galibier",
-        "briefing": "Königsetappe zum Abschluss. Galibier-Wetterfenster ernst nehmen; Izoard nur für sehr stabile Bedingungen.",
-        "start_hotel_en": "Start hotel St-Michel (name to follow)",
-        "finish_hotel_en": "Finish hotel Briançon (name to follow)",
-        "luggage_en": "Hand luggage by 08:00; keep warm clothes accessible for the finish.",
-        "checkin_en": "Briançon: final hotel, secure bikes and check departure logistics.",
-        "support_en": "Support: Galibier finale in exposed high-Alpine terrain, start early.",
+        "briefing": "Königsetappe zum Abschluss. Hotel Vauban ist auch Treffpunkt für den Rücktransfer am 03.07. um 08:30 Uhr.",
+        "accommodation": {
+            "name": "Hotel Vauban",
+            "address": "13 av du Général de Gaulle, 05100 Briançon",
+            "phone": "+33 4 92 21 12 11",
+            "service": "Übernachtung mit Frühstück",
+            "note": "Treffpunkt Rücktransfer am 03.07. um 08:30 Uhr vor dem Hotel.",
+            "service_en": "Overnight stay with breakfast",
+            "note_en": "Return transfer meeting point on 3 July at 08:30 in front of the hotel.",
+        },
+        "start_hotel_en": "Hôtel Le Marintan***, Saint-Michel-de-Maurienne",
+        "finish_hotel_en": "Hotel Vauban, Briançon",
+        "luggage_en": "Place luggage for the final hotel transfer in the morning; keep warm clothes accessible for Briançon.",
+        "checkin_en": "Overnight stay with breakfast at Hotel Vauban, Briançon; return transfer the next day at 08:30.",
+        "support_en": "Galibier finale in exposed high-Alpine terrain; return transfer on 3 July from Hotel Vauban.",
         "briefing_en": "Queen stage to close the trip. Take the Galibier weather window seriously; Izoard only in very stable conditions.",
     },
+}
+
+
+ORGANIZER_INFO = {
+    "booking": {
+        "code": "CY98-DG-1",
+        "trip": "Französische Nordalpen MTB & Road Special (Exxeta)",
+        "dates": "27.06.-03.07.2026",
+        "service": "Bike Frankreich - Vélorizons",
+        "address": "273 rue Branmafan, 73230 Barby, Frankreich",
+        "office_phone": "+33 4 58 140 445",
+        "emergency_phone": "+33 4 58 140 800",
+        "service_en": "Bike Frankreich - Vélorizons",
+        "address_en": "273 rue Branmafan, 73230 Barby, France",
+    },
+    "contacts": [
+        {
+            "role": "Tourbegleitung",
+            "role_en": "Tour leader",
+            "name": "Emmanuel Cron",
+            "phone": "+33 7 85 21 79 46",
+        },
+        {
+            "role": "Rennrad-Guide",
+            "role_en": "Road cycling guide",
+            "name": "Luc Millithaler",
+            "phone": "+33 6 13 67 72 84",
+            "note": "Kontakt laut Einladung erst ab Tag 1 der Tour nutzen.",
+            "note_en": "Invitation asks to use this contact only from day 1 of the tour.",
+        },
+        {
+            "role": "24/7 Notfallnummer",
+            "role_en": "24/7 emergency number",
+            "name": "Bike Frankreich - Vélorizons",
+            "phone": "+33 4 58 140 800",
+        },
+    ],
+    "rules": [
+        {
+            "title": "Formalitäten",
+            "title_en": "Formalities",
+            "text": "Personalausweis oder Reisepass sowie Auslandskranken-/Reiseversicherungsunterlagen mitführen.",
+            "text_en": "Carry ID card or passport and international health/travel insurance documents.",
+        },
+        {
+            "title": "Gepäck",
+            "title_en": "Luggage",
+            "text": "Zwei Gepäckstücke sind vorgesehen: Hauptgepäck max. 20 kg plus kleiner Tagesrucksack im Begleitfahrzeug.",
+            "text_en": "Two luggage pieces are planned: main luggage max. 20 kg plus small day pack in the support vehicle.",
+        },
+        {
+            "title": "Gepäckanhänger",
+            "title_en": "Luggage tag",
+            "text": "Vélorizons-Gepäckanhänger herunterladen, ausdrucken und mit Name sowie Telefonnummer im internationalen Format ausfüllen.",
+            "text_en": "Download and print the Vélorizons luggage tag, then add name and phone number in international format.",
+            "download": "assets/gepaeckanhaenger.pdf",
+            "download_label": "Gepäckanhänger herunterladen",
+            "download_label_en": "Download luggage tag",
+        },
+        {
+            "title": "Navigation",
+            "title_en": "Navigation",
+            "text": "GPX-Tracks vorab auf Radcomputer/App laden und Kompatibilität prüfen.",
+            "text_en": "Load GPX tracks onto bike computer/app in advance and check compatibility.",
+        },
+    ],
 }
 
 
@@ -1332,6 +1488,7 @@ def make_html(geojson: dict) -> str:
     )
     supply_json = json.dumps(supply_payload(), ensure_ascii=False)
     day_info_json = json.dumps(day_info_payload(), ensure_ascii=False)
+    organizer_json = json.dumps(ORGANIZER_INFO, ensure_ascii=False)
     general_packing_json = json.dumps(GENERAL_PACKING_LIST, ensure_ascii=False)
     general_packing_en_json = json.dumps(GENERAL_PACKING_LIST_EN, ensure_ascii=False)
     day_packing_json = json.dumps(DAY_PACKING_LIST, ensure_ascii=False)
@@ -1666,10 +1823,12 @@ def make_html(geojson: dict) -> str:
       gap: 5px;
       margin-top: 6px;
     }}
+    .organizer-panel,
     .packing-panel {{
       border-bottom: 2px solid var(--black);
       background: var(--white);
     }}
+    .organizer-panel summary,
     .packing-panel summary {{
       cursor: pointer;
       list-style: none;
@@ -1679,22 +1838,85 @@ def make_html(geojson: dict) -> str:
       font-weight: 700;
       text-transform: uppercase;
     }}
+    .organizer-panel summary::-webkit-details-marker,
     .packing-panel summary::-webkit-details-marker {{
       display: none;
     }}
+    .organizer-panel summary::after,
     .packing-panel summary::after {{
       content: "+";
       float: right;
       font-size: 14px;
       line-height: 1;
     }}
+    .organizer-panel[open] summary::after,
     .packing-panel[open] summary::after {{
       content: "-";
     }}
+    .organizer-body,
     .packing-body {{
       display: grid;
       gap: 12px;
       padding: 12px 16px 14px;
+    }}
+    .organizer-card {{
+      border: 1px solid var(--black);
+      padding: 9px;
+      background: var(--white);
+    }}
+    .organizer-card strong {{
+      display: block;
+      font-size: 13px;
+      line-height: 1.15;
+    }}
+    .organizer-card p {{
+      margin: 6px 0 0;
+      color: var(--grey-800);
+      font-size: 12px;
+      line-height: 1.35;
+    }}
+    .organizer-card a {{
+      color: var(--black);
+      font-weight: 700;
+      text-decoration: none;
+    }}
+    .organizer-card a:hover {{
+      text-decoration: underline;
+    }}
+    .day-booking-grid {{
+      display: grid;
+      gap: 8px;
+      margin-bottom: 10px;
+    }}
+    .contact-list {{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--grey-300);
+    }}
+    .contact-list li {{
+      border-bottom: 1px solid var(--grey-300);
+      padding: 7px 0;
+      font-size: 12px;
+      line-height: 1.35;
+    }}
+    .contact-list span {{
+      display: block;
+      color: var(--grey-600);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }}
+    .rule-download {{
+      display: inline-block;
+      margin-top: 6px;
+      color: var(--black);
+      font-weight: 800;
+      text-decoration: none;
+    }}
+    .rule-download:hover {{
+      text-decoration: underline;
     }}
     .pack-item {{
       display: grid;
@@ -2316,6 +2538,10 @@ def make_html(geojson: dict) -> str:
         <div class="dashboard-tabs" id="dashboard-tabs"></div>
         <div class="dashboard-body" id="dashboard-body"></div>
       </section>
+      <details class="organizer-panel" open>
+        <summary data-i18n="organizerPanel">Veranstalter & Notfall</summary>
+        <div class="organizer-body" id="organizer-body"></div>
+      </details>
       <details class="packing-panel">
         <summary data-i18n="packing">Packlisten</summary>
         <div class="packing-body" id="packing-body"></div>
@@ -2351,6 +2577,7 @@ def make_html(geojson: dict) -> str:
     const markerData = {markers_json};
     const supplyData = {supply_json};
     const dayInfo = {day_info_json};
+    const organizerInfo = {organizer_json};
     const generalPackingList = {general_packing_json};
     const generalPackingListEn = {general_packing_en_json};
     const dayPackingList = {day_packing_json};
@@ -2368,6 +2595,16 @@ def make_html(geojson: dict) -> str:
         fitRoute: "Auf Route zoomen",
         allGpx: "Alle GPX",
         dashboard: "Tagesdashboard",
+        organizerPanel: "Veranstalter & Notfall",
+        bookingInfo: "Buchung",
+        contacts: "Kontakte",
+        tripRules: "Wichtig",
+        office: "Büro",
+        emergency: "Notfall",
+        phone: "Telefon",
+        accommodation: "Unterkunft",
+        dinner: "Abendessen",
+        transfer: "Transfer",
         packing: "Packlisten",
         variantFilter: "Variantenfilter",
         currentSelection: "Aktuelle Auswahl",
@@ -2419,6 +2656,16 @@ def make_html(geojson: dict) -> str:
         fitRoute: "Zoom to route",
         allGpx: "All GPX",
         dashboard: "Day Dashboard",
+        organizerPanel: "Operator & Emergency",
+        bookingInfo: "Booking",
+        contacts: "Contacts",
+        tripRules: "Important",
+        office: "Office",
+        emergency: "Emergency",
+        phone: "Phone",
+        accommodation: "Accommodation",
+        dinner: "Dinner",
+        transfer: "Transfer",
         packing: "Packing Lists",
         variantFilter: "Variant Filter",
         currentSelection: "Current selection",
@@ -3024,6 +3271,77 @@ def make_html(geojson: dict) -> str:
         </ul>`;
     }}
 
+    function telHref(phone) {{
+      return `tel:${{String(phone || "").replace(/[^+0-9]/g, "")}}`;
+    }}
+
+    function phoneLink(phone) {{
+      if (!phone) return "";
+      return `<a href="${{htmlEscape(telHref(phone))}}">${{htmlEscape(phone)}}</a>`;
+    }}
+
+    function bookingCardHtml(title, item) {{
+      if (!item) return "";
+      const rows = [
+        item.address ? htmlEscape(item.address) : "",
+        item.phone ? `${{t("phone")}}: ${{phoneLink(item.phone)}}` : "",
+        item.time ? `${{htmlEscape(item.time)}}` : "",
+        localizedField(item, "service") ? htmlEscape(localizedField(item, "service")) : "",
+        localizedField(item, "note") ? htmlEscape(localizedField(item, "note")) : "",
+        item.emergency ? `${{t("emergency")}}: ${{phoneLink(item.emergency)}}` : ""
+      ].filter(Boolean);
+      return `<article class="organizer-card">
+        <strong>${{htmlEscape(title)}} · ${{htmlEscape(item.name)}}</strong>
+        <p>${{rows.join("<br>")}}</p>
+      </article>`;
+    }}
+
+    function dayBookingHtml(info) {{
+      const cards = [
+        bookingCardHtml(t("accommodation"), info.accommodation),
+        bookingCardHtml(t("dinner"), info.dinner),
+        bookingCardHtml(t("transfer"), info.transfer)
+      ].filter(Boolean);
+      if (!cards.length) return "";
+      return `<div class="day-booking-grid">${{cards.join("")}}</div>`;
+    }}
+
+    function renderOrganizerPanel() {{
+      const panel = document.getElementById("organizer-body");
+      if (!panel) return;
+      const booking = organizerInfo.booking;
+      const ruleHtml = (rule) => {{
+        const download = rule.download
+          ? `<br><a class="rule-download" href="${{htmlEscape(rule.download)}}" download>${{htmlEscape(localizedField(rule, "download_label"))}}</a>`
+          : "";
+        return `<li>
+          <span>${{htmlEscape(localizedField(rule, "title"))}}</span>
+          ${{htmlEscape(localizedField(rule, "text"))}}${{download}}
+        </li>`;
+      }};
+      panel.innerHTML = `<article class="organizer-card">
+          <strong>${{t("bookingInfo")}} · ${{htmlEscape(booking.code)}}</strong>
+          <p>${{htmlEscape(booking.trip)}}<br>${{htmlEscape(booking.dates)}}<br>${{htmlEscape(localizedField(booking, "service"))}}<br>${{htmlEscape(localizedField(booking, "address"))}}<br>${{t("office")}}: ${{phoneLink(booking.office_phone)}}<br>${{t("emergency")}}: ${{phoneLink(booking.emergency_phone)}}</p>
+        </article>
+        <section>
+          <div class="detail-block-title">${{t("contacts")}}</div>
+          <ul class="contact-list">
+            ${{organizerInfo.contacts.map(contact => `<li>
+              <span>${{htmlEscape(localizedField(contact, "role"))}}</span>
+              <strong>${{htmlEscape(contact.name)}}</strong><br>
+              ${{phoneLink(contact.phone)}}
+              ${{localizedField(contact, "note") ? `<br>${{htmlEscape(localizedField(contact, "note"))}}` : ""}}
+            </li>`).join("")}}
+          </ul>
+        </section>
+        <section>
+          <div class="detail-block-title">${{t("tripRules")}}</div>
+          <ul class="contact-list">
+            ${{organizerInfo.rules.map(ruleHtml).join("")}}
+          </ul>
+        </section>`;
+    }}
+
     function attachPackingHandlers(container) {{
       for (const checkbox of container.querySelectorAll("input[data-pack-index]")) {{
         checkbox.addEventListener("change", () => {{
@@ -3061,6 +3379,7 @@ def make_html(geojson: dict) -> str:
           <div class="info-cell"><span>${{t("support")}}</span><strong>${{htmlEscape(localizedField(info, "support"))}}</strong></div>
         </div>
         <div class="weather-card" id="weather-card">${{weatherHtml(null, info)}}</div>
+        ${{dayBookingHtml(info)}}
         ${{suppliesHtml(info)}}
         <div class="detail-block-title">${{t("hotelCheckin")}}</div>
         <ul class="dashboard-list">
@@ -3190,6 +3509,7 @@ def make_html(geojson: dict) -> str:
       translateStaticUi();
       renderDashboardTabs();
       renderDashboard(activeDashboardDay);
+      renderOrganizerPanel();
       renderPackingPanel();
       renderControls();
       for (const id of selectedByDay.values()) {{
@@ -3225,6 +3545,7 @@ def make_html(geojson: dict) -> str:
     translateStaticUi();
     renderDashboardTabs();
     renderDashboard("ARRIVAL");
+    renderOrganizerPanel();
     renderPackingPanel();
     renderControls();
     updatePresetTotals();
