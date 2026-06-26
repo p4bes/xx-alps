@@ -3,15 +3,18 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import zipfile
 import time
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
 OUT_DIR = Path(__file__).resolve().parent
 GPX_DIR = OUT_DIR / "gpx"
+SOURCE_GPX_DIR = OUT_DIR / "source_gpx"
 GPX_ZIP_OUT = OUT_DIR / "alpen_etappen_gpx.zip"
 GEOJSON_OUT = OUT_DIR / "alpen_etappen_varianten.geojson"
 HTML_OUT = OUT_DIR / "alpen_etappen_karte.html"
@@ -29,9 +32,14 @@ ROAD_BIKE_SVG = """<svg viewBox="0 0 120 80" focusable="false">
 
 POINTS = {
     "Cordon": (45.9221674, 6.6105436),
+    "Hotel Le Chamois d'Or": (45.9166000, 6.6077500),
     "Sallanches": (45.9814, 6.6369),
     "Combloux": (45.8960, 6.6440),
     "Cluses": (46.0603171, 6.5804218),
+    "Mont-Saxonnex": (46.0531800, 6.4855200),
+    "Le Petit-Bornand-les-Glières": (46.0133700, 6.3965000),
+    "Plateau des Glières": (45.9723000, 6.3506300),
+    "Entremont": (45.9507500, 6.3945800),
     "Nancy-sur-Cluses": (46.0433318, 6.5777368),
     "Col de Romme": (46.0300458, 6.5745849),
     "Le Reposoir": (46.0114414, 6.5348232),
@@ -42,6 +50,7 @@ POINTS = {
     "Col des Aravis": (45.8722790, 6.4648689),
     "La Giettaz": (45.8772410, 6.5198231),
     "Flumet": (45.8175946, 6.5143172),
+    "Hôtel Le Mont-Blanc": (45.8180200, 6.5144000),
     "Praz-sur-Arly": (45.8379186, 6.5704514),
     "Megève": (45.8567089, 6.6179320),
     "Notre-Dame-de-Bellecombe": (45.8084045, 6.5171548),
@@ -50,6 +59,7 @@ POINTS = {
     "Hauteluce": (45.7506448, 6.5853758),
     "Col du Joly": (45.7839174, 6.6740143),
     "Beaufort": (45.7174453, 6.5732569),
+    "Hotel La Roche": (45.7174453, 6.5732569),
     "Villard-sur-Doron": (45.7261125, 6.5274970),
     "Ugine": (45.7490363, 6.4205158),
     "Arêches": (45.6629892, 6.5663191),
@@ -63,6 +73,7 @@ POINTS = {
     "Col du Tra": (45.5154458, 6.5959758),
     "Moûtiers": (45.4849883, 6.5340061),
     "Brides-les-Bains": (45.4525213, 6.5667816),
+    "B&B Home Brides-les-Bains": (45.4525213, 6.5667816),
     "Les Allues": (45.4307976, 6.5563846),
     "Méribel Centre": (45.3974188, 6.5660571),
     "Altiport Méribel": (45.3995796, 6.5836693),
@@ -81,6 +92,7 @@ POINTS = {
     "Col du Sapey": (45.2926037, 6.3816028),
     "Montdenis": (45.2814984, 6.4067547),
     "Saint-Michel-de-Maurienne": (45.2178751, 6.4750846),
+    "Hôtel Le Marintan": (45.2121800, 6.4780700),
     "Col du Télégraphe": (45.2026999, 6.4446143),
     "Valloire": (45.1650000, 6.4296372),
     "Plan Lachat": (45.0888292, 6.4361289),
@@ -92,6 +104,7 @@ POINTS = {
     "Cervières": (44.8705556, 6.7225000),
     "Col d'Izoard": (44.8200267, 6.7350408),
     "Briançon": (44.8984037, 6.6436313),
+    "Hotel Vauban": (44.8949600, 6.6331100),
 }
 
 
@@ -172,6 +185,25 @@ PLACE_INFO = {
         "url": "https://www.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
         "url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
         "image": commons_image("Col de la Colombière @ Le Grand-Bornand (51026609812).jpg", "Guilhem Vellut / Wikimedia Commons", "CC BY 2.0"),
+    },
+    "Mont-Saxonnex": {
+        "summary": "Ruhige Balkonlinie über dem Arve-Tal; ersetzt die Colombière-Zufahrt mit weniger Sperrungsrisiko und viel Aussicht.",
+        "summary_en": "Quiet balcony line above the Arve valley; replaces the Colombière approach with less closure risk and strong views.",
+        "url": "https://www.mont-saxonnex.fr/",
+        "url_en": "https://www.mont-saxonnex.fr/",
+    },
+    "Le Petit-Bornand-les-Glières": {
+        "summary": "Übergang ins Borne-Tal; guter Orientierungspunkt zwischen Arve-Tal, Glières-Option und Aravis-Finale.",
+        "summary_en": "Gateway into the Borne valley; a useful orientation point between the Arve valley, Glières option and Aravis finale.",
+        "url": "https://www.hautesavoie-exp.com/communes/glieres-val-de-borne/",
+        "url_en": "https://www.hautesavoie-exp.com/communes/glieres-val-de-borne/",
+    },
+    "Plateau des Glières": {
+        "summary": "Historisches Hochplateau und sportlicher Bonusanstieg; landschaftlich stark, aber nur bei stabiler Tagesform sinnvoll.",
+        "summary_en": "Historic high plateau and a serious bonus climb; scenic and memorable, but only sensible with stable legs and time.",
+        "url": "https://www.hautesavoiexperience.fr/decouvrir/plateau-des-glieres/",
+        "url_en": "https://www.hautesavoiexperience.fr/en/discover/plateau-des-glieres/",
+        "image": commons_image("Plateau des Glières 02.jpg", "Sémhur / Wikimedia Commons", "CC BY-SA 3.0"),
     },
     "Col des Aravis": {
         "summary": "Fotogener Übergang zwischen La Clusaz und Val d'Arly; oben öffnet sich der Blick zum Mont Blanc.",
@@ -639,17 +671,41 @@ ROUTE_DETAILS = {
         "difficulty": "MEDIUM",
         "title": "via Colombière + Aravis",
         "description": "Der saubere Auftakt mit zwei echten Klassikern. Erst über die Colombière ins Aravis-Massiv, danach über La Clusaz und den Col des Aravis nach Flumet.",
-        "description_en": "A clean opener with two real classics: Colombière into the Aravis range, then La Clusaz and Col des Aravis towards Flumet.",
+        "description_en": "The clean opening stage with two real classics. First over Colombière into the Aravis range, then via La Clusaz and Col des Aravis to Flumet.",
         "highlights": ["Col de la Colombière", "Le Grand-Bornand", "La Clusaz", "Col des Aravis"],
         "photo_spots": ["Col de la Colombière", "Le Grand-Bornand", "Col des Aravis"],
+    },
+    "j1-v2-closure": {
+        "difficulty": "MEDIUM",
+        "title": "via Mont-Saxonnex + Aravis",
+        "description": "Sperr-Alternative zur Colombière: nach Cluses über Mont-Saxonnex und das Borne-Tal nach Saint-Jean-de-Sixt, dann über La Clusaz und den Col des Aravis nach Flumet.",
+        "description_en": "Closure alternative to Colombière: after Cluses via Mont-Saxonnex and the Borne valley to Saint-Jean-de-Sixt, then La Clusaz and Col des Aravis to Flumet.",
+        "highlights": ["Mont-Saxonnex", "Le Petit-Bornand-les-Glières", "La Clusaz", "Col des Aravis"],
+        "photo_spots": ["Mont-Saxonnex", "La Clusaz", "Col des Aravis"],
+        "changed": True,
+        "closure_alternative": True,
+        "change_note": "Alternative bei gemeldeter Colombière-Sperrung: Anbieter-GPX ohne Col de la Colombière.",
+        "change_note_en": "Alternative for the reported Colombière closure: operator GPX without Col de la Colombière.",
     },
     "j1-v3": {
         "difficulty": "STRONG",
         "title": "via Romme + Colombière + Aravis",
         "description": "Die sportliche Eröffnung: Col de Romme nimmt früh Körner, macht die Zufahrt zur Colombière aber deutlich ruhiger und charaktervoller.",
-        "description_en": "The sporty opener: Col de Romme costs energy early, but makes the approach to Colombière quieter and more characterful.",
+        "description_en": "The sporty opener: Col de Romme costs energy early, but makes the approach to Colombière much quieter and more characterful.",
         "highlights": ["Col de Romme", "Le Reposoir", "Col de la Colombière", "Col des Aravis"],
         "photo_spots": ["Col de Romme", "Le Reposoir", "Col des Aravis"],
+    },
+    "j1-v3-closure": {
+        "difficulty": "STRONG",
+        "title": "via Mont-Saxonnex + Glières + Aravis",
+        "description": "Sperr-Alternative ohne Colombière/Romme: nach Cluses über Mont-Saxonnex ins Borne-Tal, mit zusätzlichem Glières-Bonus, danach über La Clusaz und den Col des Aravis nach Flumet.",
+        "description_en": "Closure alternative without Colombière/Romme: after Cluses via Mont-Saxonnex into the Borne valley, with the additional Glières bonus, then La Clusaz and Col des Aravis to Flumet.",
+        "highlights": ["Mont-Saxonnex", "Plateau des Glières", "La Clusaz", "Col des Aravis"],
+        "photo_spots": ["Plateau des Glières", "La Clusaz", "Col des Aravis"],
+        "changed": True,
+        "closure_alternative": True,
+        "change_note": "Alternative bei gemeldeter Colombière-Sperrung: Anbieter-GPX ohne Col de la Colombière; STRONG ergänzt den Glières-Bonus.",
+        "change_note_en": "Alternative for the reported Colombière closure: operator GPX without Col de la Colombière; STRONG adds the Glières bonus.",
     },
     "j2-alt": {
         "difficulty": "LIGHT",
@@ -768,6 +824,15 @@ PASS_INFO = {
         "segment_query": "Col de la Colombiere climb",
         "info_url": "https://www.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
         "info_url_en": "https://en.routedesgrandesalpes.com/grands-cols/col-de-la-colombiere",
+    },
+    "Plateau des Glières": {
+        "status": "Tour-/Dauphiné-Bonus",
+        "status_en": "Tour/Dauphiné bonus",
+        "palmares": "Bekannt durch Tour-de-France- und Critérium-du-Dauphiné-Passagen; auf dieser Ersatzroute der klare STRONG-Zusatz.",
+        "palmares_en": "Known from Tour de France and Critérium du Dauphiné passages; the clear STRONG add-on on this replacement route.",
+        "segment_query": "Plateau des Glieres climb Petit Bornand",
+        "info_url": "https://fr.wikipedia.org/wiki/Col_des_Gli%C3%A8res",
+        "info_url_en": "https://en.wikipedia.org/wiki/Col_des_Gli%C3%A8res",
     },
     "Col des Aravis": {
         "status": "Aravis-Klassiker",
@@ -911,8 +976,10 @@ ROUTES = [
         "day": "J1",
         "variant": "V2",
         "name": "J1 V2: Cordon - Flumet via Colombière + Aravis",
+        "source_gpx": "va_tag_1_cordon_flumet_exxeta_v2.gpx",
         "waypoints": [
-            "Cordon",
+            "Hotel Le Chamois d'Or",
+            "Sallanches",
             "Cluses",
             "Le Reposoir",
             "Col de la Colombière",
@@ -920,18 +987,43 @@ ROUTES = [
             "Saint-Jean-de-Sixt",
             "La Clusaz",
             "Col des Aravis",
-            "Flumet",
+            "La Giettaz",
+            "Hôtel Le Mont-Blanc",
         ],
         "default": True,
-        "note": "Solide Eröffnungsetappe mit zwei Klassikern.",
+        "variant_order": 0,
+        "note": "Originale Anbieter-GPX über Colombière und Aravis; unnötige BRouter-Abzweige entfernt.",
+    },
+    {
+        "id": "j1-v2-closure",
+        "day": "J1",
+        "variant": "V2 Alt",
+        "name": "J1 V2 Alt: Cordon - Flumet via Mont-Saxonnex + Aravis",
+        "source_gpx": "tag-1-alt-cordon_flumet_exxeta_v2.gpx",
+        "waypoints": [
+            "Hotel Le Chamois d'Or",
+            "Sallanches",
+            "Cluses",
+            "Mont-Saxonnex",
+            "Le Petit-Bornand-les-Glières",
+            "Saint-Jean-de-Sixt",
+            "La Clusaz",
+            "Col des Aravis",
+            "Hôtel Le Mont-Blanc",
+        ],
+        "default": False,
+        "variant_order": 1,
+        "note": "Sperr-Alternative ohne Colombière; Start/Ziel aus Anbieter-GPX auf die Hotels gesetzt.",
     },
     {
         "id": "j1-v3",
         "day": "J1",
         "variant": "V3",
         "name": "J1 V3: Cordon - Flumet via Romme + Colombière + Aravis",
+        "source_gpx": "va_tag_1_cordon_flumet_exxeta_v3.gpx",
         "waypoints": [
-            "Cordon",
+            "Hotel Le Chamois d'Or",
+            "Sallanches",
             "Cluses",
             "Nancy-sur-Cluses",
             "Col de Romme",
@@ -941,18 +1033,44 @@ ROUTES = [
             "Saint-Jean-de-Sixt",
             "La Clusaz",
             "Col des Aravis",
-            "Flumet",
+            "La Giettaz",
+            "Hôtel Le Mont-Blanc",
         ],
         "default": False,
-        "note": "Die sportlichere Eröffnung; Romme ist steiler und ruhiger.",
+        "variant_order": 0,
+        "note": "Originale STRONG-Anbieter-GPX über Romme, Colombière und Aravis.",
+    },
+    {
+        "id": "j1-v3-closure",
+        "day": "J1",
+        "variant": "V3 Alt",
+        "name": "J1 V3 Alt: Cordon - Flumet via Mont-Saxonnex + Glières + Aravis",
+        "source_gpx": "tag-1-alt-cordon_flumet_exxeta_v3.gpx",
+        "waypoints": [
+            "Hotel Le Chamois d'Or",
+            "Sallanches",
+            "Cluses",
+            "Mont-Saxonnex",
+            "Le Petit-Bornand-les-Glières",
+            "Plateau des Glières",
+            "Entremont",
+            "Saint-Jean-de-Sixt",
+            "La Clusaz",
+            "Col des Aravis",
+            "Hôtel Le Mont-Blanc",
+        ],
+        "default": False,
+        "variant_order": 1,
+        "note": "Sperr-Alternative ohne Colombière/Romme mit Glières-Bonus; Start/Ziel aus Anbieter-GPX auf die Hotels gesetzt.",
     },
     {
         "id": "j1-alt",
         "day": "J1",
         "variant": "Alt",
         "name": "J1 Alt: Wetter-/Anreiseoption via Megève",
-        "waypoints": ["Cordon", "Sallanches", "Combloux", "Megève", "Praz-sur-Arly", "Flumet"],
+        "waypoints": ["Hotel Le Chamois d'Or", "Sallanches", "Combloux", "Megève", "Praz-sur-Arly", "Hôtel Le Mont-Blanc"],
         "default": False,
+        "variant_order": 0,
         "note": "Rettungsoption bei Gewitter, verspäteter Anreise oder müden Gruppen.",
     },
     {
@@ -960,15 +1078,16 @@ ROUTES = [
         "day": "J2",
         "variant": "V2",
         "name": "J2 V2: Flumet - Beaufort via Saisies + Joly",
+        "source_gpx": "va_tag_2_flumet_beaufort_exxeta_v2.gpx",
         "waypoints": [
-            "Flumet",
+            "Hôtel Le Mont-Blanc",
             "Notre-Dame-de-Bellecombe",
             "Crest-Voland",
             "Col des Saisies",
             "Hauteluce",
             "Col du Joly",
             "Hauteluce",
-            "Beaufort",
+            "Hotel La Roche",
         ],
         "default": True,
         "note": "Joly als Stichfahrt; sehr gute Mont-Blanc-Aussicht.",
@@ -978,8 +1097,9 @@ ROUTES = [
         "day": "J2",
         "variant": "V3",
         "name": "J2 V3: Flumet - Beaufort, große Saisies/Joly-Schleife",
+        "source_gpx": "va_tag_2_flumet_beaufort_exxeta_v3.gpx",
         "waypoints": [
-            "Flumet",
+            "Hôtel Le Mont-Blanc",
             "Ugine",
             "Crest-Voland",
             "Notre-Dame-de-Bellecombe",
@@ -987,7 +1107,7 @@ ROUTES = [
             "Hauteluce",
             "Col du Joly",
             "Hauteluce",
-            "Beaufort",
+            "Hotel La Roche",
         ],
         "default": False,
         "note": "Längerer Anlauf über Ugine/Crest-Voland; schöner, aber deutlich zäher.",
@@ -998,12 +1118,12 @@ ROUTES = [
         "variant": "Alt",
         "name": "J2 Alt: Saisies direkt, Joly auslassen",
         "waypoints": [
-            "Flumet",
+            "Hôtel Le Mont-Blanc",
             "Notre-Dame-de-Bellecombe",
             "Crest-Voland",
             "Col des Saisies",
             "Hauteluce",
-            "Beaufort",
+            "Hotel La Roche",
         ],
         "default": False,
         "note": "Gute Regenerationsvariante, wenn J3/J4 hart gefahren werden sollen.",
@@ -1014,16 +1134,28 @@ ROUTES = [
         "variant": "V2",
         "name": "J3 Light: Beaufort - Brides via Roselend direkt",
         "waypoints": [
-            "Beaufort",
+            "Hotel La Roche",
             "Lac de Roselend",
             "Cormet de Roselend",
             "Les Chapieux",
             "Bourg-Saint-Maurice",
             "Aime-la-Plagne",
             "Moûtiers",
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
         ],
         "default": True,
+        "source_splices": [
+            {
+                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
+                "start": "Lac de Roselend",
+                "finish": "Bourg-Saint-Maurice",
+            },
+            {
+                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v2.gpx",
+                "start": "Bourg-Saint-Maurice",
+                "finish": "B&B Home Brides-les-Bains",
+            },
+        ],
         "note": "Leichteste Roselend-Linie ohne Col du Pré und ohne Col du Tra.",
     },
     {
@@ -1032,7 +1164,7 @@ ROUTES = [
         "variant": "V3",
         "name": "J3 Medium: Beaufort - Brides via Pré + Roselend",
         "waypoints": [
-            "Beaufort",
+            "Hotel La Roche",
             "Arêches",
             "Col du Pré",
             "Lac de Roselend",
@@ -1041,9 +1173,21 @@ ROUTES = [
             "Bourg-Saint-Maurice",
             "Aime-la-Plagne",
             "Moûtiers",
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
         ],
         "default": False,
+        "source_splices": [
+            {
+                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
+                "start": "Lac de Roselend",
+                "finish": "Bourg-Saint-Maurice",
+            },
+            {
+                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
+                "start": "Bourg-Saint-Maurice",
+                "finish": "B&B Home Brides-les-Bains",
+            },
+        ],
         "note": "Landschaftlich Königsetappe im Beaufortain; Tarentaise-Abschnitte früh fahren.",
     },
     {
@@ -1052,7 +1196,7 @@ ROUTES = [
         "variant": "Option",
         "name": "J3 Strong: Beaufort - Brides plus Col de la Loze",
         "waypoints": [
-            "Beaufort",
+            "Hotel La Roche",
             "Arêches",
             "Col du Pré",
             "Lac de Roselend",
@@ -1061,7 +1205,7 @@ ROUTES = [
             "Bourg-Saint-Maurice",
             "Aime-la-Plagne",
             "Moûtiers",
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
             "Les Allues",
             "Méribel Centre",
             "Altiport Méribel",
@@ -1069,9 +1213,21 @@ ROUTES = [
             "Altiport Méribel",
             "Méribel Centre",
             "Les Allues",
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
         ],
         "default": False,
+        "source_splices": [
+            {
+                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
+                "start": "Lac de Roselend",
+                "finish": "Bourg-Saint-Maurice",
+            },
+            {
+                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
+                "start": "Bourg-Saint-Maurice",
+                "finish": "B&B Home Brides-les-Bains",
+            },
+        ],
         "note": "Brutale Rampe mit Passagen um 20%; nur bei sehr stabilem Wetter und guter Tagesform.",
     },
     {
@@ -1080,7 +1236,7 @@ ROUTES = [
         "variant": "V2",
         "name": "J4 V2: Brides - St-Michel via Madeleine pur",
         "waypoints": [
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
             "Moûtiers",
             "Aigueblanche",
             "La Léchère",
@@ -1089,7 +1245,7 @@ ROUTES = [
             "Saint-François-Longchamp",
             "La Chambre",
             "Saint-Jean-de-Maurienne",
-            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
         ],
         "default": True,
         "note": "Belastbarer Standard nach einem langen J3: Madeleine als großer Pass, danach direkter Transfer durch die Maurienne.",
@@ -1100,7 +1256,7 @@ ROUTES = [
         "variant": "V3",
         "name": "J4 V3: Brides - St-Michel via Madeleine + Lacets bergauf + Chaussy",
         "waypoints": [
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
             "Moûtiers",
             "Aigueblanche",
             "La Léchère",
@@ -1113,7 +1269,7 @@ ROUTES = [
             "Montvernier",
             "Col du Chaussy",
             "Saint-Jean-de-Maurienne",
-            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
         ],
         "default": False,
         "note": "Schönere Richtung: die Lacets werden bergauf gefahren, danach Chaussy und Rückweg ins Maurienne-Tal.",
@@ -1124,7 +1280,7 @@ ROUTES = [
         "variant": "Alt",
         "name": "J4 Alt: Originale Anbieterlinie mit Chaussy + Lacets abwärts",
         "waypoints": [
-            "Brides-les-Bains",
+            "B&B Home Brides-les-Bains",
             "Moûtiers",
             "Aigueblanche",
             "La Léchère",
@@ -1137,7 +1293,7 @@ ROUTES = [
             "Lacets de Montvernier",
             "Pontamafrey",
             "Saint-Jean-de-Maurienne",
-            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
         ],
         "default": False,
         "note": "Zum Vergleich behalten; landschaftlich gut, aber die Lacets liegen hier in der weniger ikonischen Abfahrtsrichtung.",
@@ -1147,8 +1303,9 @@ ROUTES = [
         "day": "J5",
         "variant": "Light",
         "name": "J5 Light: St-Michel - Briançon via Télégraphe + Galibier",
+        "source_gpx": "va_tag_5_saint_michel_de_maurienne_briancon_exxeta_v2.gpx",
         "waypoints": [
-            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
             "Col du Télégraphe",
             "Valloire",
             "Plan Lachat",
@@ -1156,7 +1313,7 @@ ROUTES = [
             "Col du Lautaret",
             "Le Monêtier-les-Bains",
             "Saint-Chaffrey",
-            "Briançon",
+            "Hotel Vauban",
         ],
         "default": True,
         "note": "Leichteste vollständige J5-Variante. Früh starten, weil Galibier-Wetter schnell kippt.",
@@ -1166,8 +1323,9 @@ ROUTES = [
         "day": "J5",
         "variant": "V2",
         "name": "J5 Medium: St-Michel - Briançon plus Col du Granon",
+        "source_gpx": "va_tag_5_saint_michel_de_maurienne_briancon_exxeta_v3.gpx",
         "waypoints": [
-            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
             "Col du Télégraphe",
             "Valloire",
             "Plan Lachat",
@@ -1177,7 +1335,7 @@ ROUTES = [
             "Saint-Chaffrey",
             "Col du Granon",
             "Saint-Chaffrey",
-            "Briançon",
+            "Hotel Vauban",
         ],
         "default": False,
         "note": "Granon ist steil, exponiert und als Stichfahrt perfekt für eine stärkere Finalgruppe.",
@@ -1188,7 +1346,7 @@ ROUTES = [
         "variant": "V3",
         "name": "J5 Strong: St-Michel - Briançon plus Col d'Izoard",
         "waypoints": [
-            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
             "Col du Télégraphe",
             "Valloire",
             "Plan Lachat",
@@ -1196,11 +1354,11 @@ ROUTES = [
             "Col du Lautaret",
             "Le Monêtier-les-Bains",
             "Saint-Chaffrey",
-            "Briançon",
+            "Hotel Vauban",
             "Cervières",
             "Col d'Izoard",
             "Cervières",
-            "Briançon",
+            "Hotel Vauban",
         ],
         "default": False,
         "note": "Neue Topvariante: Izoard als ikonischer Zusatzanstieg nach Galibier und Lautaret.",
@@ -1221,6 +1379,7 @@ MAJOR_STOPS = [
 COLS = [
     "Col de Romme",
     "Col de la Colombière",
+    "Plateau des Glières",
     "Col des Aravis",
     "Col des Saisies",
     "Col du Joly",
@@ -1237,6 +1396,154 @@ COLS = [
     "Col du Granon",
     "Col d'Izoard",
 ]
+
+
+def haversine_m(first: tuple[float, float], second: tuple[float, float]) -> float:
+    lat1, lon1 = first
+    lat2, lon2 = second
+    radius = 6_371_000
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (
+        math.sin(dlat / 2) ** 2
+        + math.cos(math.radians(lat1))
+        * math.cos(math.radians(lat2))
+        * math.sin(dlon / 2) ** 2
+    )
+    return 2 * radius * math.asin(math.sqrt(a))
+
+
+def parse_gpx_track(path: Path) -> list[list[float]]:
+    root = ET.parse(path).getroot()
+    namespace = {"g": "http://www.topografix.com/GPX/1/1"} if root.tag.startswith("{") else {}
+    point_query = ".//g:trkpt" if namespace else ".//trkpt"
+    ele_name = "g:ele" if namespace else "ele"
+    coordinates: list[list[float]] = []
+    for point in root.findall(point_query, namespace):
+        ele = point.find(ele_name, namespace)
+        coord = [float(point.attrib["lon"]), float(point.attrib["lat"])]
+        if ele is not None and ele.text:
+            coord.append(float(ele.text))
+        coordinates.append(coord)
+    if len(coordinates) < 2:
+        raise RuntimeError(f"GPX track has too few points: {path}")
+    return coordinates
+
+
+def track_distance_km(coordinates: list[list[float]]) -> float:
+    distance = 0.0
+    for index in range(1, len(coordinates)):
+        prev = coordinates[index - 1]
+        current = coordinates[index]
+        distance += haversine_m((prev[1], prev[0]), (current[1], current[0]))
+    return distance / 1000
+
+
+def filtered_ascent_m(coordinates: list[list[float]], threshold_m: float = 2.0) -> int:
+    ascent = 0.0
+    previous_ele: float | None = None
+    for coord in coordinates:
+        if len(coord) < 3:
+            continue
+        ele = float(coord[2])
+        if previous_ele is not None:
+            gain = ele - previous_ele
+            if gain > threshold_m:
+                ascent += gain
+        previous_ele = ele
+    return int(round(ascent))
+
+
+def bend_source_gpx_to_route_endpoints(coordinates: list[list[float]], route: dict) -> list[list[float]]:
+    adjusted = [coord[:] for coord in coordinates]
+    if not adjusted or not route.get("waypoints"):
+        return adjusted
+    endpoint_indexes = [(0, route["waypoints"][0]), (-1, route["waypoints"][-1])]
+    for index, waypoint in endpoint_indexes:
+        lat, lon = POINTS[waypoint]
+        ele = adjusted[index][2] if len(adjusted[index]) > 2 else None
+        adjusted[index] = [lon, lat] + ([ele] if ele is not None else [])
+    return adjusted
+
+
+def source_gpx_route(route: dict) -> dict:
+    source_path = SOURCE_GPX_DIR / route["source_gpx"]
+    coordinates = bend_source_gpx_to_route_endpoints(parse_gpx_track(source_path), route)
+    return {
+        "type": "Feature",
+        "geometry": {"type": "LineString", "coordinates": coordinates},
+        "properties": route_properties(
+            route,
+            brouter_km=round(track_distance_km(coordinates), 1),
+            brouter_hm=filtered_ascent_m(coordinates),
+        ),
+    }
+
+
+def waypoint_lonlat(name: str) -> list[float]:
+    lat, lon = POINTS[name]
+    return [lon, lat]
+
+
+def nearest_coord_index(coordinates: list[list[float]], waypoint: str) -> int:
+    target = waypoint_lonlat(waypoint)
+    return min(
+        range(len(coordinates)),
+        key=lambda index: haversine_m(
+            (coordinates[index][1], coordinates[index][0]),
+            (target[1], target[0]),
+        ),
+    )
+
+
+def replace_segment_with_source(
+    coordinates: list[list[float]], source_coordinates: list[list[float]], start: str, finish: str
+) -> tuple[list[list[float]], float, int]:
+    base_start = nearest_coord_index(coordinates, start)
+    base_finish = nearest_coord_index(coordinates, finish)
+    source_start = nearest_coord_index(source_coordinates, start)
+    source_finish = nearest_coord_index(source_coordinates, finish)
+    if base_start >= base_finish:
+        raise RuntimeError(f"Invalid base splice range {start} -> {finish}")
+    if source_start >= source_finish:
+        raise RuntimeError(f"Invalid source splice range {start} -> {finish}")
+
+    segment = [coord[:] for coord in source_coordinates[source_start : source_finish + 1]]
+    segment[0] = coordinates[base_start][:]
+    segment[-1] = coordinates[base_finish][:]
+    base_segment = coordinates[base_start : base_finish + 1]
+    delta_km = track_distance_km(segment) - track_distance_km(base_segment)
+    delta_hm = filtered_ascent_m(segment) - filtered_ascent_m(base_segment)
+    return coordinates[:base_start] + segment + coordinates[base_finish + 1 :], delta_km, delta_hm
+
+
+def apply_source_splices(coordinates: list[list[float]], route: dict) -> tuple[list[list[float]], float, int]:
+    spliced = [coord[:] for coord in coordinates]
+    total_delta_km = 0.0
+    total_delta_hm = 0
+    for splice in route.get("source_splices", []):
+        source_coordinates = parse_gpx_track(SOURCE_GPX_DIR / splice["source_gpx"])
+        spliced, delta_km, delta_hm = replace_segment_with_source(
+            spliced,
+            source_coordinates,
+            start=splice["start"],
+            finish=splice["finish"],
+        )
+        total_delta_km += delta_km
+        total_delta_hm += delta_hm
+    return spliced, total_delta_km, total_delta_hm
+
+
+def spliced_brouter_route_with_retries(route: dict) -> dict:
+    feature = brouter_route_with_retries({**route, "source_splices": []})
+    coordinates, delta_km, delta_hm = apply_source_splices(feature["geometry"]["coordinates"], route)
+    feature["geometry"]["coordinates"] = coordinates
+    feature["properties"] = route_properties(
+        route,
+        brouter_km=round(track_distance_km(coordinates), 1),
+        brouter_hm=filtered_ascent_m(coordinates),
+    )
+    return feature
 
 
 def brouter_route(route: dict) -> dict:
@@ -1368,17 +1675,28 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
         "note": route["note"],
         "description": details["description"],
         "description_en": details.get("description_en", details["description"]),
+        "changed": bool(details.get("changed")),
+        "closure_alternative": bool(details.get("closure_alternative")),
+        "change_note": details.get("change_note"),
+        "change_note_en": details.get("change_note_en", details.get("change_note")),
+        "source_label": "GPX" if route.get("source_gpx") else "BRouter",
         "highlights": details["highlights"],
         "photo_spots": details["photo_spots"],
         "photo_items": route_photo_items(route, details),
         "tourism_items": route_tourism_items(route, details),
         "passes": passes,
-        "default": difficulty == "MEDIUM",
+        "default": bool(route.get("default", False)),
+        "variant_order": route.get("variant_order", 0),
         "color": DAY_COLORS[route["day"]],
         "waypoints": route["waypoints"],
         "waypoint_coords": [
-            {"name": name, "lat": POINTS[name][0], "lon": POINTS[name][1]}
-            for name in route["waypoints"]
+            {
+                "name": name,
+                "lat": POINTS[name][0],
+                "lon": POINTS[name][1],
+                "role": "start" if index == 0 else "finish" if index == len(route["waypoints"]) - 1 else "via",
+            }
+            for index, name in enumerate(route["waypoints"])
         ],
         "brouter_km": brouter_km,
         "brouter_hm": brouter_hm,
@@ -1387,6 +1705,15 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
 def build_geojson() -> dict:
     features = []
     for index, route in enumerate(ROUTES, 1):
+        if route.get("source_gpx"):
+            print(f"[{index}/{len(ROUTES)}] Reading {route['id']} from GPX ...", flush=True)
+            features.append(source_gpx_route(route))
+            continue
+        if route.get("source_splices"):
+            print(f"[{index}/{len(ROUTES)}] Routing {route['id']} with VA splice ...", flush=True)
+            features.append(spliced_brouter_route_with_retries(route))
+            time.sleep(0.4)
+            continue
         print(f"[{index}/{len(ROUTES)}] Routing {route['id']} ...", flush=True)
         features.append(brouter_route_with_retries(route))
         time.sleep(0.4)
@@ -2069,6 +2396,20 @@ def make_html(geojson: dict) -> str:
       background: var(--black);
       color: var(--white);
     }}
+    .route-badge {{
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--black);
+      background: var(--accent-yellow);
+      color: var(--black);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 800;
+      padding: 3px 5px 2px;
+      margin: 0 0 3px 2px;
+      text-transform: uppercase;
+      vertical-align: 1px;
+    }}
     .meta {{
       display: block;
       color: var(--muted);
@@ -2141,6 +2482,16 @@ def make_html(geojson: dict) -> str:
     }}
     .detail-body {{
       padding: 12px 16px 16px;
+    }}
+    .change-note {{
+      border: 1px solid var(--black);
+      background: var(--accent-yellow);
+      color: var(--black);
+      padding: 8px 9px;
+      margin: 0 0 12px;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 700;
     }}
     .detail-description {{
       margin: 0 0 12px;
@@ -2623,6 +2974,8 @@ def make_html(geojson: dict) -> str:
         imageSource: "Bildquelle",
         gpx: "GPX",
         details: "Details",
+        changed: "Geändert",
+        closureAlternative: "Sperr-Alternative",
         unavailable: "offen",
         start: "Start",
         finish: "Ziel",
@@ -2684,6 +3037,8 @@ def make_html(geojson: dict) -> str:
         imageSource: "Image source",
         gpx: "GPX",
         details: "Details",
+        changed: "Changed",
+        closureAlternative: "Closure alternative",
         unavailable: "open",
         start: "Start",
         finish: "Finish",
@@ -2847,7 +3202,31 @@ def make_html(geojson: dict) -> str:
     function featuresForDay(day) {{
       return routeData.features
         .filter(feature => feature.properties.day === day)
-        .sort((a, b) => a.properties.difficulty_order - b.properties.difficulty_order);
+        .sort((a, b) =>
+          a.properties.difficulty_order - b.properties.difficulty_order
+          || a.properties.variant_order - b.properties.variant_order
+          || a.properties.title.localeCompare(b.properties.title, locale())
+        );
+    }}
+
+    function dayKeys() {{
+      return [...new Set(routeData.features.map(feature => feature.properties.day))]
+        .sort((a, b) => {{
+          const first = featuresForDay(a)[0]?.properties.day_number || 0;
+          const second = featuresForDay(b)[0]?.properties.day_number || 0;
+          return first - second;
+        }});
+    }}
+
+    function defaultFeatureForDifficulty(day, difficulty) {{
+      const candidates = featuresForDay(day).filter(feature => feature.properties.difficulty === difficulty);
+      return candidates.find(feature => feature.properties.default) || candidates[0] || null;
+    }}
+
+    function presetFeatures(difficulty) {{
+      return dayKeys()
+        .map(day => defaultFeatureForDifficulty(day, difficulty))
+        .filter(Boolean);
     }}
 
     function selectedFeatures() {{
@@ -2873,8 +3252,7 @@ def make_html(geojson: dict) -> str:
     function updatePresetTotals() {{
       for (const button of document.querySelectorAll(".filter-grid button[data-preset]")) {{
         const difficulty = button.dataset.preset;
-        const features = routeData.features.filter(feature => feature.properties.difficulty === difficulty);
-        const total = totalForFeatures(features);
+        const total = totalForFeatures(presetFeatures(difficulty));
         const target = button.querySelector(".preset-total");
         if (target) target.textContent = formatTotal(total.km, total.hm);
       }}
@@ -2887,11 +3265,16 @@ def make_html(geojson: dict) -> str:
     }}
 
     function updateActivePresetFromSelection() {{
-      const selected = selectedFeatures().map(feature => feature.properties.difficulty);
-      const unique = new Set(selected);
-      const dayCount = new Set(routeData.features.map(feature => feature.properties.day)).size;
-      if (selected.length === dayCount && unique.size === 1) {{
-        setActiveFilter(`preset-${{selected[0].toLowerCase()}}`);
+      const selected = selectedFeatures();
+      const unique = new Set(selected.map(feature => feature.properties.difficulty));
+      const days = dayKeys();
+      const matchesPresetDefaults = selected.every(feature => {{
+        const props = feature.properties;
+        return defaultFeatureForDifficulty(props.day, props.difficulty)?.properties.id === props.id;
+      }});
+      if (selected.length === days.length && unique.size === 1 && matchesPresetDefaults) {{
+        const [difficulty] = unique;
+        setActiveFilter(`preset-${{difficulty.toLowerCase()}}`);
       }} else {{
         setActiveFilter("");
       }}
@@ -2911,9 +3294,8 @@ def make_html(geojson: dict) -> str:
 
     function selectPreset(difficulty) {{
       setActiveFilter(`preset-${{difficulty.toLowerCase()}}`);
-      const days = [...new Set(routeData.features.map(feature => feature.properties.day))];
-      for (const day of days) {{
-        const feature = featuresForDay(day).find(candidate => candidate.properties.difficulty === difficulty);
+      for (const day of dayKeys()) {{
+        const feature = defaultFeatureForDifficulty(day, difficulty);
         if (feature) selectRoute(feature.properties.id, {{ updatePreset: false }});
       }}
       updateCurrentTotal();
@@ -2939,6 +3321,16 @@ def make_html(geojson: dict) -> str:
 
     function difficultyClass(difficulty) {{
       return `difficulty difficulty-${{difficulty.toLowerCase()}}`;
+    }}
+
+    function changedBadge(props) {{
+      if (props.closure_alternative) return `<span class="route-badge">${{t("closureAlternative")}}</span>`;
+      return props.changed ? `<span class="route-badge">${{t("changed")}}</span>` : "";
+    }}
+
+    function changeNoteHtml(props) {{
+      const note = localizedField(props, "change_note");
+      return (props.changed || props.closure_alternative) && note ? `<p class="change-note">${{htmlEscape(note)}}</p>` : "";
     }}
 
     function haversineKm(a, b) {{
@@ -2972,6 +3364,9 @@ def make_html(geojson: dict) -> str:
 
     const profileTownNames = new Set([
       "Megève",
+      "Mont-Saxonnex",
+      "Le Petit-Bornand-les-Glières",
+      "Plateau des Glières",
       "Le Grand-Bornand",
       "La Clusaz",
       "Hauteluce",
@@ -3003,6 +3398,7 @@ def make_html(geojson: dict) -> str:
       for (const waypoint of props.waypoint_coords || []) {{
         let kind = null;
         if (passNames.has(waypoint.name)) kind = "col";
+        else if (waypoint.role === "start" || waypoint.role === "finish") kind = "town";
         else if (waypoint.name === props.start || waypoint.name === props.finish) kind = "town";
         else if (profileTownNames.has(waypoint.name)) kind = "town";
         if (!kind) continue;
@@ -3410,10 +3806,12 @@ def make_html(geojson: dict) -> str:
           <div class="detail-kicker">
             <span>${{htmlEscape(dayLabel(props))}}</span>
             <span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>
+            ${{changedBadge(props)}}
           </div>
           <h2>${{htmlEscape(routeTitle(props))}}</h2>
         </div>
         <div class="detail-body">
+          ${{changeNoteHtml(props)}}
           <p class="detail-description">${{htmlEscape(routeDescription(props))}}</p>
           <div class="metrics">
             ${{metrics.map(([label, value]) => `<div class="metric"><span>${{htmlEscape(label)}}</span><strong>${{htmlEscape(value)}}</strong></div>`).join("")}}
@@ -3451,7 +3849,11 @@ def make_html(geojson: dict) -> str:
       }}
       container.innerHTML = "";
       for (const [day, features] of grouped.entries()) {{
-        features.sort((a, b) => a.properties.difficulty_order - b.properties.difficulty_order);
+        features.sort((a, b) =>
+          a.properties.difficulty_order - b.properties.difficulty_order
+          || a.properties.variant_order - b.properties.variant_order
+          || a.properties.title.localeCompare(b.properties.title, locale())
+        );
         const section = document.createElement("section");
         section.className = "day";
         const sectionDayLabel = features[0] ? dayLabel(features[0].properties) : day;
@@ -3463,7 +3865,7 @@ def make_html(geojson: dict) -> str:
           label.className = "route";
           label.innerHTML = `<input type="radio" name="route-${{htmlEscape(props.day)}}" data-route-id="${{props.id}}">
             <span>
-              <strong><span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>${{htmlEscape(routeTitle(props))}}</strong>
+              <strong><span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>${{htmlEscape(routeTitle(props))}}${{changedBadge(props)}}</strong>
               <span class="meta">${{htmlEscape(meta)}}</span>
               ${{miniProfileSvg(feature)}}
               <span class="route-actions" onclick="event.stopPropagation()">
