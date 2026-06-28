@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent
 GEOJSON = ROOT / "alpen_etappen_varianten.geojson"
 HTML = ROOT / "alpen_etappen_karte.html"
 GPX_ZIP = ROOT / "alpen_etappen_gpx.zip"
-EXPECTED_ROUTE_COUNT = 17
+EXPECTED_ROUTE_COUNT = 16
 
 FORBIDDEN_HTML_TEXT = [
     "Zeitraum",
@@ -36,6 +36,11 @@ EXPECTED_J1 = {
     "j1-v2-closure": ("MEDIUM", "via Mont-Saxonnex + Aravis", True),
     "j1-v3": ("STRONG", "via Romme + Colombière + Aravis", False),
     "j1-v3-closure": ("STRONG", "via Mont-Saxonnex + Glières + Aravis", True),
+}
+
+EXPECTED_J2 = {
+    "j2-v2": ("MEDIUM", "via Saisies + Col du Joly"),
+    "j2-v3": ("STRONG", "via Ugine + Saisies/Joly"),
 }
 
 
@@ -118,6 +123,23 @@ def main() -> None:
         waypoints = props.get("waypoints", [])
         if not waypoints or waypoints[0] != "Hotel Le Chamois d'Or" or waypoints[-1] != "Hôtel Le Mont-Blanc":
             errors.append(f"{route_id}: J1 hotel endpoints missing")
+
+    if any(item.get("properties", {}).get("id") == "j2-alt" for item in features):
+        errors.append("j2-alt should be removed")
+
+    for route_id, (difficulty, title) in EXPECTED_J2.items():
+        feature = next((item for item in features if item.get("properties", {}).get("id") == route_id), None)
+        if not feature:
+            errors.append(f"missing J2 route: {route_id}")
+            continue
+        props = feature["properties"]
+        if props.get("difficulty") != difficulty:
+            errors.append(f"{route_id}: expected difficulty {difficulty}, got {props.get('difficulty')}")
+        if props.get("title") != title:
+            errors.append(f"{route_id}: expected title {title!r}, got {props.get('title')!r}")
+        waypoints = props.get("waypoints", [])
+        if not waypoints or waypoints[0] != "Hôtel Le Mont-Blanc" or waypoints[-1] != "Hotel La Roche":
+            errors.append(f"{route_id}: J2 hotel endpoints missing")
 
     j5_strong = next((item for item in features if item.get("properties", {}).get("id") == "j5-v3"), None)
     if j5_strong:

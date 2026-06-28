@@ -707,14 +707,6 @@ ROUTE_DETAILS = {
         "change_note": "Alternative bei gemeldeter Colombière-Sperrung: Anbieter-GPX ohne Col de la Colombière; STRONG ergänzt den Glières-Bonus.",
         "change_note_en": "Alternative for the reported Colombière closure: operator GPX without Col de la Colombière; STRONG adds the Glières bonus.",
     },
-    "j2-alt": {
-        "difficulty": "LIGHT",
-        "title": "via Saisies direkt",
-        "description": "Kurze Regenerationsvariante über den Col des Saisies ohne Joly-Stichfahrt. Ideal, wenn J3 und J4 voll gefahren werden sollen.",
-        "description_en": "Short recovery variant over Col des Saisies without the Joly out-and-back. Ideal if stages 3 and 4 should be ridden in full.",
-        "highlights": ["Notre-Dame-de-Bellecombe", "Crest-Voland", "Col des Saisies", "Hauteluce"],
-        "photo_spots": ["Crest-Voland", "Col des Saisies", "Hauteluce"],
-    },
     "j2-v2": {
         "difficulty": "MEDIUM",
         "title": "via Saisies + Col du Joly",
@@ -1111,22 +1103,6 @@ ROUTES = [
         ],
         "default": False,
         "note": "Längerer Anlauf über Ugine/Crest-Voland; schöner, aber deutlich zäher.",
-    },
-    {
-        "id": "j2-alt",
-        "day": "J2",
-        "variant": "Alt",
-        "name": "J2 Alt: Saisies direkt, Joly auslassen",
-        "waypoints": [
-            "Hôtel Le Mont-Blanc",
-            "Notre-Dame-de-Bellecombe",
-            "Crest-Voland",
-            "Col des Saisies",
-            "Hauteluce",
-            "Hotel La Roche",
-        ],
-        "default": False,
-        "note": "Gute Regenerationsvariante, wenn J3/J4 hart gefahren werden sollen.",
     },
     {
         "id": "j3-v2",
@@ -3220,7 +3196,11 @@ def make_html(geojson: dict) -> str:
 
     function defaultFeatureForDifficulty(day, difficulty) {{
       const candidates = featuresForDay(day).filter(feature => feature.properties.difficulty === difficulty);
-      return candidates.find(feature => feature.properties.default) || candidates[0] || null;
+      if (candidates.length) return candidates.find(feature => feature.properties.default) || candidates[0];
+      const available = featuresForDay(day);
+      if (!available.length) return null;
+      if (difficulty === "STRONG") return available[available.length - 1];
+      return available.find(feature => feature.properties.default) || available[0];
     }}
 
     function presetFeatures(difficulty) {{
@@ -3266,18 +3246,18 @@ def make_html(geojson: dict) -> str:
 
     function updateActivePresetFromSelection() {{
       const selected = selectedFeatures();
-      const unique = new Set(selected.map(feature => feature.properties.difficulty));
       const days = dayKeys();
-      const matchesPresetDefaults = selected.every(feature => {{
-        const props = feature.properties;
-        return defaultFeatureForDifficulty(props.day, props.difficulty)?.properties.id === props.id;
-      }});
-      if (selected.length === days.length && unique.size === 1 && matchesPresetDefaults) {{
-        const [difficulty] = unique;
-        setActiveFilter(`preset-${{difficulty.toLowerCase()}}`);
-      }} else {{
-        setActiveFilter("");
+      if (selected.length === days.length) {{
+        for (const difficulty of ["LIGHT", "MEDIUM", "STRONG"]) {{
+          const presetIds = presetFeatures(difficulty).map(feature => feature.properties.id).join("|");
+          const selectedIds = selected.map(feature => feature.properties.id).join("|");
+          if (presetIds === selectedIds) {{
+            setActiveFilter(`preset-${{difficulty.toLowerCase()}}`);
+            return;
+          }}
+        }}
       }}
+      setActiveFilter("");
     }}
 
     function selectRoute(id, options = {{ updatePreset: true }}) {{
