@@ -90,7 +90,7 @@ POINTS = {
     "Lacets de Montvernier": (45.3177817, 6.3369100),
     "Pontamafrey": (45.3102142, 6.3298469),
     "Saint-Jean-de-Maurienne": (45.2775475, 6.3451720),
-    "Col du Sapey": (45.2926037, 6.3816028),
+    "Col du Sapey": (45.2430800, 6.4775600),
     "Montdenis": (45.2814984, 6.4067547),
     "Saint-Michel-de-Maurienne": (45.2178751, 6.4750846),
     "Hôtel Le Marintan": (45.2121800, 6.4780700),
@@ -144,12 +144,18 @@ DAY_ENDPOINTS = {
 }
 
 
-DIFFICULTY_ORDER = {"LIGHT": 1, "MEDIUM": 2, "STRONG": 3}
+DIFFICULTY_ORDER = {"LIGHT": 1, "MEDIUM": 2, "STRONG": 3, "SUPER STRONG": 4}
 
-ROUTE_UPDATE_TIMESTAMP = "2026-06-29 16:55 CEST"
-ROUTE_UPDATE_TIMESTAMP_LABEL = "29.06.2026, 16:55 CEST"
-ROUTE_UPDATE_TIMESTAMP_LABEL_EN = "2026-06-29, 16:55 CEST"
-ROUTES_UPDATED_TODAY = {"j3-v2", "j3-v3", "j3-loze"}
+ROUTE_UPDATE_TIMESTAMPS = {
+    "j3-v2": ("2026-06-29 16:55 CEST", "29.06.2026, 16:55 CEST", "2026-06-29, 16:55 CEST"),
+    "j3-v3": ("2026-06-29 16:55 CEST", "29.06.2026, 16:55 CEST", "2026-06-29, 16:55 CEST"),
+    "j3-loze": ("2026-06-29 16:55 CEST", "29.06.2026, 16:55 CEST", "2026-06-29, 16:55 CEST"),
+    "j4-v2": ("2026-06-29 21:26 CEST", "29.06.2026, 21:26 CEST", "2026-06-29, 21:26 CEST"),
+    "j4-alt": ("2026-06-29 21:26 CEST", "29.06.2026, 21:26 CEST", "2026-06-29, 21:26 CEST"),
+    "j4-v3": ("2026-06-29 21:26 CEST", "29.06.2026, 21:26 CEST", "2026-06-29, 21:26 CEST"),
+    "j4-super": ("2026-06-29 21:41 CEST", "29.06.2026, 21:41 CEST", "2026-06-29, 21:41 CEST"),
+}
+ROUTES_UPDATED_TODAY = set(ROUTE_UPDATE_TIMESTAMPS)
 
 
 def commons_file_url(file_name: str, width: int = 900) -> str:
@@ -276,6 +282,12 @@ PLACE_INFO = {
         "summary_en": "Quiet Maurienne pass above the Lacets; ideal when stage 4 should feel more characterful than a valley transfer.",
         "url": "https://www.velo-maurienne.com/explorer/lacets-de-montvernier-et-col-du-chaussy/",
         "url_en": "https://www.cycling-french-alps.com/explore/lacets-de-montvernier-and-col-du-chaussy/",
+    },
+    "Col du Sapey": {
+        "summary": "Zusätzlicher Schlussanstieg oberhalb von Saint-Michel; hart, ruhig und nur als Eskalation nach Madeleine/Chaussy sinnvoll.",
+        "summary_en": "Additional final climb above Saint-Michel; hard, quiet and only sensible as an escalation after Madeleine/Chaussy.",
+        "url": "https://www.maurienne-tourisme.com/",
+        "url_en": "https://www.maurienne-tourisme.com/en/",
     },
     "Col du Galibier": {
         "summary": "Der Hochalpenklassiker schlechthin: Galibier steht seit 1911 für Tour-de-France-Mythos und Wetterrespekt.",
@@ -756,26 +768,34 @@ ROUTE_DETAILS = {
     "j4-v2": {
         "difficulty": "LIGHT",
         "title": "via Madeleine",
-        "description": "Der belastbare Standard nach dem langen Vortag: ein großer Pass, danach direkter Transfer durch die Maurienne.",
-        "description_en": "The reliable standard after the long previous day: one major pass, then a direct transfer through the Maurienne valley.",
+        "description": "Die entschärfte J4-Variante nutzt die Anbieter-Zufahrt bis zur Madeleine und fährt danach direkt durch die Maurienne nach Saint-Michel.",
+        "description_en": "The lighter stage 4 option uses the operator approach to Madeleine, then rolls directly through the Maurienne to Saint-Michel.",
         "highlights": ["La Léchère", "Celliers", "Col de la Madeleine", "Maurienne"],
         "photo_spots": ["Celliers", "Col de la Madeleine", "Saint-Jean-de-Maurienne"],
     },
     "j4-alt": {
         "difficulty": "MEDIUM",
         "title": "via Madeleine + Chaussy",
-        "description": "Die Anbieterlinie als mittlere J4-Option: Madeleine plus Chaussy, mit den Lacets eher in der Abfahrtsrichtung.",
-        "description_en": "The operator line as the medium stage 4 option: Madeleine plus Chaussy, with the Lacets mostly in the downhill direction.",
+        "description": "Die originale Anbieter-GPX V2 als mittlere J4-Option: Madeleine plus Chaussy, mit den Lacets eher in der Abfahrtsrichtung.",
+        "description_en": "The original operator GPX V2 as the medium stage 4 option: Madeleine plus Chaussy, with the Lacets mostly in the downhill direction.",
         "highlights": ["Col de la Madeleine", "Col du Chaussy", "Montvernier", "Lacets de Montvernier"],
         "photo_spots": ["Col de la Madeleine", "Col du Chaussy", "Lacets de Montvernier"],
     },
     "j4-v3": {
         "difficulty": "STRONG",
         "title": "via Madeleine + Lacets + Chaussy",
-        "description": "Die schönere, aber harte Richtung: Lacets bergauf fahren, danach Chaussy und zurück ins Maurienne-Tal.",
-        "description_en": "The prettier but harder direction: climb the Lacets, continue over Chaussy and return into the Maurienne valley.",
+        "description": "VA-Zufahrt bis Madeleine, danach die schönere, aber harte Richtung: Lacets bergauf fahren, weiter zum Chaussy und zurück ins Maurienne-Tal.",
+        "description_en": "Operator approach to Madeleine, then the prettier but harder direction: climb the Lacets, continue to Chaussy and return into the Maurienne valley.",
         "highlights": ["Col de la Madeleine", "Lacets de Montvernier", "Col du Chaussy", "Saint-Michel-de-Maurienne"],
         "photo_spots": ["Lacets de Montvernier", "Col du Chaussy", "Maurienne"],
+    },
+    "j4-super": {
+        "difficulty": "SUPER STRONG",
+        "title": "via Madeleine + Lacets + Chaussy + Sapey",
+        "description": "Baut auf der STRONG-Variante auf und übernimmt danach den zusätzlichen Anbieter-V3-Schlussanstieg über den Col du Sapey.",
+        "description_en": "Builds on the STRONG option and then adds the operator V3 final climb over Col du Sapey.",
+        "highlights": ["Col de la Madeleine", "Lacets de Montvernier", "Col du Chaussy", "Col du Sapey"],
+        "photo_spots": ["Lacets de Montvernier", "Col du Chaussy", "Col du Sapey"],
     },
     "j5-light": {
         "difficulty": "LIGHT",
@@ -919,6 +939,15 @@ PASS_INFO = {
         "segment_query": "Col du Chaussy climb",
         "info_url": "https://www.velo-maurienne.com/explorer/lacets-de-montvernier-et-col-du-chaussy/",
         "info_url_en": "https://www.cycling-french-alps.com/explore/lacets-de-montvernier-and-col-du-chaussy/",
+    },
+    "Col du Sapey": {
+        "status": "Bonus-Pass",
+        "status_en": "bonus pass",
+        "palmares": "Zusätzlicher Schlussanstieg aus der Anbieter-V3; nur als sehr harte Tagesverlängerung sinnvoll.",
+        "palmares_en": "Additional final climb from the operator V3; only sensible as a very hard day extension.",
+        "segment_query": "Col du Sapey Saint Michel de Maurienne climb",
+        "info_url": "https://www.maurienne-tourisme.com/",
+        "info_url_en": "https://www.maurienne-tourisme.com/en/",
     },
     "Col du Télégraphe": {
         "status": "Galibier-Zubringer",
@@ -1202,7 +1231,8 @@ ROUTES = [
             "Hôtel Le Marintan",
         ],
         "default": True,
-        "note": "Belastbarer Standard nach einem langen J3: Madeleine als großer Pass, danach direkter Transfer durch die Maurienne.",
+        "source_gpx": "tag_4_light_madeleine_direct_va_start.gpx",
+        "note": "VA-Zufahrt bis Col de la Madeleine, danach direkter Transfer durch die Maurienne ohne Chaussy/Lacets.",
     },
     {
         "id": "j4-v3",
@@ -1226,7 +1256,35 @@ ROUTES = [
             "Hôtel Le Marintan",
         ],
         "default": False,
-        "note": "Schönere Richtung: die Lacets werden bergauf gefahren, danach Chaussy und Rückweg ins Maurienne-Tal.",
+        "source_gpx": "tag_4_strong_lacets_chaussy_va_start.gpx",
+        "note": "VA-Zufahrt bis Col de la Madeleine, danach Lacets bergauf und weiter über Chaussy zurück ins Maurienne-Tal.",
+    },
+    {
+        "id": "j4-super",
+        "day": "J4",
+        "variant": "Super",
+        "name": "J4 Super Strong: Brides - St-Michel via Madeleine + Lacets + Chaussy + Sapey",
+        "waypoints": [
+            "B&B Home Brides-les-Bains",
+            "Moûtiers",
+            "Aigueblanche",
+            "La Léchère",
+            "Celliers",
+            "Col de la Madeleine",
+            "Saint-François-Longchamp",
+            "La Chambre",
+            "Pontamafrey",
+            "Lacets de Montvernier",
+            "Montvernier",
+            "Col du Chaussy",
+            "Saint-Jean-de-Maurienne",
+            "Col du Sapey",
+            "Saint-Michel-de-Maurienne",
+            "Hôtel Le Marintan",
+        ],
+        "default": False,
+        "source_gpx": "tag_4_super_strong_lacets_chaussy_sapey_va_finish.gpx",
+        "note": "STRONG-Variante bis Saint-Jean-de-Maurienne plus Anbieter-V3-Schlussanstieg über den Col du Sapey.",
     },
     {
         "id": "j4-alt",
@@ -1250,7 +1308,8 @@ ROUTES = [
             "Hôtel Le Marintan",
         ],
         "default": False,
-        "note": "Zum Vergleich behalten; landschaftlich gut, aber die Lacets liegen hier in der weniger ikonischen Abfahrtsrichtung.",
+        "source_gpx": "va_tag_4_brides_saint_michel_exxeta_v2.gpx",
+        "note": "Originale Anbieter-GPX V2; Start und Ziel auf B&B Home Brides-les-Bains und Hôtel Le Marintan gesetzt.",
     },
     {
         "id": "j5-light",
@@ -1344,6 +1403,7 @@ COLS = [
     "Col de la Madeleine",
     "Col du Chaussy",
     "Lacets de Montvernier",
+    "Col du Sapey",
     "Col du Télégraphe",
     "Col du Galibier",
     "Col du Lautaret",
@@ -1656,6 +1716,7 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
     start, finish = DAY_ENDPOINTS[route["day"]]
     day_label = f"{DAY_LABELS[route['day']]} - {start} nach {finish}"
     day_label_en = f"{DAY_LABELS_EN[route['day']]} - {start} to {finish}"
+    update_info = ROUTE_UPDATE_TIMESTAMPS.get(route["id"])
     passes = []
     seen_passes = set()
     for waypoint in route["waypoints"]:
@@ -1684,10 +1745,10 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
         "closure_alternative": bool(details.get("closure_alternative")),
         "change_note": details.get("change_note"),
         "change_note_en": details.get("change_note_en", details.get("change_note")),
-        "updated_today": route["id"] in ROUTES_UPDATED_TODAY,
-        "updated_at": ROUTE_UPDATE_TIMESTAMP if route["id"] in ROUTES_UPDATED_TODAY else None,
-        "updated_at_label": ROUTE_UPDATE_TIMESTAMP_LABEL if route["id"] in ROUTES_UPDATED_TODAY else None,
-        "updated_at_label_en": ROUTE_UPDATE_TIMESTAMP_LABEL_EN if route["id"] in ROUTES_UPDATED_TODAY else None,
+        "updated_today": update_info is not None,
+        "updated_at": update_info[0] if update_info else None,
+        "updated_at_label": update_info[1] if update_info else None,
+        "updated_at_label_en": update_info[2] if update_info else None,
         "source_label": "GPX" if route.get("source_gpx") or route.get("source_base_gpx") else "BRouter",
         "highlights": details["highlights"],
         "photo_spots": details["photo_spots"],
@@ -2410,6 +2471,12 @@ def make_html(geojson: dict) -> str:
     .difficulty-medium {{
       background: var(--black);
       color: var(--white);
+    }}
+    .difficulty-super-strong {{
+      background: var(--accent-yellow);
+      border-color: var(--black);
+      color: var(--black);
+      min-width: 82px;
     }}
     .route-badge {{
       display: inline-flex;
@@ -3156,9 +3223,9 @@ def make_html(geojson: dict) -> str:
     function styleFor(props) {{
       return {{
         color: props.color,
-        weight: props.difficulty === "MEDIUM" ? 5 : 4,
+        weight: props.difficulty === "MEDIUM" || props.difficulty === "SUPER STRONG" ? 5 : 4,
         opacity: 1,
-        dashArray: props.difficulty === "MEDIUM" ? null : props.difficulty === "STRONG" ? "8 6" : "3 7",
+        dashArray: props.difficulty === "MEDIUM" ? null : props.difficulty === "SUPER STRONG" ? "12 4 3 4" : props.difficulty === "STRONG" ? "8 6" : "3 7",
         lineCap: "round",
         lineJoin: "round"
       }};
@@ -3349,7 +3416,7 @@ def make_html(geojson: dict) -> str:
     }}
 
     function difficultyClass(difficulty) {{
-      return `difficulty difficulty-${{difficulty.toLowerCase()}}`;
+      return `difficulty difficulty-${{difficulty.toLowerCase().replace(/\\s+/g, "-")}}`;
     }}
 
     function changedBadge(props) {{

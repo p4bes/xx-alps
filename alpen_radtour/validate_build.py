@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent
 GEOJSON = ROOT / "alpen_etappen_varianten.geojson"
 HTML = ROOT / "alpen_etappen_karte.html"
 GPX_ZIP = ROOT / "alpen_etappen_gpx.zip"
-EXPECTED_ROUTE_COUNT = 16
+EXPECTED_ROUTE_COUNT = 17
 
 FORBIDDEN_HTML_TEXT = [
     "Zeitraum",
@@ -49,7 +49,16 @@ EXPECTED_J3 = {
     "j3-loze": ("STRONG", "via Pré + Roselend + Tra + Loze"),
 }
 
-EXPECTED_TODAY_UPDATE = "2026-06-29 16:55 CEST"
+EXPECTED_J4 = {
+    "j4-v2": ("LIGHT", "via Madeleine", 84, 86),
+    "j4-alt": ("MEDIUM", "via Madeleine + Chaussy", 100, 103),
+    "j4-v3": ("STRONG", "via Madeleine + Lacets + Chaussy", 112, 116),
+    "j4-super": ("SUPER STRONG", "via Madeleine + Lacets + Chaussy + Sapey", 131, 134),
+}
+
+EXPECTED_J3_UPDATE = "2026-06-29 16:55 CEST"
+EXPECTED_J4_UPDATE = "2026-06-29 21:26 CEST"
+EXPECTED_J4_SUPER_UPDATE = "2026-06-29 21:41 CEST"
 
 
 def fail(errors: list[str]) -> None:
@@ -169,8 +178,37 @@ def main() -> None:
             errors.append("j3-loze: Col de la Loze pass card missing")
         if route_id == "j3-loze" and props.get("brouter_hm", 0) < 4000:
             errors.append(f"j3-loze: elevation gain unexpectedly low ({props.get('brouter_hm')} hm)")
-        if props.get("updated_at") != EXPECTED_TODAY_UPDATE:
+        if props.get("updated_at") != EXPECTED_J3_UPDATE:
             errors.append(f"{route_id}: missing today's update timestamp")
+
+    for route_id, (difficulty, title, min_km, max_km) in EXPECTED_J4.items():
+        feature = next((item for item in features if item.get("properties", {}).get("id") == route_id), None)
+        if not feature:
+            errors.append(f"missing J4 route: {route_id}")
+            continue
+        props = feature["properties"]
+        if props.get("difficulty") != difficulty:
+            errors.append(f"{route_id}: expected difficulty {difficulty}, got {props.get('difficulty')}")
+        if props.get("title") != title:
+            errors.append(f"{route_id}: expected title {title!r}, got {props.get('title')!r}")
+        waypoints = props.get("waypoints", [])
+        if not waypoints or waypoints[0] != "B&B Home Brides-les-Bains" or waypoints[-1] != "Hôtel Le Marintan":
+            errors.append(f"{route_id}: J4 hotel endpoints missing")
+        if props.get("source_label") != "GPX":
+            errors.append(f"{route_id}: expected GPX source label")
+        distance = props.get("brouter_km", 0)
+        if not (min_km <= distance <= max_km):
+            errors.append(f"{route_id}: unexpected distance {distance} km")
+        pass_names = {item.get("name") for item in props.get("passes", [])}
+        if "Col de la Madeleine" not in pass_names:
+            errors.append(f"{route_id}: Col de la Madeleine pass card missing")
+        if route_id in {"j4-alt", "j4-v3", "j4-super"} and "Col du Chaussy" not in pass_names:
+            errors.append(f"{route_id}: Col du Chaussy pass card missing")
+        if route_id == "j4-super" and "Col du Sapey" not in pass_names:
+            errors.append("j4-super: Col du Sapey pass card missing")
+        expected_update = EXPECTED_J4_SUPER_UPDATE if route_id == "j4-super" else EXPECTED_J4_UPDATE
+        if props.get("updated_at") != expected_update:
+            errors.append(f"{route_id}: missing J4 update timestamp")
 
     j5_strong = next((item for item in features if item.get("properties", {}).get("id") == "j5-v3"), None)
     if j5_strong:
