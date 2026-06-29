@@ -43,6 +43,14 @@ EXPECTED_J2 = {
     "j2-v3": ("STRONG", "via Ugine + Saisies/Joly"),
 }
 
+EXPECTED_J3 = {
+    "j3-v2": ("LIGHT", "via Pré + Roselend + Tra"),
+    "j3-v3": ("MEDIUM", "via Pré + Roselend"),
+    "j3-loze": ("STRONG", "via Pré + Roselend + Tra + Loze"),
+}
+
+EXPECTED_TODAY_UPDATE = "2026-06-29 16:55 CEST"
+
 
 def fail(errors: list[str]) -> None:
     if errors:
@@ -140,6 +148,29 @@ def main() -> None:
         waypoints = props.get("waypoints", [])
         if not waypoints or waypoints[0] != "Hôtel Le Mont-Blanc" or waypoints[-1] != "Hotel La Roche":
             errors.append(f"{route_id}: J2 hotel endpoints missing")
+
+    for route_id, (difficulty, title) in EXPECTED_J3.items():
+        feature = next((item for item in features if item.get("properties", {}).get("id") == route_id), None)
+        if not feature:
+            errors.append(f"missing J3 route: {route_id}")
+            continue
+        props = feature["properties"]
+        if props.get("difficulty") != difficulty:
+            errors.append(f"{route_id}: expected difficulty {difficulty}, got {props.get('difficulty')}")
+        if props.get("title") != title:
+            errors.append(f"{route_id}: expected title {title!r}, got {props.get('title')!r}")
+        waypoints = props.get("waypoints", [])
+        if not waypoints or waypoints[0] != "Hotel La Roche" or waypoints[-1] != "B&B Home Brides-les-Bains":
+            errors.append(f"{route_id}: J3 hotel endpoints missing")
+        pass_names = {item.get("name") for item in props.get("passes", [])}
+        if route_id == "j3-v2" and "Col du Tra" not in pass_names:
+            errors.append("j3-v2: Col du Tra pass card missing")
+        if route_id == "j3-loze" and "Col de la Loze" not in pass_names:
+            errors.append("j3-loze: Col de la Loze pass card missing")
+        if route_id == "j3-loze" and props.get("brouter_hm", 0) < 4000:
+            errors.append(f"j3-loze: elevation gain unexpectedly low ({props.get('brouter_hm')} hm)")
+        if props.get("updated_at") != EXPECTED_TODAY_UPDATE:
+            errors.append(f"{route_id}: missing today's update timestamp")
 
     j5_strong = next((item for item in features if item.get("properties", {}).get("id") == "j5-v3"), None)
     if j5_strong:

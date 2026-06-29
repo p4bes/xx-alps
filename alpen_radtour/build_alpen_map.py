@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import html
+import bisect
 import json
 import math
 import zipfile
@@ -144,6 +145,11 @@ DAY_ENDPOINTS = {
 
 
 DIFFICULTY_ORDER = {"LIGHT": 1, "MEDIUM": 2, "STRONG": 3}
+
+ROUTE_UPDATE_TIMESTAMP = "2026-06-29 16:55 CEST"
+ROUTE_UPDATE_TIMESTAMP_LABEL = "29.06.2026, 16:55 CEST"
+ROUTE_UPDATE_TIMESTAMP_LABEL_EN = "2026-06-29, 16:55 CEST"
+ROUTES_UPDATED_TODAY = {"j3-v2", "j3-v3", "j3-loze"}
 
 
 def commons_file_url(file_name: str, width: int = 900) -> str:
@@ -725,27 +731,27 @@ ROUTE_DETAILS = {
     },
     "j3-v2": {
         "difficulty": "LIGHT",
-        "title": "via Roselend direkt",
-        "description": "Die kontrollierteste Linie des Tages: Roselend bleibt als landschaftlicher Höhepunkt drin, Col du Pré und Col du Tra werden ausgelassen.",
-        "description_en": "The most controlled line of the day: Roselend stays in as the scenic highlight, while Col du Pré and Col du Tra are skipped.",
-        "highlights": ["Lac de Roselend", "Cormet de Roselend", "Les Chapieux", "Bourg-Saint-Maurice"],
-        "photo_spots": ["Lac de Roselend", "Cormet de Roselend", "Les Chapieux"],
+        "title": "via Pré + Roselend + Tra",
+        "description": "Originale Anbieter-GPX mit Col du Pré, Cormet de Roselend und Col du Tra; Start und Ziel sind auf die Hotels gesetzt.",
+        "description_en": "Original operator GPX with Col du Pré, Cormet de Roselend and Col du Tra; start and finish are snapped to the hotels.",
+        "highlights": ["Col du Pré", "Lac de Roselend", "Cormet de Roselend", "Col du Tra"],
+        "photo_spots": ["Lac de Roselend", "Cormet de Roselend", "Col du Tra"],
     },
     "j3-v3": {
         "difficulty": "MEDIUM",
         "title": "via Pré + Roselend",
-        "description": "Die landschaftliche Königslinie durch das Beaufortain mit Col du Pré, Lac de Roselend und Cormet de Roselend.",
-        "description_en": "The scenic queen line through Beaufortain with Col du Pré, Lac de Roselend and Cormet de Roselend.",
+        "description": "Originale Anbieter-GPX mit Col du Pré, Lac de Roselend und Cormet de Roselend, danach über die Tarentaise nach Brides.",
+        "description_en": "Original operator GPX with Col du Pré, Lac de Roselend and Cormet de Roselend, then through the Tarentaise to Brides.",
         "highlights": ["Col du Pré", "Lac de Roselend", "Cormet de Roselend", "Bourg-Saint-Maurice"],
         "photo_spots": ["Lac de Roselend", "Cormet de Roselend", "Bourg-Saint-Maurice"],
     },
     "j3-loze": {
         "difficulty": "STRONG",
-        "title": "via Pré + Roselend + Loze",
-        "description": "Die Eskalation: Pré, Roselend und danach die brutale Loze-Schleife ab Brides. Nur bei stabilem Wetter und sehr guter Tagesform sinnvoll.",
-        "description_en": "The escalation: Pré, Roselend and then the brutal Loze loop from Brides. Only sensible with stable weather and very strong legs.",
-        "highlights": ["Col du Pré", "Cormet de Roselend", "Méribel", "Col de la Loze"],
-        "photo_spots": ["Lac de Roselend", "Méribel", "Col de la Loze"],
+        "title": "via Pré + Roselend + Tra + Loze",
+        "description": "Basis ist die LIGHT-Anbieter-GPX über Col du Pré, Cormet de Roselend und Col du Tra bis Brides; danach folgt die Loze-Schleife ab dem Hotel.",
+        "description_en": "Based on the LIGHT operator GPX over Col du Pré, Cormet de Roselend and Col du Tra to Brides, followed by the Loze loop from the hotel.",
+        "highlights": ["Col du Pré", "Cormet de Roselend", "Col du Tra", "Col de la Loze"],
+        "photo_spots": ["Lac de Roselend", "Col du Tra", "Col de la Loze"],
     },
     "j4-v2": {
         "difficulty": "LIGHT",
@@ -1108,31 +1114,22 @@ ROUTES = [
         "id": "j3-v2",
         "day": "J3",
         "variant": "V2",
-        "name": "J3 Light: Beaufort - Brides via Roselend direkt",
+        "name": "J3 Light: Beaufort - Brides via Pré + Roselend + Tra",
         "waypoints": [
             "Hotel La Roche",
+            "Arêches",
+            "Col du Pré",
             "Lac de Roselend",
             "Cormet de Roselend",
             "Les Chapieux",
             "Bourg-Saint-Maurice",
-            "Aime-la-Plagne",
+            "Col du Tra",
             "Moûtiers",
             "B&B Home Brides-les-Bains",
         ],
         "default": True,
-        "source_splices": [
-            {
-                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
-                "start": "Lac de Roselend",
-                "finish": "Bourg-Saint-Maurice",
-            },
-            {
-                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v2.gpx",
-                "start": "Bourg-Saint-Maurice",
-                "finish": "B&B Home Brides-les-Bains",
-            },
-        ],
-        "note": "Leichteste Roselend-Linie ohne Col du Pré und ohne Col du Tra.",
+        "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v2.gpx",
+        "note": "Originale Anbieter-GPX V2; Start und Ziel auf Hotel La Roche und B&B Home Brides-les-Bains gesetzt.",
     },
     {
         "id": "j3-v3",
@@ -1152,19 +1149,8 @@ ROUTES = [
             "B&B Home Brides-les-Bains",
         ],
         "default": False,
-        "source_splices": [
-            {
-                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
-                "start": "Lac de Roselend",
-                "finish": "Bourg-Saint-Maurice",
-            },
-            {
-                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
-                "start": "Bourg-Saint-Maurice",
-                "finish": "B&B Home Brides-les-Bains",
-            },
-        ],
-        "note": "Landschaftlich Königsetappe im Beaufortain; Tarentaise-Abschnitte früh fahren.",
+        "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
+        "note": "Originale Anbieter-GPX V3; Start und Ziel auf Hotel La Roche und B&B Home Brides-les-Bains gesetzt.",
     },
     {
         "id": "j3-loze",
@@ -1179,7 +1165,7 @@ ROUTES = [
             "Cormet de Roselend",
             "Les Chapieux",
             "Bourg-Saint-Maurice",
-            "Aime-la-Plagne",
+            "Col du Tra",
             "Moûtiers",
             "B&B Home Brides-les-Bains",
             "Les Allues",
@@ -1192,19 +1178,11 @@ ROUTES = [
             "B&B Home Brides-les-Bains",
         ],
         "default": False,
-        "source_splices": [
-            {
-                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
-                "start": "Lac de Roselend",
-                "finish": "Bourg-Saint-Maurice",
-            },
-            {
-                "source_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v3.gpx",
-                "start": "Bourg-Saint-Maurice",
-                "finish": "B&B Home Brides-les-Bains",
-            },
-        ],
-        "note": "Brutale Rampe mit Passagen um 20%; nur bei sehr stabilem Wetter und guter Tagesform.",
+        "source_base_gpx": "va_tag_3_beaufort_brides_les_bains_exxeta_v2.gpx",
+        "append_source_gpx": "va_optionale_schleife_col_de_la_loze.gpx",
+        "append_start": "B&B Home Brides-les-Bains",
+        "append_finish": "B&B Home Brides-les-Bains",
+        "note": "LIGHT-Anbieter-GPX bis Brides plus lokale Anbieter-GPX der Loze-Schleife; nur bei sehr stabilem Wetter und guter Tagesform.",
     },
     {
         "id": "j4-v2",
@@ -1415,26 +1393,48 @@ def track_distance_km(coordinates: list[list[float]]) -> float:
     return distance / 1000
 
 
-def filtered_ascent_m(coordinates: list[list[float]], threshold_m: float = 2.0) -> int:
-    ascent = 0.0
-    previous_ele: float | None = None
+def filtered_ascent_m(coordinates: list[list[float]], smoothing_radius_m: float = 250.0) -> int:
+    samples: list[tuple[float, float]] = []
+    distance_m = 0.0
+    previous_coord: list[float] | None = None
     for coord in coordinates:
-        if len(coord) < 3:
-            continue
-        ele = float(coord[2])
-        if previous_ele is not None:
-            gain = ele - previous_ele
-            if gain > threshold_m:
-                ascent += gain
+        if previous_coord is not None:
+            distance_m += haversine_m((previous_coord[1], previous_coord[0]), (coord[1], coord[0]))
+        if len(coord) >= 3:
+            samples.append((distance_m, float(coord[2])))
+        previous_coord = coord
+
+    if len(samples) < 2:
+        return 0
+
+    distances = [sample[0] for sample in samples]
+    elevations = [sample[1] for sample in samples]
+    elevation_prefix = [0.0]
+    for elevation in elevations:
+        elevation_prefix.append(elevation_prefix[-1] + elevation)
+
+    smoothed: list[float] = []
+    for distance in distances:
+        start = bisect.bisect_left(distances, distance - smoothing_radius_m)
+        finish = bisect.bisect_right(distances, distance + smoothing_radius_m)
+        smoothed.append((elevation_prefix[finish] - elevation_prefix[start]) / (finish - start))
+
+    ascent = 0.0
+    previous_ele = smoothed[0]
+    for ele in smoothed[1:]:
+        if ele > previous_ele:
+            ascent += ele - previous_ele
         previous_ele = ele
     return int(round(ascent))
 
 
-def bend_source_gpx_to_route_endpoints(coordinates: list[list[float]], route: dict) -> list[list[float]]:
+def bend_coordinates_to_waypoints(
+    coordinates: list[list[float]], start_waypoint: str, finish_waypoint: str
+) -> list[list[float]]:
     adjusted = [coord[:] for coord in coordinates]
-    if not adjusted or not route.get("waypoints"):
+    if not adjusted:
         return adjusted
-    endpoint_indexes = [(0, route["waypoints"][0]), (-1, route["waypoints"][-1])]
+    endpoint_indexes = [(0, start_waypoint), (-1, finish_waypoint)]
     for index, waypoint in endpoint_indexes:
         lat, lon = POINTS[waypoint]
         ele = adjusted[index][2] if len(adjusted[index]) > 2 else None
@@ -1442,9 +1442,38 @@ def bend_source_gpx_to_route_endpoints(coordinates: list[list[float]], route: di
     return adjusted
 
 
+def bend_source_gpx_to_route_endpoints(coordinates: list[list[float]], route: dict) -> list[list[float]]:
+    if not route.get("waypoints"):
+        return [coord[:] for coord in coordinates]
+    return bend_coordinates_to_waypoints(coordinates, route["waypoints"][0], route["waypoints"][-1])
+
+
 def source_gpx_route(route: dict) -> dict:
     source_path = SOURCE_GPX_DIR / route["source_gpx"]
     coordinates = bend_source_gpx_to_route_endpoints(parse_gpx_track(source_path), route)
+    return {
+        "type": "Feature",
+        "geometry": {"type": "LineString", "coordinates": coordinates},
+        "properties": route_properties(
+            route,
+            brouter_km=round(track_distance_km(coordinates), 1),
+            brouter_hm=filtered_ascent_m(coordinates),
+        ),
+    }
+
+
+def source_combo_gpx_route(route: dict) -> dict:
+    base = bend_coordinates_to_waypoints(
+        parse_gpx_track(SOURCE_GPX_DIR / route["source_base_gpx"]),
+        route["waypoints"][0],
+        route.get("base_finish", route["append_start"]),
+    )
+    append = bend_coordinates_to_waypoints(
+        parse_gpx_track(SOURCE_GPX_DIR / route["append_source_gpx"]),
+        route["append_start"],
+        route["append_finish"],
+    )
+    coordinates = base + append[1:]
     return {
         "type": "Feature",
         "geometry": {"type": "LineString", "coordinates": coordinates},
@@ -1655,7 +1684,11 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
         "closure_alternative": bool(details.get("closure_alternative")),
         "change_note": details.get("change_note"),
         "change_note_en": details.get("change_note_en", details.get("change_note")),
-        "source_label": "GPX" if route.get("source_gpx") else "BRouter",
+        "updated_today": route["id"] in ROUTES_UPDATED_TODAY,
+        "updated_at": ROUTE_UPDATE_TIMESTAMP if route["id"] in ROUTES_UPDATED_TODAY else None,
+        "updated_at_label": ROUTE_UPDATE_TIMESTAMP_LABEL if route["id"] in ROUTES_UPDATED_TODAY else None,
+        "updated_at_label_en": ROUTE_UPDATE_TIMESTAMP_LABEL_EN if route["id"] in ROUTES_UPDATED_TODAY else None,
+        "source_label": "GPX" if route.get("source_gpx") or route.get("source_base_gpx") else "BRouter",
         "highlights": details["highlights"],
         "photo_spots": details["photo_spots"],
         "photo_items": route_photo_items(route, details),
@@ -1681,6 +1714,10 @@ def route_properties(route: dict, brouter_km: float | None, brouter_hm: int | No
 def build_geojson() -> dict:
     features = []
     for index, route in enumerate(ROUTES, 1):
+        if route.get("source_base_gpx"):
+            print(f"[{index}/{len(ROUTES)}] Combining {route['id']} from GPX ...", flush=True)
+            features.append(source_combo_gpx_route(route))
+            continue
         if route.get("source_gpx"):
             print(f"[{index}/{len(ROUTES)}] Reading {route['id']} from GPX ...", flush=True)
             features.append(source_gpx_route(route))
@@ -1732,6 +1769,8 @@ def gpx_text(feature: dict) -> str:
 
 def write_gpx_files(geojson: dict) -> None:
     GPX_DIR.mkdir(exist_ok=True)
+    for stale_gpx in GPX_DIR.glob("*.gpx"):
+        stale_gpx.unlink()
     with zipfile.ZipFile(GPX_ZIP_OUT, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for feature in geojson["features"]:
             props = feature["properties"]
@@ -2386,6 +2425,12 @@ def make_html(geojson: dict) -> str:
       text-transform: uppercase;
       vertical-align: 1px;
     }}
+    .route-badge-muted {{
+      background: var(--white);
+      border-color: var(--grey-300);
+      color: var(--muted);
+      font-weight: 700;
+    }}
     .meta {{
       display: block;
       color: var(--muted);
@@ -2951,6 +2996,8 @@ def make_html(geojson: dict) -> str:
         gpx: "GPX",
         details: "Details",
         changed: "Geändert",
+        updated: "Update",
+        updatedAt: "Aktualisiert",
         closureAlternative: "Sperr-Alternative",
         unavailable: "offen",
         start: "Start",
@@ -3014,6 +3061,8 @@ def make_html(geojson: dict) -> str:
         gpx: "GPX",
         details: "Details",
         changed: "Changed",
+        updated: "Update",
+        updatedAt: "Updated",
         closureAlternative: "Closure alternative",
         unavailable: "open",
         start: "Start",
@@ -3308,9 +3357,18 @@ def make_html(geojson: dict) -> str:
       return props.changed ? `<span class="route-badge">${{t("changed")}}</span>` : "";
     }}
 
+    function updateBadge(props) {{
+      return props.updated_today ? `<span class="route-badge route-badge-muted">${{t("updated")}} ${{htmlEscape(localizedField(props, "updated_at_label"))}}</span>` : "";
+    }}
+
     function changeNoteHtml(props) {{
       const note = localizedField(props, "change_note");
       return (props.changed || props.closure_alternative) && note ? `<p class="change-note">${{htmlEscape(note)}}</p>` : "";
+    }}
+
+    function updateNoteHtml(props) {{
+      const timestamp = localizedField(props, "updated_at_label");
+      return props.updated_today && timestamp ? `<p class="change-note">${{t("updatedAt")}}: ${{htmlEscape(timestamp)}}</p>` : "";
     }}
 
     function haversineKm(a, b) {{
@@ -3787,10 +3845,12 @@ def make_html(geojson: dict) -> str:
             <span>${{htmlEscape(dayLabel(props))}}</span>
             <span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>
             ${{changedBadge(props)}}
+            ${{updateBadge(props)}}
           </div>
           <h2>${{htmlEscape(routeTitle(props))}}</h2>
         </div>
         <div class="detail-body">
+          ${{updateNoteHtml(props)}}
           ${{changeNoteHtml(props)}}
           <p class="detail-description">${{htmlEscape(routeDescription(props))}}</p>
           <div class="metrics">
@@ -3845,7 +3905,7 @@ def make_html(geojson: dict) -> str:
           label.className = "route";
           label.innerHTML = `<input type="radio" name="route-${{htmlEscape(props.day)}}" data-route-id="${{props.id}}">
             <span>
-              <strong><span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>${{htmlEscape(routeTitle(props))}}${{changedBadge(props)}}</strong>
+              <strong><span class="${{difficultyClass(props.difficulty)}}">${{props.difficulty}}</span>${{htmlEscape(routeTitle(props))}}${{changedBadge(props)}}${{updateBadge(props)}}</strong>
               <span class="meta">${{htmlEscape(meta)}}</span>
               ${{miniProfileSvg(feature)}}
               <span class="route-actions" onclick="event.stopPropagation()">
